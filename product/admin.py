@@ -4,18 +4,16 @@ from .models import Category, Product
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
-        'id',
-        'date_added',
         'product_name',
         'category',
         'seller',
         'price',
+        'date_added',
     )
 
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = (
-        'id',
         'category_name',
     )
 
