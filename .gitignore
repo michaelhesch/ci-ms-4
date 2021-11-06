@@ -13,5 +13,7 @@ env/
 .flaskenv
 venv/
 .pytest_cache*
-.sqlite
+*.sqlite3
 TODO
+.pyc
+db.sqlite3

@@ -1,14 +1,14 @@
 <a id="top"></a>
 
-# Milestone Project Four - "TBD"<!-- omit in toc -->
+# Milestone Project Four - "Liffey"<!-- omit in toc -->
 
 ![Am I Responsive Image - Placeholder](#)
 
 ## Project Overview<!-- omit in toc -->
 
-- The purpose of X is to provide users with Y.
+- The purpose of Liffey is to provide users with an e-commerce marketplace to buy and sell computer hardware.
 
-- This is a full-stack web application built with X.
+- This is a full-stack web application built with Python, Django and X.
 
 [View the live project here.](#)
 
