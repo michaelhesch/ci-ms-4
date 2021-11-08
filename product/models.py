@@ -38,3 +38,19 @@ class Product(models.Model):
 
 
     # Placeholder for make thumbnail helper function
+
+
+class Review(models.Model):
+    title = models.CharField(max_length=100)
+    body_content = models.TextField()
+    added_by = models.ForeignKey(User, related_name='reviews', on_delete=models.CASCADE)
+    rating = models.IntegerField()
+    product_reviewed = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE)
+    added_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-added_on']
+        verbose_name_plural = 'Reviews'
+    
+    def __str__(self):
+        return self.title
