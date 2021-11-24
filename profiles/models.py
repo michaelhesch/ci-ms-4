@@ -1,4 +1,6 @@
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 
 from django_countries.fields import CountryField
@@ -14,7 +16,6 @@ class UserProfile(models.Model):
     default_phone = models.CharField(max_length=20, null=True, blank=True)
     avatar = models.ImageField(null=True, blank=True)
     avatar_url = models.URLField(null=True, blank=True)
-    # reviews = models.ForeignKey()
     store_name = models.CharField(max_length=100, null=True, blank=True)
     seller_balance = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     verified = models.BooleanField(default=False)
@@ -27,3 +28,15 @@ class UserProfile(models.Model):
         return self.user.username
     
     # Placeholder for seller payment handling functions
+
+
+@receiver(post_save, sender=User)
+def create_update_profile(sender,instance, created, **kwargs):
+    """
+    Create or update the user's profile
+    """
+    # If user profile is new, create new profile
+    if created:
+        UserProfile.objects.create(user=instance)
+    # If user profile exists already, save profile
+    instance.userprofile.save()
