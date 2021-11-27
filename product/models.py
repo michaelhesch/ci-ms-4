@@ -41,8 +41,17 @@ class Product(models.Model):
 
     # Placeholder for make thumbnail helper function
 
+    # Generate url for products to be used in front-end navigation
     def get_absolute_url(self):
-        return reverse("product:product_detail", kwargs={'slug': self.slug})
+        return reverse("product:product_detail", kwargs={
+            'slug': self.slug,
+            })
+
+    # Add product to cart url helper function
+    def get_add_to_cart_url(self):
+        return reverse("checkout:add_to_cart", kwargs={
+            'slug': self.slug,
+            })
 
 
 class Review(models.Model):
