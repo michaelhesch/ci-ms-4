@@ -1,5 +1,7 @@
 from django.db import models
+from django.shortcuts import reverse
 from django.contrib.auth.models import User
+
 
 class Category(models.Model):
     category_name = models.CharField(max_length=50)
@@ -38,6 +40,9 @@ class Product(models.Model):
 
 
     # Placeholder for make thumbnail helper function
+
+    def get_absolute_url(self):
+        return reverse("product:product_detail", kwargs={'slug': self.slug})
 
 
 class Review(models.Model):

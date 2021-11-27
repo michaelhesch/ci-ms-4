@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import environ
+import os
 
 # Init environment variables
 env = environ.Env()
@@ -50,6 +51,8 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'product.apps.ProductConfig',
     'profiles.apps.ProfilesConfig',
+    'cart.apps.CartConfig',
+    'checkout.apps.CheckoutConfig',
 
 ]
 
@@ -68,7 +71,14 @@ ROOT_URLCONF = 'liffey.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'templates', 'allauth'),
+            os.path.join(BASE_DIR, 'product', 'templates', 'product'),
+            os.path.join(BASE_DIR, 'cart', 'templates', 'cart'),
+            os.path.join(BASE_DIR, 'home', 'templates', 'home'),
+            os.path.join(BASE_DIR, 'profiles', 'templates', 'profiles'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -102,7 +112,9 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 ACCOUNT_USERNAME_MIN_LENGTH = 4
-LOGIN_URL = '/accounts/login/'
+
+# Login routing settings
+LOGIN_URL = '/account/login/'
 LOGIN_REDIRECT_URL = '/'
 
 
@@ -158,11 +170,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Set Crispyforms to use Bootstrap 4
+# Set Crispyforms to use Bootstrap 4 templates
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
