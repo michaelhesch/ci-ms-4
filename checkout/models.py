@@ -5,10 +5,14 @@ from product.models import Product
 
 
 class OrderItem(models.Model):
+    buyer = models.ForeignKey(settings.AUTH_USER_MODEL,
+                              on_delete=models.CASCADE)
+    ordered = models.BooleanField(default=False)
     item = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
 
     def __str__(self):
-        return self.product_name
+        return f"{self.quantity} of {self.item.product_name}"
 
 
 class Order(models.Model):
