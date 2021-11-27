@@ -5,151 +5,172 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" 
-    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
-    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
-    crossorigin="anonymous" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" crossorigin="anonymous" />
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+  <!-- Material Design Bootstrap -->
+  <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet" />
   <!-- Internal CSS -->
-  <link rel="stylesheet" href="{% static 'styles/main.css' %}" />
-  <!-- Font Awesome stylesheet -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" 
-    rel="stylesheet"
-    type="text/css" />
-  <!-- Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" 
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" 
-    crossorigin="anonymous"></script>
+  <link href="{% static 'css/style.min.css' %}" rel="stylesheet" />
   <!-- Internal JS -->
-  <script src="{% static 'scripts/main.js' %}" type="text/javascript"></script>
+  <script src="" type="text/javascript"></script>
+  <style type="text/css">
+    html,
+    body,
+    header,
+    .carousel {
+      height: 60vh;
+    }
+
+    @media (max-width: 740px) {
+
+      html,
+      body,
+      header,
+      .carousel {
+        height: 100vh;
+      }
+    }
+
+    @media (min-width: 800px) and (max-width: 850px) {
+
+      html,
+      body,
+      header,
+      .carousel {
+        height: 100vh;
+      }
+    }
+  </style>
 
   <title>{% block title %}{% endblock %} | Liffey</title>
 </head>
 
 <body>
-  <header class="container-fluid">
-    <!-- Main navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light py-2 w-100">
-      <ul class="nav navbar-nav mr-auto text-left">
-        <li class="nav-item">
-          <a href="" class="nav-link">Home</a>
-        </li>
-        <li class="nav-item">
-          <a href="" class="nav-link">Shop</a>
-        </li>
-      </ul>
-      <ul class="navbar navbar-nav text-right">
-        {% if request.user.is_authenticated %}
-        <li class="nav-item">
-          <a href="" class="nav-link">Profile</a>
-        </li>
-        <li class="nav-item">
-          <a href="/account/logout/" class="nav-link">Log Out</a>
-        </li>
-        {% else %}
-        <li class="nav-item">
-          <a href="/account/login/" class="nav-link">Log In</a>
-        </li>
-        <li class="nav-item">
-          <a href="/account/signup/" class="nav-link">Sign Up</a>
-        </li>
-        {% endif %}
-      </ul>
-    </nav>
-  </header>
-  <!-- Main page content -->
-  <main class="container mb-2">
-    <!-- Messages container -->
-    {% if messages %}
-            <div class="col">
-              {% for message in messages %}
-              <div class="row text-center alert alert-info">
-                  <div class="message-container">{{ message }}</div>
-              </div>
-              {% endfor %}
-            </div>
+  <header class="mb-3">
+    <!-- Navbar -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+      <div class="container">
+    
+        <!-- Brand -->
+        <a class="navbar-brand waves-effect" href="#">
+          <strong class="blue-text">Liffey</strong>
+        </a>
+    
+        <!-- Collapse -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <!-- Links -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <!-- Left -->
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link waves-effect" href="/">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link waves-effect" href="#">Store</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link waves-effect" href="#">Blog</a>
+            </li>
+          </ul>
+          <!-- Right -->
+          <ul class="navbar-nav nav-flex-icons">
+            <li class="nav-item">
+              <a class="nav-link waves-effect">
+                <span class="badge red z-depth-1 mr-1"> 1 </span>
+                <i class="fas fa-shopping-cart"></i>
+                <span class="clearfix d-none d-sm-inline-block"> Cart </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link waves-effect" href="#">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a href="https://github.com/mdbootstrap/bootstrap-material-design"
+                class="nav-link border border-light rounded waves-effect" target="_blank">
+                Log Out
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
-    {% endif %}
-    <!-- Main content container -->
-    {% block content %}
-    {% endblock %}
+    </nav>
+    <!-- Navbar -->
+  </header>
+
+  <!-- Main page content -->
+  <main>
+    <div class="container mb-2">
+      <!-- Messages container -->
+      {% if messages %}
+              <div class="col">
+                {% for message in messages %}
+                <div class="row text-center alert alert-info">
+                    <div class="message-container">{{ message }}</div>
+                </div>
+                {% endfor %}
+              </div>
+          </div>
+        </div>
+      {% endif %}
+      <!-- Main content container -->
+      {% block content %}
+      {% endblock %}
+    </div>
   </main>
 
-  <footer class="bg-dark text-white w-100">
-    <!-- Company contact and info links -->
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <h5 class="text-uppercase my-2">About Us</h5>
-          <ul class="list-unstyled">
-            <li><a href="" class="">Who is Liffey?</a></li>
-            <li><a href="" class="">Our Mission</a></li>
-            <li><a href="" class="">Who is Liffey?</a></li>
-          </ul>
-        </div>
-        <div class="col-md-4">
-          <h5 class="text-uppercase my-2">Contact Us</h5>
-          <ul class="list-unstyled">
-            <li><a href="" class="">Who is Liffey?</a></li>
-            <li><a href="" class="">Who is Liffey?</a></li>
-            <li><a href="" class="">Who is Liffey?</a></li>
-          </ul>
-        </div>
-        <div class="col-md-4">
-          <h5 class="text-uppercase my-2">Social Media</h5>
-          <ul class="list-unstyled">
-            <li>
-              <p class="text-muted pb-0 my-1">Follow us on:</p>
-            </li>
-            <li>
-              <a href="https://www.youtube.com/" class="" role="button" rel="noreferrer" target="_blank">
-                <i class="fab fa-youtube fa-lg"></i> YouTube
-              </a>
-            </li>
-            <li>
-              <a href="https://www.facebook.com/" class="" role="button" rel="noreferrer" target="_blank">
-                <i class="fab fa-facebook-f fa-lg"></i> Facebook
-              </a>
-            </li>
-            <li>
-              <a href="https://twitter.com/" class="" role="button" rel="noreferrer" target="_blank">
-                <i class="fab fa-twitter fa-lg"></i> Twitter
-              </a>
-            </li>
-            <li>
-              <a href="https://instagram.com" class="" role="button" rel="noreferrer" target="_blank">
-                <i class="fab fa-instagram fa-lg"></i> Instagram
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
+  <footer class="page-footer text-center font-small mt-4 wow fadeIn">
+    <!-- Social icons -->
+    <div class="pb-4">
+      <a href="https://www.facebook.com/mdbootstrap" target="_blank">
+        <i class="fab fa-facebook-f mr-3"></i>
+      </a>
+
+      <a href="https://twitter.com/MDBootstrap" target="_blank">
+        <i class="fab fa-twitter mr-3"></i>
+      </a>
+
+      <a href="https://pinterest.com/mdbootstrap" target="_blank">
+        <i class="fab fa-pinterest mr-3"></i>
+      </a>
+
+      <a href="https://github.com/mdbootstrap/bootstrap-material-design" target="_blank">
+        <i class="fab fa-github mr-3"></i>
+      </a>
     </div>
-    <!-- Publisher details bar -->
-    <div class="border-top pt-2 d-flex justify-content-center align-items-center">
-      <div class="row text-muted small">
-        <p>&copy; 2021 Liffey Ireland Ltd. <br />
-        Designed and Built by Michael Hesch <br />
-        Follow my work on<a href="https://github.com/michaelhesch/" 
-          target="_blank"
-          rel="nofollow"> <i class="fab fa-github"></i> GitHub</a>
-        </p>
-      </div>
-      <!--
-      <div class="row text-muted small">
-      </div>
-      <div class="row text-muted small">
-      </div>
-      -->
+    <!-- Social icons -->
+
+    <!--Copyright-->
+    <div class="footer-copyright py-3">
+      &copy; 2021 Liffey Ireland Ltd. <br />
+      Designed and Built by Michael Hesch <br />
+      Follow my work on<a href="https://github.com/michaelhesch/" 
+        target="_blank" rel="nofollow"> <i class="fab fa-github"></i> GitHub</a> 
     </div>
+    <!--/.Copyright-->
   </footer>
+
+  <!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
+  <!-- Initializations -->
+  <script type="text/javascript">
+    // Animations initialization
+    new WOW().init();
+  </script>
   {% block postloadjs %}
   {% endblock %}
 </body>
