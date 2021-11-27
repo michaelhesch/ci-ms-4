@@ -78,6 +78,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'cart', 'templates', 'cart'),
             os.path.join(BASE_DIR, 'home', 'templates', 'home'),
             os.path.join(BASE_DIR, 'profiles', 'templates', 'profiles'),
+            os.path.join(BASE_DIR, 'checkout', 'templates', 'checkout')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -182,3 +183,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Set Crispyforms to use Bootstrap 4 templates
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Media file directory settings
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
