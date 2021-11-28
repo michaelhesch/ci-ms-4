@@ -53,6 +53,12 @@ class Product(models.Model):
             'slug': self.slug,
             })
 
+    # Remove product from cart url helper function
+    def get_remove_from_cart_url(self):
+        return reverse("checkout:remove_from_cart", kwargs={
+            'slug': self.slug,
+            })
+
 
 class Review(models.Model):
     title = models.CharField(max_length=100)
