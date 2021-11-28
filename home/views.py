@@ -4,5 +4,5 @@ from product.models import Product
 
 class HomeView(ListView):
     model = Product
-    pagniate_by = 6
+    paginate_by = 6
     template_name='index.html'
