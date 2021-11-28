@@ -1,4 +1,6 @@
 {% load static %}
+{% load cart_template_tags %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,9 +50,9 @@
 </head>
 
 <body>
-  <header class="mb-3">
+  <header>
     <!-- Navbar -->
-    <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar pb-2">
       <div class="container">
     
         <!-- Brand -->
@@ -82,33 +84,33 @@
           </ul>
           <!-- Right -->
           <ul class="navbar-nav nav-flex-icons">
-            <li class="nav-item">
-              <a class="nav-link waves-effect">
-                <span class="badge red z-depth-1 mr-1"> 1 </span>
-                <i class="fas fa-shopping-cart"></i>
-                <span class="clearfix d-none d-sm-inline-block"> Cart </span>
-              </a>
-            </li>
             {% if request.user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link waves-effect" href="#">Profile</a>
-            </li>
-            <li class="nav-item">
-              <a href="{% url 'account_logout' %}"
-                class="nav-link border border-light rounded waves-effect">
-                Log Out
-              </a>
-            </li>
+              <li class="nav-item">
+                <a class="nav-link waves-effect" href="{% url 'checkout:cart' %}">
+                  <span class="badge red z-depth-1 mr-1"> {{ request.user|cart_counter }} </span>
+                  <i class="fas fa-shopping-cart"></i>
+                  <span class="clearfix d-none d-sm-inline-block"> Cart </span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link waves-effect" href="#">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'account_logout' %}"
+                  class="nav-link border border-light rounded waves-effect">
+                  Log Out
+                </a>
+              </li>
             {% else %}
-            <li class="nav-item">
-              <a class="nav-link waves-effect" href="{% url 'account_signup' %}">Register</a>
-            </li>
-            <li class="nav-item">
-              <a href="{% url 'account_login' %}"
-                class="nav-link border border-light rounded waves-effect">
-                Log In
-              </a>
-            </li>
+              <li class="nav-item">
+                <a class="nav-link waves-effect" href="{% url 'account_signup' %}">Register</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'account_login' %}"
+                  class="nav-link border border-light rounded waves-effect">
+                  Log In
+                </a>
+              </li>
             {% endif %}
           </ul>
         </div>
@@ -120,13 +122,16 @@
   <!-- Main page content -->
   <main>
     <div class="container mb-2">
-      <!-- Messages container -->
+      <!-- Messages container & MDB dismissable alert -->
       {% if messages %}
               <div class="col">
                 {% for message in messages %}
-                <div class="row text-center alert alert-info">
-                    <div class="message-container">{{ message }}</div>
-                </div>
+                  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
                 {% endfor %}
               </div>
           </div>
@@ -140,7 +145,7 @@
 
   <footer class="page-footer text-center font-small mt-4 wow fadeIn">
     <!-- Social icons -->
-    <div class="pb-4">
+    <div class="p-3">
       <a href="https://www.facebook.com/mdbootstrap" target="_blank">
         <i class="fab fa-facebook-f mr-3"></i>
       </a>
