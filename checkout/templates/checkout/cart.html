@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="table-responsive text-nowrap">
+    <h2>Order Summary</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Product Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order_item in object.items.all %}
+        <tr>
+            <td scope="row">{{ forloop.counter }}</td>
+            <td scope="row">{{ order_item.item.product_name }}</td>
+            <td scope="row">${{ order_item.item.price }}</td>
+            <td scope="row">
+                <a href="{% url 'checkout:remove_one_from_cart' order_item.item.slug %}"><i class="fas fa-minus mr-2"></i></a>        
+                {{ order_item.quantity }}
+                <a href="{% url 'checkout:add_to_cart' order_item.item.slug %}"><i class="fas fa-plus ml-2"></i></a>
+            </td>
+            <td scope="row">
+                ${{ order_item.get_item_total }}
+                <a style='color: red;' href="{% url 'checkout:remove_from_cart' order_item.item.slug %}">
+                <i class="fas fa-trash float-right"></i>
+                </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" scope="row">You don't have anything in your cart!</td>
+        </tr>
+        <tr>
+            <td colspan="5" scope="row">
+                <a href="/" class="btn btn-secondary float-right">Continue Shopping</a>
+            </td>
+        </tr>
+        {% endfor %}
+        {% if object.get_grand_total %}
+        <tr>
+            <td colspan="4" scope="row"><strong>Order Total:</strong></td>
+            <td scope="row"><strong>${{ object.get_grand_total }}</strong></td>
+        </tr>
+        <tr>
+            <td colspan="5" scope="row">
+                <a href="/checkout/" class="btn btn-primary float-right ml-2">Checkout</a>
+                <a href="/" class="btn btn-secondary float-right">Continue Shopping</a>
+            </td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
