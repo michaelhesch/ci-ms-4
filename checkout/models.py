@@ -14,6 +14,10 @@ class OrderItem(models.Model):
     def __str__(self):
         return f"{self.quantity} of {self.item.product_name}"
 
+    # Calculate the total based on quantity of items in cart
+    def get_item_total(self):
+        return self.quantity * self.item.price
+
 
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -25,3 +29,9 @@ class Order(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def get_grand_total(self):
+        grand_total = 0
+        for order_item in self.items.all():
+            grand_total += order_item.get_item_total()
+        return grand_total
