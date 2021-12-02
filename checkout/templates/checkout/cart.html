@@ -3,7 +3,7 @@
 
 
 {% block content %}
-<div class="table-responsive text-nowrap">
+<div class="table-responsive text-nowrap my-5">
     <h2>Order Summary</h2>
     <table class="table">
         <thead>
@@ -28,7 +28,7 @@
             </td>
             <td scope="row">
                 ${{ order_item.get_item_total }}
-                <a style='color: red;' href="{% url 'checkout:remove_from_cart' order_item.item.slug %}">
+                <a href="{% url 'checkout:remove_from_cart' order_item.item.slug %}">
                 <i class="fas fa-trash float-right"></i>
                 </a>
             </td>

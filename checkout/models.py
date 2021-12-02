@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django_countries.fields import CountryField
 
 from product.models import Product
 
@@ -26,6 +27,10 @@ class Order(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
     order_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
+    billing_address = models.ForeignKey('BillingAddress',
+                                        on_delete=models.SET_NULL,
+                                        blank=True,
+                                        null=True)
 
     def __str__(self):
         return self.user.username
@@ -35,3 +40,14 @@ class Order(models.Model):
         for order_item in self.items.all():
             grand_total += order_item.get_item_total()
         return grand_total
+
+
+class BillingAddress(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    address1 = models.CharField(max_length=80)
+    address2 = models.CharField(max_length=80, blank=True, null=True)
+    state = models.CharField(max_length=50)
+    city = models.CharField(max_length=50)
+    zipcode = models.CharField(max_length=25)
+    country = CountryField(multiple=False)
