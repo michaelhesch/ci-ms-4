@@ -7,7 +7,7 @@ class UserProfileAdmin(admin.ModelAdmin):
         'user',
         'store_name',
         'verified',
-        'created_on'
+        'created_on',
     )
 
 
