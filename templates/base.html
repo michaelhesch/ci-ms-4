@@ -8,40 +8,45 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" crossorigin="anonymous" />
+  <link
+    rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    crossorigin="anonymous" 
+  />
   <!-- Bootstrap core CSS -->
-  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+  <link 
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+    crossorigin="anonymous" 
+  />
   <!-- Material Design Bootstrap -->
-  <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet" />
+  <link 
+    href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/css/mdb.min.css"
+    crossorigin="anonymous"
+    rel="stylesheet"
+  />
   <!-- Internal CSS -->
-  <link href="{% static 'css/style.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" />
   <!-- Internal JS -->
   <script src="" type="text/javascript"></script>
   <style type="text/css">
-    html,
-    body,
     header,
     .carousel {
-      height: 60vh;
+      height: 65px;
     }
 
     @media (max-width: 740px) {
-
-      html,
-      body,
       header,
       .carousel {
-        height: 100vh;
+        height: 65px;
       }
     }
 
     @media (min-width: 800px) and (max-width: 850px) {
-
-      html,
-      body,
       header,
       .carousel {
-        height: 100vh;
+        height: 65px;
       }
     }
   </style>
@@ -93,7 +98,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link waves-effect" href="#">Profile</a>
+                <a class="nav-link waves-effect" href="{% url 'profiles:profile' request.user %}">Profile</a>
               </li>
               <li class="nav-item">
                 <a href="{% url 'account_logout' %}"
@@ -176,13 +181,13 @@
 
   <!-- SCRIPTS -->
   <!-- JQuery -->
-  <script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <!-- Bootstrap tooltips -->
-  <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
-  <!-- Bootstrap core JavaScript -->
-  <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
-  <!-- MDB core JavaScript -->
-  <script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+  <!-- Bootstrap core JS -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <!-- MDB core JS -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.10.1/js/mdb.min.js"></script>
   <!-- Initializations -->
   <script type="text/javascript">
     // Animations initialization
