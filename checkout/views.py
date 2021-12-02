@@ -6,11 +6,12 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views.generic import View
 
-from .models import Product, Order, OrderItem
+from .forms import CheckoutForm
+from .models import Product, Order, OrderItem, BillingAddress
 
 
 # Order summary (cart detail) class based view
-class OrderSummary(LoginRequiredMixin, View):
+class ViewCart(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
@@ -21,6 +22,49 @@ class OrderSummary(LoginRequiredMixin, View):
         except ObjectDoesNotExist:
             messages.error(self.request, "You do not have an active order.")
             return redirect("/")
+
+
+class CheckoutView(View):
+    def get(self, *args, **kwargs):
+        form = CheckoutForm()
+        context = {
+            'form': form,
+        }
+        return render(self.request, "checkout.html", context)
+
+    def post(self, *args, **kwargs):
+        form = CheckoutForm(self.request.POST or None)
+
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+
+            if form.is_valid():
+                address1 = form.cleaned_data.get('address1')
+                address2 = form.cleaned_data.get('address2')
+                state = form.cleaned_data.get('state')
+                city = form.cleaned_data.get('city')
+                zipcode = form.cleaned_data.get('zipcode')
+                country = form.cleaned_data.get('country')
+                # TODO: add these for checkbox fields in form 
+                # billing_same = form.cleaned_data.get('billing_same')
+                # save_defaults = form.cleaned_data.get('save_defaults')
+                billing_address = BillingAddress(
+                    user=self.request.user,
+                    address1=address1,
+                    address2=address2,
+                    state=state,
+                    city=city,
+                    zipcode=zipcode,
+                    country=country,
+                )
+                billing_address.save()
+                order.billing_address=billing_address
+                order.save()
+
+                return redirect('checkout:checkout')
+        except ObjectDoesNotExist:
+            messages.error(self.request, "You do not have an active order.")
+            return redirect("checkout:cart")
 
 
 # Add items to the cart
