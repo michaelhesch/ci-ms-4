@@ -9,7 +9,12 @@
       <div class="row wow fadeIn">
         <!--Grid column-->
         <div class="col-md-6 mb-4">
+          {% if object.image %}
+          <img src="{{ object.image_url }}" class="img-fluid" alt="Image of {{ object.product_name }}">
+          {% else %}
+          <!--TODO:Update the Default image-->
           <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/14.jpg" class="img-fluid" alt="">
+          {% endif %}
         </div>
         <!--Grid column-->
 
@@ -29,6 +34,9 @@
               </a>
             </div>
 
+            <p class="lead font-weight-bold">{{ object.product_name }}</p>
+            <p class="lead">Manufacturer: {{ object.category }}</p>
+            <p class="lead">Sold by: {{ object.seller }}</p>
             <p class="lead">
               <span class="mr-1">
                 <del>$200</del>
