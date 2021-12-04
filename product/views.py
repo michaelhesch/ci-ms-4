@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, reverse, redirect
 from django.contrib import messages
 from django.views.generic import DetailView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -39,7 +39,7 @@ class ListProduct(LoginRequiredMixin, View):
                     'slug': product.slug,
                 }
                 messages.success(self.request, "Your product has been added successfully.")
-                return render(self.request, 'product_detail.html', context)
+                return redirect(reverse('product:product_detail', args=[product.slug]))
             else:
                 messages.error(self.request, "Failed to add product, please try again.")
         else:

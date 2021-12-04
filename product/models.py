@@ -34,7 +34,7 @@ class Product(models.Model):
         ordering = ['-date_added']
         verbose_name_plural = 'Products'
     
-    
+    # Over-ride default save function to set slug field
     def save(self, *args, **kwargs):
         slug_name = str(self.seller) + str(self.product_name)
         self.slug = slugify(slug_name)
