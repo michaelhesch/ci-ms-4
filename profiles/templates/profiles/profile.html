@@ -26,9 +26,10 @@
                     </div>
                     <div class="col-9">
                         <h4>Manage Profile</h4>
-                        <button class="button btn btn-primary">Change Avatar Photo</button>
-                        <button class="button btn btn-primary">View Seller Profile</button>
-                        <button class="button btn btn-danger">Delete Account</button>
+                        <h5>Store: {{ request.user.userprofile.store_name }}</h5>
+                        <button class="button btn btn-primary btn-sm">Change Avatar Photo</button>
+                        <button class="button btn btn-primary btn-sm">View Seller Profile</button>
+                        <button class="button btn btn-danger btn-sm">Delete Account</button>
                     </div>
                 </div>
                 <div class="row">
@@ -57,7 +58,7 @@
                         <tbody>
                             {% for order in orders %}
                             <tr>
-                                <td scope="row">Placeholder</td>
+                                <td scope="row"><a href="{% url 'checkout:order_history' order.order_num %}">{{ order.order_num|truncatechars:7 }}</a></td>
                                 <td scope="row">{{ order.order_date|date:"SHORT_DATE_FORMAT" }}</td>
                                 <td scope="row">
                                     <ul class="list-unstyled">
