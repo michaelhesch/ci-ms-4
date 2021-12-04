@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}{% endblock %}
+{% block title %}Profile {% endblock %}
 
 {% block content %}
 
@@ -62,9 +62,9 @@
                                 <td scope="row">
                                     <ul class="list-unstyled">
                                     {% for line_item in order.items.all %}
-                                    <li class="small">
-                                        {{ line_item.item.product_name }} x {{ line_item.quantity }}
-                                    </li>
+                                        <li class="small">
+                                            {{ line_item.item.product_name }} x {{ line_item.quantity }}
+                                        </li>
                                     {% endfor %}
                                     </ul>
                                 </td>

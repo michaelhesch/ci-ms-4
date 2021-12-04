@@ -91,6 +91,14 @@
                 {% endif %}
               </a>
             </li>
+            {% url 'product:add' as url %}
+            <li class="nav-item {% if request.path == url %}active{% endif %}">
+              <a class="nav-link waves-effect" href="{% url 'product:add' %}">Sell Product
+                {% if request.path == url %}
+                <span class="sr-only">(current)</span>
+                {% endif %}
+              </a>
+            </li>
             <!-- Placeholder for blog -->
             <!--
             <li class="nav-item {% if request.path == url %}active{% endif %}">

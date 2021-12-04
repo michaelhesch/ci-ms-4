@@ -17,3 +17,4 @@ venv/
 TODO
 .pyc
 db.sqlite3
+media/*
