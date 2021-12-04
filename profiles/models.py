@@ -24,6 +24,7 @@ class UserProfile(models.Model):
 
     class Meta:
         ordering = ['-created_on']
+        verbose_name_plural = 'User Profiles'
 
     def __str__(self):
         return self.user.username

@@ -8,6 +8,7 @@ from django.views.generic import View
 
 from .forms import CheckoutForm
 from .models import Product, Order, OrderItem, BillingAddress
+from profiles.models import UserProfile
 
 
 # Order summary (cart detail) class based view
@@ -24,6 +25,7 @@ class ViewCart(LoginRequiredMixin, View):
             return redirect("home:store")
 
 
+# Render checkout form and handle checkout form submit
 class CheckoutView(View):
     def get(self, *args, **kwargs):
         form = CheckoutForm()
@@ -47,7 +49,7 @@ class CheckoutView(View):
                 country = form.cleaned_data.get('country')
                 # TODO: add these for checkbox fields in form 
                 # billing_same = form.cleaned_data.get('billing_same')
-                # save_defaults = form.cleaned_data.get('save_defaults')
+                save_defaults = form.cleaned_data.get('save_defaults')
                 billing_address = BillingAddress(
                     user=self.request.user,
                     address1=address1,
@@ -61,11 +63,52 @@ class CheckoutView(View):
                 order.billing_address=billing_address
                 order.save()
 
-                return redirect('checkout:checkout')
+                # Update profile defaults if option selected
+                if save_defaults == True:
+                    profile = UserProfile.objects.get(user=self.request.user)
+                    profile.default_address1 = address1
+                    if address2:
+                        profile.default_address2 = address2
+                    else:
+                        profile.default_address2 = ""
+                    profile.default_city = city
+                    profile.default_state = state
+                    profile.default_zipcode = zipcode
+                    profile.default_country = country
+                    profile.save()
+                # Select order items related to current order
+                items = OrderItem.objects.filter(buyer=self.request.user, ordered=False)
+                # Set ordered status and order number for order items
+                for item in items:
+                    item.related_order = order.order_num
+                    item.ordered = True
+                    item.save()
+                # Set order date and overall order ordered status to True and save
+                order.order_date = timezone.now()
+                order.ordered = True
+                order.save()
+
+                context = {
+                    'order': order,
+                    'items': order.items.all,
+                }
+                return render(self.request, 'checkout_success.html', context)
         except ObjectDoesNotExist:
             messages.error(self.request, "You do not have an active order.")
             return redirect("checkout:cart")
 
+
+class OrderHistoryView(View):
+    def get(self, request, order_num):
+        order = get_object_or_404(Order, order_num=order_num)
+
+        template = 'checkout/checkout_success.html'
+        context = {
+            'order': order,
+            'order_history': True,
+        }
+
+        return render(request, template, context)
 
 # Add items to the cart
 @login_required
@@ -92,7 +135,6 @@ def add_to_cart(request, slug):
             messages.info(request, "This item has been added to your cart.")
             return redirect("checkout:cart")
     else:
-        order_date = timezone.now()
         order = Order.objects.create(user=request.user, order_date=order_date)
         order.items.add(order_item)
         messages.info(request, "This item has been added to your cart.")

@@ -75,14 +75,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <!-- Left -->
           <ul class="navbar-nav mr-auto">
-            {% url 'home:home' as url %}
-            <li class="nav-item {% if request.path == url %}active{% endif %}">
-              <a class="nav-link waves-effect" href="{% url 'home:home' %}">Home
-                {% if request.path == url %}
-                <span class="sr-only">(current)</span>
-                {% endif %}
-              </a>
-            </li>
+            {% if request.user.is_authenticated %}
             {% url 'home:store' as url %}
             <li class="nav-item {% if request.path == url %}active{% endif %}">
               <a class="nav-link waves-effect" href="{% url 'home:store' %}">Store
@@ -99,6 +92,16 @@
                 {% endif %}
               </a>
             </li>
+            {% else %}
+            {% url 'home:home' as url %}
+            <li class="nav-item {% if request.path == url %}active{% endif %}">
+              <a class="nav-link waves-effect" href="{% url 'home:home' %}">Home
+                {% if request.path == url %}
+                <span class="sr-only">(current)</span>
+                {% endif %}
+              </a>
+            </li>
+            {% endif %}
             <!-- Placeholder for blog -->
             <!--
             <li class="nav-item {% if request.path == url %}active{% endif %}">

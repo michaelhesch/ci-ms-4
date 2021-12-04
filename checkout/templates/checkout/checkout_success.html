@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if order_history %}
+    Order History - Details 
+    {% else %}
+    Success! Order Complete
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        {% if order_history %}
+            <h2>Order History: Order Details Below</h2>
+            <p>Please see your order details below. Your order was completed on {{ order.order_date|date:"SHORT_DATE_FORMAT" }}</p>
+        {% else %}
+            <h2>Order Complete - Thank you!</h2>
+            <p>Please see your order details below.  A confirmation will be sent to (EMAIL HERE).</p>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <div>Order Number: {{ order.order_num }}</div>
+                {% if order_history %}
+                <div>Order Items:</div>
+                <ul style="list-unstyled">
+                    {% for item in order.items.all %}
+                        <li><strong>{{ item.item.product_name }}</strong>: {{ item.quantity }} x ${{ item.item.price }}</li>
+                    {% endfor %}
+                </ul>
+                <div>Order Total: {{ Order }}</div>
+                {% else %}
+                <div>Order Items:</div>
+                <ul style="list-unstyled">
+                    {% for item in items %}
+                        <li><strong>{{ item.item.product_name }}</strong>: {{ item.quantity }} x ${{ item.item.price }}</li>
+                    {% endfor %}
+                </ul>
+                <div>Order Total: {{ Order }}</div>
+                {% endif %}
+            </div>
+        </div>
+        <a href="{% url 'home:store' %}" class="button btn btn-primary btn-small mt-1">Continue Shopping</a>
+    </div>
+</div>
+{% endblock %}
