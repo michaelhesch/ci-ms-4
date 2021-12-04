@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}List a Product {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-6 offset-3">
+        <h1>Sell A Product</h1>
+        <div class="card">
+            <form class="card-body mb-form" method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button class="btn btn-primary" type="submit">Add Product</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

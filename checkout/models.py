@@ -3,6 +3,7 @@ from django.conf import settings
 from django_countries.fields import CountryField
 
 from product.models import Product
+from profiles.models import UserProfile
 
 
 class OrderItem(models.Model):
@@ -18,6 +19,10 @@ class OrderItem(models.Model):
     # Calculate the total based on quantity of items in cart
     def get_item_total(self):
         return self.quantity * self.item.price
+
+    def get_store_name(self):
+        store = UserProfile.objects.get(user=self.item.seller)
+        return store.store_name
 
 
 class Order(models.Model):
@@ -40,6 +45,12 @@ class Order(models.Model):
         for order_item in self.items.all():
             grand_total += order_item.get_item_total()
         return grand_total
+
+    def get_total_item_count(self):
+        item_count = 0
+        for order_item in self.items.all():
+            item_count += order_item.quantity
+        return item_count
 
 
 class BillingAddress(models.Model):

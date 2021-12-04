@@ -20,8 +20,8 @@ class ViewCart(LoginRequiredMixin, View):
             }
             return render(self.request, 'cart.html', context)
         except ObjectDoesNotExist:
-            messages.error(self.request, "You do not have an active order.")
-            return redirect("/")
+            messages.warning(self.request, "You do not have an active order.")
+            return redirect("home:store")
 
 
 class CheckoutView(View):

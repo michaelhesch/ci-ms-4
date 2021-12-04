@@ -1,18 +1,17 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block title %}Your Cart {% endblock %}
 
 {% block content %}
 <div class="table-responsive text-nowrap my-5">
     <h2>Order Summary</h2>
-    <table class="table">
+    <table class="table table-sm">
         <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Product Name</th>
             <th scope="col">Product Price</th>
-            <th scope="col">Seller</th>
+            <th scope="col">Seller (Store)</th>
             <th scope="col">Quantity</th>
             <th scope="col">Total Price</th>
         </tr>
@@ -23,7 +22,7 @@
             <td scope="row">{{ forloop.counter }}</td>
             <td scope="row">{{ order_item.item.product_name }}</td>
             <td scope="row">${{ order_item.item.price }}</td>
-            <td scope="row">{{ order_item.item.seller }}</td>
+            <td scope="row">{{ order_item.get_store_name }}</td>
             <td scope="row">
                 <a href="{% url 'checkout:remove_one_from_cart' order_item.item.slug %}"><i class="fas fa-minus mr-2"></i></a>        
                 {{ order_item.quantity }}

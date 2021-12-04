@@ -11,5 +11,5 @@ def cart_counter(user):
         # Check for order by current user that is not complete
         queryset = Order.objects.filter(user=user, ordered=False)
         if queryset.exists():
-            return queryset[0].items.count()
+            return queryset[0].get_total_item_count()
         return 0

@@ -1,5 +1,6 @@
 from django.db import models
 from django.shortcuts import reverse
+from django.utils.text import slugify
 from django.contrib.auth.models import User
 
 
@@ -33,6 +34,12 @@ class Product(models.Model):
         ordering = ['-date_added']
         verbose_name_plural = 'Products'
     
+    
+    def save(self, *args, **kwargs):
+        slug_name = str(self.seller) + str(self.product_name)
+        self.slug = slugify(slug_name)
+        super(Product, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.product_name
 

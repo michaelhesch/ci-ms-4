@@ -61,7 +61,7 @@
       <div class="container">
     
         <!-- Brand -->
-        <a class="navbar-brand waves-effect" href="#">
+        <a class="navbar-brand waves-effect" href="{% url 'home:home' %}">
           <strong class="blue-text">Liffey</strong>
         </a>
     
@@ -75,30 +75,61 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <!-- Left -->
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link waves-effect" href="/">Home
+            {% url 'home:home' as url %}
+            <li class="nav-item {% if request.path == url %}active{% endif %}">
+              <a class="nav-link waves-effect" href="{% url 'home:home' %}">Home
+                {% if request.path == url %}
                 <span class="sr-only">(current)</span>
+                {% endif %}
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link waves-effect" href="#">Store</a>
+            {% url 'home:store' as url %}
+            <li class="nav-item {% if request.path == url %}active{% endif %}">
+              <a class="nav-link waves-effect" href="{% url 'home:store' %}">Store
+                {% if request.path == url %}
+                <span class="sr-only">(current)</span>
+                {% endif %}
+              </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link waves-effect" href="#">Blog</a>
+            {% url 'product:add' as url %}
+            <li class="nav-item {% if request.path == url %}active{% endif %}">
+              <a class="nav-link waves-effect" href="{% url 'product:add' %}">Sell Product
+                {% if request.path == url %}
+                <span class="sr-only">(current)</span>
+                {% endif %}
+              </a>
             </li>
+            <!-- Placeholder for blog -->
+            <!--
+            <li class="nav-item {% if request.path == url %}active{% endif %}">
+              <a class="nav-link waves-effect" href="#">Blog
+                {% if request.path == url %}
+                <span class="sr-only">(current)</span>
+                {% endif %}
+              </a>
+            </li>
+            -->
           </ul>
           <!-- Right -->
           <ul class="navbar-nav nav-flex-icons">
             {% if request.user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link waves-effect" href="{% url 'checkout:cart' %}">
-                  <span class="badge red z-depth-1 mr-1"> {{ request.user|cart_counter }} </span>
-                  <i class="fas fa-shopping-cart"></i>
-                  <span class="clearfix d-none d-sm-inline-block"> Cart </span>
+              {% url 'checkout:cart' as url %}
+              <li class="nav-item {% if request.path == url %}active{% endif %}">
+                <a class="nav-link waves-effect" 
+                  href="{% url 'checkout:cart' %}">
+                    <span class="badge red z-depth-1 mr-1"> {{ request.user|cart_counter }} </span>
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="clearfix d-none d-sm-inline-block"> Cart </span>
+                    {% if request.path == url %}
+                    <span class="sr-only">(current)</span>
+                    {% endif %}
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link waves-effect" href="{% url 'profiles:profile' request.user %}">Profile</a>
+                <a class="nav-link waves-effect" 
+                  href="{% url 'profiles:profile' request.user %}">
+                  Profile
+                </a>
               </li>
               <li class="nav-item">
                 <a href="{% url 'account_logout' %}"
@@ -107,8 +138,13 @@
                 </a>
               </li>
             {% else %}
-              <li class="nav-item">
-                <a class="nav-link waves-effect" href="{% url 'account_signup' %}">Register</a>
+              {% url 'account_signup' as url %}
+              <li class="nav-item mr-2 {% if request.path == url %}active{% endif %}">
+                <a class="nav-link waves-effect" href="{% url 'account_signup' %}">Register
+                  {% if request.path == url %}
+                    <span class="sr-only">(current)</span>
+                  {% endif %}
+                </a>
               </li>
               <li class="nav-item">
                 <a href="{% url 'account_login' %}"
