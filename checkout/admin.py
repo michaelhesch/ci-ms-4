@@ -2,23 +2,32 @@ from django.contrib import admin
 from .models import Order, OrderItem, BillingAddress
 
 
-class OrderAdmin(admin.ModelAdmin):
-    list_display = (
-        'order_num',
-        'user',
-        'order_date',
-        'ordered',
-    )
+class OrderItemAdmin(admin.TabularInline):
 
+    model = OrderItem
 
-class OrderItemAdmin(admin.ModelAdmin):
     list_display = (
         'buyer',
         'item',
         'quantity',
+        'item_total',
         'ordered',
         'related_order',
     )
+
+
+class OrderAdmin(admin.ModelAdmin):
+    
+    inlines = (OrderItemAdmin,)
+    
+    list_display = (
+        'order_num',
+        'create_date',
+        'order_date',
+        'ordered',
+    )
+
+    ordering = ('-order_date',)
 
 
 class BillingAddressAdmin(admin.ModelAdmin):
@@ -33,5 +42,4 @@ class BillingAddressAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Order, OrderAdmin)
-admin.site.register(OrderItem, OrderItemAdmin)
 admin.site.register(BillingAddress, BillingAddressAdmin)
