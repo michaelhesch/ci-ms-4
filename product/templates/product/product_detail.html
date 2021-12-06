@@ -9,7 +9,7 @@
       <div class="row wow fadeIn">
         <!--Grid column-->
         <div class="col-md-6 mb-4">
-          {% if object.image %}
+          {% if object.image_url %}
           <img src="{{ object.image_url }}" class="img-fluid" alt="Image of {{ object.product_name }}">
           {% else %}
           <!--TODO:Update the Default image-->
@@ -26,12 +26,12 @@
               <a href="">
                 <span class="badge purple mr-1">{{ object.get_category_display }}</span>
               </a>
+              {% if object.determine_if_new %}
               <a href="">
                 <span class="badge blue mr-1">New</span>
               </a>
-              <a href="">
-                <span class="badge red mr-1">Bestseller</span>
-              </a>
+              {% endif %}
+
             </div>
 
             <p class="lead font-weight-bold">{{ object.product_name }}</p>
