@@ -1,4 +1,5 @@
 import random
+from datetime import datetime, date
 from django.db import models
 from django.shortcuts import reverse
 from django.utils.text import slugify
@@ -52,6 +53,21 @@ class Product(models.Model):
 
 
     # Placeholder for make thumbnail helper function
+
+    # Helper function to determine if a 'New' tag should be added to items in the store
+    def determine_if_new(self):
+        now = datetime.now().date()
+        added_date = self.date_added.date()
+        delta = now - added_date
+        
+        if delta.days > 7:
+            return False
+        else:
+            return True
+
+    # Helper function to return category to UI
+    def get_category_display(self):
+        return self.category.category_name
 
     # Generate url for products to be used in front-end navigation
     def get_absolute_url(self):

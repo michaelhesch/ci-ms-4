@@ -1,5 +1,6 @@
-{% extends 'base.html' %} 
-{% load static %} 
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
 
 {% block title %}Store {% endblock %}
 
@@ -71,21 +72,21 @@
         {% for product in object_list %}
         <div class="col-lg-3 col-md-6 mb-4">
             <!--Card-->
-            <div class="card">
+            <div class="card" style="height: 100%;">
                 <!--Card image-->
                 <div class="view overlay">
                 {% if product.image_url %}
                     <img
                         src="{{ product.image_url }}"
-                        class="card-img-top"
-                        alt=""
+                        class="card-img-top p-2"
+                        alt="{{ product.product_name }}"
                     />
                 {% else %}
                 <!-- Use a default image temporarily if no image url in DB -->
                     <img
                         src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12.jpg"
-                        class="card-img-top"
-                        alt=""
+                        class="card-img-top p-1"
+                        alt="Default product image"
                     />
                 {% endif %}
                     <a href="{{ product.get_absolute_url }}">
@@ -103,12 +104,14 @@
                     <h5>
                         <strong>
                         <a href="{{ product.get_absolute_url }}" class="dark-grey-text"> {{ product.product_name }}
-                            <span class="badge badge-pill danger-color">NEW</span>
+                          {% if product.determine_if_new %}
+                            <span class="badge blue">NEW</span>
+                          {% endif %}
                         </a>
                         </strong>
                     </h5>
                     <h4 class="font-weight-bold blue-text">
-                        <strong>${{ product.price }}</strong>
+                        <strong>${{ product.price|intcomma }}</strong>
                     </h4>
                 </div>
                 <!--Card content-->

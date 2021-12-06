@@ -30,7 +30,7 @@
                 <a href="{% url 'cart:add_to_cart' order_item.sku %}"><i class="fas fa-plus ml-2"></i></a>
             </td>
             <td scope="row">
-                $ (Placeholder)
+                
                 <a class="remove-item float-right" id="remove_{{ order_item.sku }}" href="{% url 'cart:remove_from_cart' order_item.sku %}">
                     <i class="fas fa-trash"></i>
                 </a>
@@ -58,69 +58,3 @@
 </div>
 {% endblock %}
 
-{% block postloadjs %}
-
-<script type="text/javascript">
-
-  // Disable +/- buttons outside 1-99 range
-  function handleEnableDisable(sku) {
-      var currentValue = parseInt($(`#id_qty_${sku}`).val());
-      var minusDisabled = currentValue < 2;
-      var plusDisabled = currentValue > 19;
-      $(`#decrement-qty_${sku}`).prop('disabled', minusDisabled);
-      $(`#increment-qty_${sku}`).prop('disabled', plusDisabled);
-  }
-
-  // Ensure proper enabling/disabling of all inputs on page load
-  var allQtyInputs = $('.qty_input');
-  for(var i = 0; i < allQtyInputs.length; i++){
-      var sku = $(allQtyInputs[i]).data('sku');
-      handleEnableDisable(sku);
-  }
-
-  // Check enable/disable every time the input is changed
-  $('.qty_input').change(function() {
-      var sku = $(this).data('sku');
-      handleEnableDisable(sku);
-  });
-
-  // Increment quantity
-  $('.increment-qty').click(function(e) {
-     e.preventDefault();
-     var closestInput = $(this).closest('.input-group').find('.qty_input')[0];
-     var currentValue = parseInt($(closestInput).val());
-     $(closestInput).val(currentValue + 1);
-     var sku = $(this).data('sku');
-     handleEnableDisable(sku);
-  });
-
-  // Decrement quantity
-  $('.decrement-qty').click(function(e) {
-     e.preventDefault();
-     var closestInput = $(this).closest('.input-group').find('.qty_input')[0];
-     var currentValue = parseInt($(closestInput).val());
-     $(closestInput).val(currentValue - 1);
-     var sku = $(this).data('sku');
-     handleEnableDisable(sku);
-  });
-
-    // Update quantity on click
-    $('.update-link').click(function(e) {
-        var form = $(this).prev('.update-form');
-        form.submit();
-    })
-
-    // Remove item and reload on click
-    $('.remove-item').click(function(e) {
-        var csrfToken = "{{ csrf_token }}";
-        var sku = $(this).attr('id').split('remove_')[1];
-        var url = `/cart/remove/${sku}/`;
-        var data = {'csrfmiddlewaretoken': csrfToken};
-
-        $.post(url, data)
-        .done(function() {
-            location.reload();
-        });
-    })
-</script>
-{% endblock %}
