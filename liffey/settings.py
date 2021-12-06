@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.humanize',
     'crispy_forms',
     'django_countries',
     'allauth',
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
     'product.apps.ProductConfig',
     'profiles.apps.ProfilesConfig',
     'checkout.apps.CheckoutConfig',
+    'cart.apps.CartConfig',
 
 ]
 
@@ -75,10 +77,10 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'templates'),
             os.path.join(BASE_DIR, 'templates', 'allauth'),
             os.path.join(BASE_DIR, 'product', 'templates', 'product'),
-            os.path.join(BASE_DIR, 'cart', 'templates', 'cart'),
             os.path.join(BASE_DIR, 'home', 'templates', 'home'),
             os.path.join(BASE_DIR, 'profiles', 'templates', 'profiles'),
-            os.path.join(BASE_DIR, 'checkout', 'templates', 'checkout')
+            os.path.join(BASE_DIR, 'checkout', 'templates', 'checkout'),
+            os.path.join(BASE_DIR, 'cart', 'templates', 'cart'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -88,6 +90,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.contexts.cart_contents',
             ],
         },
     },
@@ -187,3 +190,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # Media file directory settings
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Strip configuration
+FREE_DELIVERY_THRESHOLD = 99

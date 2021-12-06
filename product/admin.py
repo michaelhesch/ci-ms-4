@@ -5,6 +5,7 @@ from .models import Category, Product, Review
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
         'product_name',
+        'sku',
         'category',
         'seller',
         'price',

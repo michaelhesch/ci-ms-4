@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from product.forms import ProductForm
 
 from .models import Category, Product
+from profiles.models import UserProfile
 
 
 class ProductDetail(DetailView):
@@ -32,7 +33,8 @@ class ListProduct(LoginRequiredMixin, View):
 
             if form.is_valid():
                 product = form.save(commit=False)
-                product.seller = self.request.user
+                seller_userprofile = UserProfile.objects.get(user=self.request.user)
+                product.seller = seller_userprofile
                 form.save()
 
                 context = {

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 
 {% block title %}Your Cart {% endblock %}
 
@@ -17,20 +18,20 @@
         </tr>
         </thead>
         <tbody>
-        {% for order_item in object.items.all %}
+        {% for order_item in cart_items %}
         <tr>
-            <td scope="row">{{ forloop.counter }}</td>
-            <td scope="row">{{ order_item.item.product_name }}</td>
-            <td scope="row">${{ order_item.item.price }}</td>
-            <td scope="row">{{ order_item.get_store_name }}</td>
+            <td scope="row" class="p-3 w-25">{{ forloop.counter }}. <img class="img-fluid rounded" style="max-width: 75%;" src="{{ order_item.product.image_url }}"></td>
+            <td scope="row">{{ order_item.product.product_name }}</td>
+            <td scope="row">${{ order_item.product.price|intcomma }}</td>
+            <td scope="row">{{ order_item.product.seller.store_name }}</td>
             <td scope="row">
-                <a href="{% url 'checkout:remove_one_from_cart' order_item.item.slug %}"><i class="fas fa-minus mr-2"></i></a>        
+                <a href="{% url 'cart:remove_one_from_cart' order_item.sku %}"><i class="fas fa-minus mr-2"></i></a>        
                 {{ order_item.quantity }}
-                <a href="{% url 'checkout:add_to_cart' order_item.item.slug %}"><i class="fas fa-plus ml-2"></i></a>
+                <a href="{% url 'cart:add_to_cart' order_item.sku %}"><i class="fas fa-plus ml-2"></i></a>
             </td>
             <td scope="row">
-                ${{ order_item.get_item_total }}
-                <a href="{% url 'checkout:remove_from_cart' order_item.item.slug %}">
+                $ (Placeholder)
+                <a href="{% url 'cart:remove_from_cart' order_item.sku %}">
                 <i class="fas fa-trash float-right"></i>
                 </a>
             </td>
@@ -45,10 +46,9 @@
             </td>
         </tr>
         {% endfor %}
-        {% if object.get_grand_total %}
         <tr>
             <td colspan="5" scope="row"><strong>Order Total:</strong></td>
-            <td scope="row"><strong>${{ object.get_grand_total }}</strong></td>
+            <td scope="row"><strong>${{ total|intcomma }}</strong></td>
         </tr>
         <tr>
             <td colspan="6" scope="row">
@@ -56,7 +56,6 @@
                 <a href="/" class="btn btn-secondary float-right">Continue Shopping</a>
             </td>
         </tr>
-        {% endif %}
         </tbody>
     </table>
 </div>
