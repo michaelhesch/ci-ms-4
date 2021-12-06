@@ -116,11 +116,11 @@
           <!-- Right -->
           <ul class="navbar-nav nav-flex-icons">
             {% if request.user.is_authenticated %}
-              {% url 'checkout:cart' as url %}
+              {% url 'cart:cart' as url %}
               <li class="nav-item {% if request.path == url %}active{% endif %}">
                 <a class="nav-link waves-effect" 
-                  href="{% url 'checkout:cart' %}">
-                    <span class="badge red z-depth-1 mr-1"> {{ request.user|cart_counter }} </span>
+                  href="{% url 'cart:cart' %}">
+                    <span class="badge red z-depth-1 mr-1"> {{ item_count }} </span>
                     <i class="fas fa-shopping-cart"></i>
                     <span class="clearfix d-none d-sm-inline-block"> Cart </span>
                     {% if request.path == url %}
