@@ -21,7 +21,7 @@ class Order(models.Model):
                              related_name='orders')
     items = models.TextField()
     create_date = models.DateTimeField(auto_now_add=True)
-    order_date = models.DateTimeField()
+    order_date = models.DateTimeField(null=True)
     ordered = models.BooleanField(default=False)
     billing_address = models.ForeignKey('BillingAddress',
                                         on_delete=models.SET_NULL,
@@ -100,6 +100,7 @@ class OrderItem(models.Model):
 class BillingAddress(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
+    order_num = models.OneToOneField(Order, on_delete=models.CASCADE)
     address1 = models.CharField(max_length=80)
     address2 = models.CharField(max_length=80,
                                 blank=True,
@@ -111,3 +112,6 @@ class BillingAddress(models.Model):
 
     class Meta:
         verbose_name_plural = 'Billing Addresses'
+
+    def __str__(self):
+        return "%s's billing address" % self.user.username
