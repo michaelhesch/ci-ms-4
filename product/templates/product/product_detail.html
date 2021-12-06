@@ -36,28 +36,61 @@
 
             <p class="lead font-weight-bold">{{ object.product_name }}</p>
             <p class="lead">Manufacturer: {{ object.category }}</p>
+            {% if object.seller.store_name %}
+            <p class="lead">Sold by: {{ object.seller.store_name }}</p>
+            {% else %}
             <p class="lead">Sold by: {{ object.seller }}</p>
+            {% endif %}
             <p class="lead">
-              <span class="mr-1">
-                <del>$200</del>
-              </span>
-              <span>$100</span>
+              <span>${{ object.price }}</span>
             </p>
 
             <p class="lead font-weight-bold">Description</p>
 
             <p>{{ object.description }}</p>
-            <!--
-            <form class="d-flex justify-content-left">
-              <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
-              <button class="btn btn-primary btn-md my-0 p" type="submit">Add to cart
-                <i class="fas fa-shopping-cart ml-1"></i>
-              </button>
+            
+            <form class="d-flex justify-content-left" method="POST" action="{% url 'cart:add_to_cart' product.sku %}">
+              {% csrf_token %}
+              <div class="form-group">
+                <div class="input-group align-items-center">
+                  <div class="input-group-prepend">
+                    <button class="decrement-qty btn btn-sm"
+                            data-sku="{{ product.sku }}"
+                            id="decrement-qty_{{ product.sku }}">
+                      <span class="icon">
+                        <i class="fas fa-minus"></i>
+                      </span>
+                    </button>
+                  </div>
+                  <input type="number" value="1" min="1" max="20" 
+                    aria-label="item quantity" 
+                    class="form-control qty_input" 
+                    style="width: 60px" 
+                    name="quantity"
+                    data-sku="{{ product.sku }}"
+                    id="id_qty_{{ product.sku }}"
+                  />
+                  <div class="input-group-append">
+                    <button class="increment-qty btn btn-sm"
+                            data-sku="{{ product.sku }}"
+                            id="increment-qty_{{ product.sku }}">
+                      <span class="icon">
+                          <i class="fas fa-plus"></i>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group">
+                  <button class="btn btn-primary btn-md my-0 p" type="submit">Add to cart
+                    <i class="fas fa-shopping-cart ml-1"></i>
+                  </button>
+                </div>
+              </div>
+              <input type="hidden" name="redirect_url" value="{{ request.path }}" />
             </form>
-            -->
-            <a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p">Add to cart
-                <i class="fas fa-shopping-cart ml-1"></i>
-            </a>
+            
           </div>
           <!--Content-->
         </div>
@@ -103,4 +136,52 @@
       </div>
       <!--Grid row-->
 
+{% endblock %}
+
+{% block postloadjs %}
+
+<script type="text/javascript">
+
+  // Disable +/- buttons outside 1-99 range
+  function handleEnableDisable(sku) {
+      var currentValue = parseInt($(`#id_qty_${sku}`).val());
+      var minusDisabled = currentValue < 2;
+      var plusDisabled = currentValue > 19;
+      $(`#decrement-qty_${sku}`).prop('disabled', minusDisabled);
+      $(`#increment-qty_${sku}`).prop('disabled', plusDisabled);
+  }
+
+  // Ensure proper enabling/disabling of all inputs on page load
+  var allQtyInputs = $('.qty_input');
+  for(var i = 0; i < allQtyInputs.length; i++){
+      var sku = $(allQtyInputs[i]).data('sku');
+      handleEnableDisable(sku);
+  }
+
+  // Check enable/disable every time the input is changed
+  $('.qty_input').change(function() {
+      var sku = $(this).data('sku');
+      handleEnableDisable(sku);
+  });
+
+  // Increment quantity
+  $('.increment-qty').click(function(e) {
+     e.preventDefault();
+     var closestInput = $(this).closest('.input-group').find('.qty_input')[0];
+     var currentValue = parseInt($(closestInput).val());
+     $(closestInput).val(currentValue + 1);
+     var sku = $(this).data('sku');
+     handleEnableDisable(sku);
+  });
+
+  // Decrement quantity
+  $('.decrement-qty').click(function(e) {
+     e.preventDefault();
+     var closestInput = $(this).closest('.input-group').find('.qty_input')[0];
+     var currentValue = parseInt($(closestInput).val());
+     $(closestInput).val(currentValue - 1);
+     var sku = $(this).data('sku');
+     handleEnableDisable(sku);
+  });
+</script>
 {% endblock %}

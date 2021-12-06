@@ -14,7 +14,9 @@ from profiles.models import UserProfile
 # Order summary (cart detail) class based view
 class ViewCart(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
-        print(self.request.user)
+        return render(self.request, 'cart.html')
+        
+        """
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
             context = {
@@ -24,12 +26,27 @@ class ViewCart(LoginRequiredMixin, View):
         except ObjectDoesNotExist:
             messages.warning(self.request, "You do not have an active order.")
             return redirect("home:store")
+        """
 
 
 # Add items to the cart
 @login_required
-def add_to_cart(request, slug):
-    item = get_object_or_404(Product, slug=slug)
+def add_to_cart(request, sku):
+
+    quantity = int(request.POST.get('quantity'))
+    redirect_url = request.POST.get('redirect_url')
+    cart = request.session.get('cart', {})
+
+    if sku in list(cart.keys()):
+        cart[sku] += quantity
+    else:
+        cart[sku] = quantity
+
+    request.session['cart'] = cart
+    messages.success(request, "Cart updated successfully!")
+    return redirect(redirect_url)
+
+    """item = get_object_or_404(Product, slug=slug)
     order_item, created = OrderItem.objects.get_or_create(
         item=item,
         buyer=request.user,
@@ -55,7 +72,7 @@ def add_to_cart(request, slug):
         order = Order.objects.create(user=request.user, order_date=order_date)
         order.items.add(order_item)
         messages.info(request, "This item has been added to your cart.")
-        return redirect("checkout:cart")
+        return redirect("checkout:cart")"""
 
 
 # Remove item from the cart entirely, regardless of quantity
