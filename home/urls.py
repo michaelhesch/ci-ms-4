@@ -3,9 +3,7 @@ from .views import (
     HomeView,
     StoreView,
 )
-from product.views import (
-    ProductDetail,
-)
+
 
 app_name = 'home'
 
