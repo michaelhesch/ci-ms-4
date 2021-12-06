@@ -1,7 +1,10 @@
+import random
 from django.db import models
 from django.shortcuts import reverse
 from django.utils.text import slugify
 from django.contrib.auth.models import User
+
+from profiles.models import UserProfile
 
 
 class Category(models.Model):
@@ -19,7 +22,8 @@ class Category(models.Model):
 
 class Product(models.Model):
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
-    seller = models.ForeignKey(User, related_name='products', on_delete=models.CASCADE)
+    sku = models.CharField(max_length=20, null=False, editable=False)
+    seller = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     product_name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200)
     description = models.TextField()
@@ -36,6 +40,7 @@ class Product(models.Model):
     
     # Over-ride default save function to set slug field
     def save(self, *args, **kwargs):
+        self.sku = random.randrange(10**1, 10**20)
         slug_name = str(self.seller) + str(self.product_name)
         self.slug = slugify(slug_name)
         super(Product, self).save(*args, **kwargs)
@@ -56,13 +61,13 @@ class Product(models.Model):
 
     # Add product to cart url helper function
     def get_add_to_cart_url(self):
-        return reverse("checkout:add_to_cart", kwargs={
+        return reverse("cart:add_to_cart", kwargs={
             'slug': self.slug,
             })
 
     # Remove product from cart url helper function
     def get_remove_from_cart_url(self):
-        return reverse("checkout:remove_from_cart", kwargs={
+        return reverse("cart:remove_from_cart", kwargs={
             'slug': self.slug,
             })
 
