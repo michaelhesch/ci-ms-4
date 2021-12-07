@@ -1,6 +1,8 @@
 import uuid
 from django.db import models
+from django.db.models import Sum
 from django.conf import settings
+from liffey.settings import FREE_DELIVERY_THRESHOLD
 from django_countries.fields import CountryField
 
 
@@ -27,21 +29,27 @@ class Order(models.Model):
                                         on_delete=models.SET_NULL,
                                         blank=True,
                                         null=True)
+    shipping = models.DecimalField(max_digits=4, decimal_places=2, null=False, default=10)
     grand_total = models.DecimalField(max_digits=10,
                                       decimal_places=2,
                                       null=False,
                                       default=0)
     
-    # Generate random order number via private method
+    # Generate random order number via private method for this class
     def _create_order_number(self):
         return uuid.uuid4().hex.upper()
 
     # Calculate grand total for all order items
-    def get_grand_total(self):
+    def update_grand_total(self):
         grand_total = 0
-        for order_item in self.items.all():
-            grand_total += order_item.get_item_total()
-        return grand_total
+        self.grand_total = self.lineitems.aggregate(Sum('item_total'))['item_total__sunm']
+        if self.grand_total < FREE_DELIVERY_THRESHOLD:
+            self.shipping = int(10)
+        else:
+            self.shipping = 0
+        grand_total = self.grand_total + self.shipping
+        self.grand_total = grand_total
+        self.save()
 
     # Calculate total number of all order items in order
     def get_total_item_count(self):
@@ -57,7 +65,7 @@ class Order(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.order_num
+        return "Order Number: %s" % self.order_num
 
 
 class OrderItem(models.Model):
@@ -81,7 +89,7 @@ class OrderItem(models.Model):
         verbose_name_plural = 'Order Items'
 
     def __str__(self):
-        return f"{self.quantity} of {self.item.product_name}"
+        return f"{self.quantity} of {self.item.product_name} on order {self.related_order}"
 
     # Calculate the total based on quantity of items in cart
     def get_item_total(self):
