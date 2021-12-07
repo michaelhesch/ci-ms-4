@@ -5,11 +5,7 @@ from checkout.models import Order
 register = template.Library()
 
 
+# Template tag to return subtotals for line items in cart
 @register.filter
-def cart_counter(user):
-    if user.is_authenticated:
-        # Check for order by current user that is not complete
-        queryset = Order.objects.filter(user=user, ordered=False)
-        if queryset.exists():
-            return queryset[0].get_total_item_count()
-        return 0
+def cart_subtotal(price, quantity):
+    return price * quantity
