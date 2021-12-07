@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load humanize %}
+{% load cart_template_tags %}
 
 {% block title %}Your Cart {% endblock %}
 
@@ -30,7 +31,7 @@
                 <a href="{% url 'cart:add_to_cart' order_item.sku %}"><i class="fas fa-plus ml-2"></i></a>
             </td>
             <td scope="row">
-                
+                ${{ order_item.product.price | cart_subtotal:order_item.quantity|intcomma }}
                 <a class="remove-item float-right" id="remove_{{ order_item.sku }}" href="{% url 'cart:remove_from_cart' order_item.sku %}">
                     <i class="fas fa-trash"></i>
                 </a>
