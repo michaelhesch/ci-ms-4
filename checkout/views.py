@@ -13,6 +13,11 @@ from profiles.models import UserProfile
 # Render checkout form and handle checkout form submit
 class CheckoutView(LoginRequiredMixin,View):
     def get(self, *args, **kwargs):
+        cart = self.request.session.get('cart', {})
+        if not cart:
+            messages.warning(self.request, "There is nothing in your cart.")
+            return redirect("home:store")
+        
         form = CheckoutForm()
         context = {
             'form': form,
@@ -20,6 +25,11 @@ class CheckoutView(LoginRequiredMixin,View):
         return render(self.request, "checkout.html", context)
 
     def post(self, *args, **kwargs):
+        cart = self.request.session.get('cart', {})
+        if not cart:
+            messages.warning(self.request, "There is nothing in your cart.")
+            return redirect("home:store")
+        
         form = CheckoutForm(self.request.POST or None)
 
         try:

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load cart_template_tags %}
 
 {% block title %}Profile {% endblock %}
 
@@ -69,7 +70,7 @@
                                     {% endfor %}
                                     </ul>
                                 </td>
-                                <td scope="row">${{ order.get_grand_total }}</td>
+                                <td scope="row">$${{ order.product.price | cart_subtotal:order.quantity|intcomma }}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
