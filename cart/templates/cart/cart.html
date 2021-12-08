@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load humanize %}
 {% load cart_template_tags %}
 
 {% block title %}Your Cart {% endblock %}
@@ -21,7 +20,7 @@
         <tbody>
         {% for order_item in cart_items %}
         <tr>
-            <td scope="row" class="p-3 w-25">{{ forloop.counter }}. <img class="img-fluid rounded" style="max-width: 75%;" src="{{ order_item.product.image_url }}"></td>
+            <td scope="row" class="p-3 w-25">{{ forloop.counter }}. <img class="img-fluid rounded pl-2" style="max-width: 50%;" src="{{ order_item.product.image_url }}"></td>
             <td scope="row">{{ order_item.product.product_name }}</td>
             <td scope="row">${{ order_item.product.price|intcomma }}</td>
             <td scope="row">{{ order_item.product.seller.store_name }}</td>

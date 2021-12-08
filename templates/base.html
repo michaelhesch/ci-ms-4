@@ -28,29 +28,30 @@
   />
   <!-- Internal CSS -->
   <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+  {% block extra_css %}
+  {% endblock %}
+  
   <!-- Internal JS -->
   <script src="" type="text/javascript"></script>
-  <style type="text/css">
-    header,
-    .carousel {
+  {% block extra_js %}
+  {% endblock %}
+  <style>
+    header {
       height: 65px;
     }
-
+    
     @media (max-width: 740px) {
-      header,
-      .carousel {
+      header {
         height: 65px;
       }
     }
-
+    
     @media (min-width: 800px) and (max-width: 850px) {
-      header,
-      .carousel {
+      header {
         height: 65px;
       }
     }
   </style>
-
   <title>{% block title %}{% endblock %} | Liffey</title>
 </head>
 
