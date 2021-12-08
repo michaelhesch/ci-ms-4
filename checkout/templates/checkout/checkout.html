@@ -1,24 +1,65 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
-{% load humanize %}
+{% load static %}
 {% load cart_template_tags %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://js.stripe.com/v3/"></script>
+{% endblock %}
 
 {% block title %}Checkout {% endblock %}
 
 {% block content %}
  <!-- Heading -->
-<h2 class="my-5 h2 text-center">Checkout form</h2>
+<h2 class="my-5 h2 text-center">Checkout</h2>
 <!--Grid row-->
 <div class="row">
     <!--Grid column-->
     <div class="col-md-8 mb-4">
         <!--Card-->
         <div class="card">
-            <form class="card-body mb-form" method="POST">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <button class="btn btn-primary" type="submit">Checkout</button>
-            </form>
+            <div class="card-body">
+                <p>Please complete the check out form below to submit your order.</p>
+                <form class="card-body mb-form" method="POST" action="{% url 'checkout:checkout' %}" id="checkout-form">
+                    {% csrf_token %}
+                    <fieldset class="rounded px-3 mb-3">
+                        <legend class="fieldset-label px-2 w-auto">Contact Details</legend>
+                        {{ form.first_name|as_crispy_field }}
+                        {{ form.last_name|as_crispy_field }}
+                        {{ form.email|as_crispy_field }}
+                        {{ form.phone|as_crispy_field }}
+                    </fieldset>
+                    <fieldset class="rounded px-3 mb-3">
+                        <legend class="fieldset-label px-2 w-auto">Shipping Details</legend>
+                        {{ form.address1|as_crispy_field }}
+                        {{ form.address2|as_crispy_field }}
+                        {{ form.state|as_crispy_field }}
+                        {{ form.city|as_crispy_field }}
+                        {{ form.zipcode|as_crispy_field }}
+                        {{ form.country|as_crispy_field }}
+                        <div class="form-check form-check-inline float-left mr-0">
+                            <input class="form-check-input ml-0 mr-2" type="checkbox" id="id-save-defaults" name="save-defaults" checked />
+                            <label class="form-check-label" for="id-save-defaults"> Save this to my profile as my default shipping info</label>
+                        </div>
+                    </fieldset>
+                    <fieldset class="rounded px-3">
+                        <legend class="fieldset-label px-2 w-auto">Payment Details</legend>
+                        <!-- Stripe card element container -->
+                        <div class="mb-3" id="card-element"></div>
+                        <!-- Stripe form errors container -->
+                        <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+                    </fieldset>
+                    <button class="btn btn-primary" type="submit">Checkout</button>
+                    <a href="{% url 'cart:cart' %}" class="btn btn-secondary">Back to Cart</a>
+                    <p class="small text-danger my-1 pl-1">
+                        <span class="icon"><i class="fas fa-exclamation-circle"></i></span>
+                        <span>You will be charged ${{ total|intcomma }}</span>
+                    </p>
+                </form>
+            </div>
         </div>
     </div>
     <!--Grid column-->
@@ -27,7 +68,7 @@
     <div class="col-md-4 mb-4">
         <!-- Heading -->
         <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="text-muted">Your cart</span>
+            <span class="text-muted">Order Summary</span>
             <span class="badge badge-secondary badge-pill">{{ item_count }}</span>
         </h4>
 

@@ -3,8 +3,9 @@ from .models import Order, OrderItem, BillingAddress
 
 
 class OrderItemAdmin(admin.TabularInline):
-
     model = OrderItem
+
+    readonly_fields = ('item_total',)
 
     list_display = (
         'buyer',
@@ -17,6 +18,13 @@ class OrderItemAdmin(admin.TabularInline):
 
 
 class OrderAdmin(admin.ModelAdmin):
+
+    readonly_fields = (
+        'order_num',
+        'create_date',
+        'order_date',
+        'grand_total'
+    )
     
     inlines = (OrderItemAdmin,)
     
