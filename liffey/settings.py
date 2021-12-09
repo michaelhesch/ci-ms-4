@@ -91,6 +91,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
+                'django.template.context_processors.static',
                 'cart.contexts.cart_contents',
             ],
             'builtins': [
@@ -184,6 +185,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -197,5 +199,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Strip configuration
+# Stripe configuration
 FREE_DELIVERY_THRESHOLD = 99
+STRIPE_CURRENCY = 'USD'
+STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
