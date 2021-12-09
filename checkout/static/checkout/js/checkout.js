@@ -1,116 +1,74 @@
-// This is your test publishable API key.
-const stripe = Stripe(
-  "pk_test_51K4SenCxEKhCCP0jFDNOzWGUyigy8aJxEcjAUPP8HO6MjZNrXSMVNNyg5B7VfW3vhD7HQscAZbQuYKfwxbIGALhb00dpag6juq"
-);
+/*
+    Core logic/payment flow for this comes from:
+    https://stripe.com/docs/payments/accept-a-payment/
+    CSS comes from here:
+    https://stripe.com/docs/stripe-js/
+*/
 
-// The items the customer wants to buy
-const items = [{ id: "xl-tshirt" }];
-
-let elements;
-
-initialize();
-checkStatus();
-
-document
-  .querySelector("#payment-form")
-  .addEventListener("submit", handleSubmit);
-
-// Fetches a payment intent and captures the client secret
-async function initialize() {
-  const response = await fetch("/create-payment-intent", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ items }),
-  });
-  const { clientSecret } = await response.json();
-
-  const appearance = {
-    theme: "stripe",
-  };
-  elements = stripe.elements({ appearance, clientSecret });
-
-  const paymentElement = elements.create("payment");
-  paymentElement.mount("#payment-element");
-}
-
-async function handleSubmit(e) {
-  e.preventDefault();
-  setLoading(true);
-
-  const { error } = await stripe.confirmPayment({
-    elements,
-    confirmParams: {
-      // Make sure to change this to your payment completion page
-      return_url: "http://localhost:4242/checkout.html",
+var stripePublicKey = $("#id_stripe_public_key").text().slice(1, -1);
+var clientSecret = $("#id_client_secret").text().slice(1, -1);
+var stripe = Stripe(stripePublicKey);
+var elements = stripe.elements();
+var style = {
+  base: {
+    color: "#000",
+    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+    fontSmoothing: "antialiased",
+    fontSize: "16px",
+    "::placeholder": {
+      color: "#aab7c4",
     },
-  });
+  },
+  invalid: {
+    color: "#dc3545",
+    iconColor: "#dc3545",
+  },
+};
+var card = elements.create("card", { style: style });
+card.mount("#card-element");
 
-  // This point will only be reached if there is an immediate error when
-  // confirming the payment. Otherwise, your customer will be redirected to
-  // your `return_url`. For some payment methods like iDEAL, your customer will
-  // be redirected to an intermediate site first to authorize the payment, then
-  // redirected to the `return_url`.
-  if (error.type === "card_error" || error.type === "validation_error") {
-    showMessage(error.message);
+// Handle validation errors from the card element in real time
+card.addEventListener("change", function (event) {
+  var errorDiv = document.getElementById("card-errors");
+  if (event.error) {
+    var html = `
+      <span class="icon" role="alert">
+        <i class="fas fa-times"></i>
+      </span>
+      <span>${event.error.message}</span>
+    `;
+    $(errorDiv).html(html);
   } else {
-    showMessage("An unexpected error occured.");
+    errorDiv.textContent = "";
   }
+});
 
-  setLoading(false);
-}
+// Handle form submission
+var form = document.getElementById('checkout-form');
 
-// Fetches the payment intent status after payment submission
-async function checkStatus() {
-  const clientSecret = new URLSearchParams(window.location.search).get(
-    "payment_intent_client_secret"
-  );
-
-  if (!clientSecret) {
-    return;
-  }
-
-  const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
-
-  switch (paymentIntent.status) {
-    case "succeeded":
-      showMessage("Payment succeeded!");
-      break;
-    case "processing":
-      showMessage("Your payment is processing.");
-      break;
-    case "requires_payment_method":
-      showMessage("Your payment was not successful, please try again.");
-      break;
-    default:
-      showMessage("Something went wrong.");
-      break;
-  }
-}
-
-// ------- UI helpers -------
-
-function showMessage(messageText) {
-  const messageContainer = document.querySelector("#payment-message");
-
-  messageContainer.classList.remove("hidden");
-  messageContainer.textContent = messageText;
-
-  setTimeout(function () {
-    messageContainer.classList.add("hidden");
-    messageText.textContent = "";
-  }, 4000);
-}
-
-// Show a spinner on payment submission
-function setLoading(isLoading) {
-  if (isLoading) {
-    // Disable the button and show a spinner
-    document.querySelector("#submit").disabled = true;
-    document.querySelector("#spinner").classList.remove("hidden");
-    document.querySelector("#button-text").classList.add("hidden");
-  } else {
-    document.querySelector("#submit").disabled = false;
-    document.querySelector("#spinner").classList.add("hidden");
-    document.querySelector("#button-text").classList.remove("hidden");
-  }
-}
+form.addEventListener('submit', function(ev) {
+    ev.preventDefault();
+    card.update({ 'disabled': true});
+    $('#submit-button').attr('disabled', true);
+    stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+            card: card,
+        }
+    }).then(function(result) {
+        if (result.error) {
+            var errorDiv = document.getElementById('card-errors');
+            var html = `
+                <span class="icon" role="alert">
+                <i class="fas fa-times"></i>
+                </span>
+                <span>${result.error.message}</span>`;
+            $(errorDiv).html(html);
+            card.update({ 'disabled': false});
+            $('#submit-button').attr('disabled', false);
+        } else {
+            if (result.paymentIntent.status === 'succeeded') {
+                form.submit();
+            }
+        }
+    });
+});
