@@ -2,7 +2,6 @@ import uuid
 from django.db import models
 from django.db.models import Sum
 from django.conf import settings
-from liffey.settings import FREE_DELIVERY_THRESHOLD
 from django_countries.fields import CountryField
 
 
@@ -21,34 +20,39 @@ class Order(models.Model):
                              null=True,
                              blank=True,
                              related_name='orders')
-    items = models.TextField()
     create_date = models.DateTimeField(auto_now_add=True)
     order_date = models.DateTimeField(null=True)
     ordered = models.BooleanField(default=False)
-    billing_address = models.ForeignKey('BillingAddress',
+    shipping_details = models.ForeignKey('ShippingDetails',
                                         on_delete=models.SET_NULL,
                                         blank=True,
                                         null=True)
-    shipping = models.DecimalField(max_digits=4, decimal_places=2, null=False, default=10)
-    grand_total = models.DecimalField(max_digits=10,
+    shipping = models.DecimalField(max_digits=4,
+                                   decimal_places=2,
+                                   null=False,
+                                   default=10)
+    grand_total = models.DecimalField(max_digits=12,
                                       decimal_places=2,
                                       null=False,
                                       default=0)
     
+    class Meta:
+        ordering = ['-order_date']
+
     # Generate random order number via private method for this class
     def _create_order_number(self):
         return uuid.uuid4().hex.upper()
 
     # Calculate grand total for all order items
     def update_grand_total(self):
-        grand_total = 0
-        self.grand_total = self.lineitems.aggregate(Sum('item_total'))['item_total__sunm']
-        if self.grand_total < FREE_DELIVERY_THRESHOLD:
+        free_shipping = settings.FREE_DELIVERY_THRESHOLD
+        shipping = int(10)
+        self.grand_total = self.orderitems.aggregate(Sum('item_total'))['item_total__sum'] or 0
+        if self.grand_total <= free_shipping:
             self.shipping = int(10)
         else:
             self.shipping = 0
-        grand_total = self.grand_total + self.shipping
-        self.grand_total = grand_total
+        self.grand_total = self.grand_total + self.shipping
         self.save()
 
     # Calculate total number of all order items in order
@@ -77,9 +81,12 @@ class OrderItem(models.Model):
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL,
                               on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
-    item = models.ForeignKey(Product, on_delete=models.CASCADE)
+    item = models.ForeignKey(Product,
+                             null=False,
+                             blank=False,
+                             on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
-    item_total = models.DecimalField(max_digits=6,
+    item_total = models.DecimalField(max_digits=12,
                                      decimal_places=2,
                                      null=False,
                                      blank=False,
@@ -89,7 +96,7 @@ class OrderItem(models.Model):
         verbose_name_plural = 'Order Items'
 
     def __str__(self):
-        return f"{self.quantity} of {self.item.product_name} on order {self.related_order}"
+        return f"{self.quantity} of {self.item.product_name} on {self.related_order}"
 
     # Calculate the total based on quantity of items in cart
     def get_item_total(self):
@@ -105,10 +112,14 @@ class OrderItem(models.Model):
         super().save(*args, **kwargs)
 
 
-class BillingAddress(models.Model):
+class ShippingDetails(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     order_num = models.OneToOneField(Order, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=254)
+    phone = models.CharField(max_length=16)
     address1 = models.CharField(max_length=80)
     address2 = models.CharField(max_length=80,
                                 blank=True,
@@ -119,7 +130,7 @@ class BillingAddress(models.Model):
     country = CountryField(multiple=False)
 
     class Meta:
-        verbose_name_plural = 'Billing Addresses'
+        verbose_name_plural = 'Shipping Details'
 
     def __str__(self):
-        return "%s's billing address" % self.user.username
+        return f"{self.user.username}'s shipping details for {self.order_num}"

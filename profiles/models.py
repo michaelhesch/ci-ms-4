@@ -8,13 +8,14 @@ from django_countries.fields import CountryField
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    default_email = models.EmailField(max_length=254, null=True, blank=True)
+    default_phone = models.CharField(max_length=16, null=True, blank=True)
     default_address1 = models.CharField(max_length=80, null=True, blank=True)
     default_address2 = models.CharField(max_length=80, null=True, blank=True)
     default_city = models.CharField(max_length=50, null=True, blank=True)
     default_state = models.CharField(max_length=50, null=True, blank=True)
     default_zipcode = models.CharField(max_length=25, null=True, blank=True)
     default_country = CountryField(blank_label='Select Country', null=True, blank=True)
-    default_phone = models.CharField(max_length=20, null=True, blank=True)
     avatar = models.ImageField(upload_to="avatars/", null=True, blank=True)
     avatar_url = models.URLField(null=True, blank=True)
     store_name = models.CharField(max_length=100, null=True, blank=True)

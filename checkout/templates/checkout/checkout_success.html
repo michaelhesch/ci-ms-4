@@ -13,10 +13,11 @@
     <div class="col">
         {% if order_history %}
             <h2>Order History: Order Details Below</h2>
-            <p>Please see your order details below. Your order was completed on {{ order.order_date|date:"SHORT_DATE_FORMAT" }}</p>
+            <p>Please see your order details below. Your order was submitted on {{ order.order_date|date:"SHORT_DATE_FORMAT" }}.</p>
+            <p>An order confirmation email was sent to {{ order.shipping_details.email }}.</p>
         {% else %}
             <h2>Order Complete - Thank you!</h2>
-            <p>Please see your order details below.  A confirmation will be sent to (EMAIL HERE).</p>
+            <p>Please see your order details below.  A confirmation will be sent to {{ order.shipping_details.email }}.</p>
         {% endif %}
     </div>
 </div>
@@ -28,19 +29,19 @@
                 {% if order_history %}
                 <div>Order Items:</div>
                 <ul style="list-unstyled">
-                    {% for item in order.items.all %}
-                        <li><strong>{{ item.item.product_name }}</strong>: {{ item.quantity }} x ${{ item.item.price }}</li>
+                    {% for item in order.orderitems.all %}
+                        <li><strong><a href="{{ item.item.get_absolute_url }}" alt="{{ item.item.product_name }}">{{ item.item.product_name }}</a></strong>: {{ item.quantity }}x at ${{ item.item.price|intcomma }} each.</li>
                     {% endfor %}
                 </ul>
-                <div>Order Total: {{ Order }}</div>
+                <div>Order Total: ${{ order.grand_total|intcomma }}</div>
                 {% else %}
                 <div>Order Items:</div>
                 <ul style="list-unstyled">
-                    {% for item in items %}
-                        <li><strong>{{ item.item.product_name }}</strong>: {{ item.quantity }} x ${{ item.item.price }}</li>
+                    {% for item in order.orderitems.all %}
+                        <li><strong><a href="{{ item.item.get_absolute_url }}" alt="{{ item.item.product_name }}">{{ item.item.product_name }}</a></strong>: {{ item.quantity }}x at ${{ item.item.price|intcomma }} each.</li>
                     {% endfor %}
                 </ul>
-                <div>Order Total: {{ Order }}</div>
+                <div>Order Total: ${{ order.grand_total|intcomma }}</div>
                 {% endif %}
             </div>
         </div>

@@ -35,23 +35,7 @@
   <script src="" type="text/javascript"></script>
   {% block extra_js %}
   {% endblock %}
-  <style>
-    header {
-      height: 65px;
-    }
-    
-    @media (max-width: 740px) {
-      header {
-        height: 65px;
-      }
-    }
-    
-    @media (min-width: 800px) and (max-width: 850px) {
-      header {
-        height: 65px;
-      }
-    }
-  </style>
+  
   <title>{% block title %}{% endblock %} | Liffey</title>
 </head>
 
@@ -129,10 +113,14 @@
                     {% endif %}
                 </a>
               </li>
-              <li class="nav-item">
+              {% url 'profiles:profile' request.user as url %}
+              <li class="nav-item mr-1 {% if request.path == url %}active{% endif %}">
                 <a class="nav-link waves-effect" 
                   href="{% url 'profiles:profile' request.user %}">
                   Profile
+                  {% if request.path == url %}
+                  <span class="sr-only">(current)</span>
+                  {% endif %}
                 </a>
               </li>
               <li class="nav-item">
@@ -221,13 +209,15 @@
 
   <!-- SCRIPTS -->
   <!-- JQuery -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" crossorigin="anonymous"></script>
   <!-- Bootstrap tooltips -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js" crossorigin="anonymous"></script>
   <!-- Bootstrap core JS -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
   <!-- MDB core JS -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.10.1/js/mdb.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.10.1/js/mdb.min.js" crossorigin="anonymous"></script>
+  <!-- Stripe JS -->
+  <script type="text/javascript" src="https://js.stripe.com/v3/"></script>
   <!-- Initializations -->
   <script type="text/javascript">
     // Animations initialization

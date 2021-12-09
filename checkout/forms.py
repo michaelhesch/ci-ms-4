@@ -23,7 +23,6 @@ class CheckoutForm(forms.Form):
         widget=CountrySelectWidget(attrs={
             'class': 'custom-select d-block w-100'
         }))
-    billing_same = forms.BooleanField(widget=forms.CheckboxInput(), required=False)
     save_defaults = forms.BooleanField(widget=forms.CheckboxInput(), required=False)
 
 
@@ -31,7 +30,7 @@ class CheckoutForm(forms.Form):
         fields = ('first_name', 'last_name', 'email',
                   'phone', 'address1', 'address2',
                   'state', 'city', 'zipcode', 'country',
-                  'billing_same', 'save_defaults')
+                  'save_defaults')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -47,7 +46,6 @@ class CheckoutForm(forms.Form):
             'city': 'City',
             'zipcode': 'Zipcode',
             'country': 'Choose Country',
-            'billing_same': 'Billing Address same as shipping address?',
             'save_defaults': 'Save defaults to your profile?'
         }
         self.fields['first_name'].widget.attrs['autofocus'] = True
@@ -61,9 +59,7 @@ class CheckoutForm(forms.Form):
             self.fields[field].widget.attrs['placeholder'] = placeholder
             self.fields[field].widget.attrs['class'] = 'stripe-style-input'
             self.fields[field].label = False
-            if self.fields['billing_same']:
-                self.fields['billing_same'].label = "Billing address same as shipping?"
-            elif self.fields['save_defaults']:
+            if self.fields['save_defaults']:
                 self.fields['save_defaults'].label = "Save default shipping info?"
             else:
                 pass
