@@ -30,7 +30,7 @@
                 <div>Order Items:</div>
                 <ul style="list-unstyled">
                     {% for item in order.orderitems.all %}
-                        <li><strong>{{ item.item.product_name }}</strong>: {{ item.quantity }}x at ${{ item.item.price|intcomma }} each.</li>
+                        <li><strong><a href="{{ item.item.get_absolute_url }}" alt="{{ item.item.product_name }}">{{ item.item.product_name }}</a></strong>: {{ item.quantity }}x at ${{ item.item.price|intcomma }} each.</li>
                     {% endfor %}
                 </ul>
                 <div>Order Total: ${{ order.grand_total|intcomma }}</div>
@@ -38,7 +38,7 @@
                 <div>Order Items:</div>
                 <ul style="list-unstyled">
                     {% for item in order.orderitems.all %}
-                        <li><strong>{{ item.item.product_name }}</strong>: {{ item.quantity }}x at ${{ item.item.price|intcomma }} each.</li>
+                        <li><strong><a href="{{ item.item.get_absolute_url }}" alt="{{ item.item.product_name }}">{{ item.item.product_name }}</a></strong>: {{ item.quantity }}x at ${{ item.item.price|intcomma }} each.</li>
                     {% endfor %}
                 </ul>
                 <div>Order Total: ${{ order.grand_total|intcomma }}</div>

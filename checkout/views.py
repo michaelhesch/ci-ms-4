@@ -175,7 +175,7 @@ class CheckoutSuccessView(LoginRequiredMixin, View):
         context = {
 
         }
-        return render(request, template, context)
+        return render(self.request, template, context)
 
 
 class OrderHistoryView(LoginRequiredMixin, View):

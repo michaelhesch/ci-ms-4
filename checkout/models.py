@@ -36,6 +36,9 @@ class Order(models.Model):
                                       null=False,
                                       default=0)
     
+    class Meta:
+        ordering = ['-order_date']
+
     # Generate random order number via private method for this class
     def _create_order_number(self):
         return uuid.uuid4().hex.upper()
@@ -130,4 +133,4 @@ class ShippingDetails(models.Model):
         verbose_name_plural = 'Shipping Details'
 
     def __str__(self):
-        return "%s's shipping details" % self.user.username
+        return f"{self.user.username}'s shipping details for {self.order_num}"
