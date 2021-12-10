@@ -20,12 +20,14 @@ from cart.contexts import cart_contents
 @require_POST
 def cache_checkout_data(request):
     try:
+        # Retrieve payment intent ID from the post request
         pid = request.POST.get('client_secret').split('_secret')[0]
+        # Setup Stripe to modify the payment intent
         stripe.api_key = settings.STRIPE_SECRET_KEY
         stripe.PaymentIntent.modify(pid, metadata={
-            'cart': json.dumps(request.session.get('bag', {})),
-            'save_info': request.POST.get('save_info'),
-            'username': request.user,
+            'cart': json.dumps(request.session.get('cart', {})),
+            'save_defaults': request.POST.get('save_defaults'),
+            'user': request.user,
         })
         return HttpResponse(status=200)
     except Exception as e:
@@ -64,9 +66,6 @@ class CheckoutView(LoginRequiredMixin,View):
         return render(self.request, "checkout.html", context)
 
     def post(self, *args, **kwargs):
-        stripe_public_key = settings.STRIPE_PUBLIC_KEY
-        stripe_secret_key = settings.STRIPE_SECRET_KEY
-
         cart = self.request.session.get('cart', {})
         if not cart:
             messages.warning(self.request, "There is nothing in your cart.")
@@ -128,7 +127,9 @@ class CheckoutView(LoginRequiredMixin,View):
                     profile.default_country = country
                     profile.save()
 
-                # Set ordered status and order number for order items
+                pid = self.request.POST.get('client_secret').split('_secret')[0]
+                order.stripe_pid = pid
+                # Create order items for cart items, set attributes
                 for sku, item_data in cart.items():
                         try:
                             product = Product.objects.get(sku=sku)
@@ -155,12 +156,11 @@ class CheckoutView(LoginRequiredMixin,View):
                 order.ordered = True
                 order.save()
 
-                # Clean out session cart
+                # Clean out session cart after order finalized
                 self.request.session.pop('cart')
 
                 context = {
                     'order': order,
-                    'stripe_public_key': stripe_public_key,
                 }
                 messages.success(self.request, "Thank you, your order has been placed!")
                 return render(self.request, 'checkout_success.html', context)
@@ -170,10 +170,14 @@ class CheckoutView(LoginRequiredMixin,View):
 
 
 class CheckoutSuccessView(LoginRequiredMixin, View):
-    def get(self):
+    def get(self, request, order):
+
+        if 'cart' in request.session:
+            del request.session['cart']
+
         template = 'checkout/checkout_success.html'
         context = {
-
+            'order': order,
         }
         return render(self.request, template, context)
 

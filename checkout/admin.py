@@ -36,7 +36,8 @@ class OrderAdmin(admin.ModelAdmin):
         'order_num',
         'create_date',
         'order_date',
-        'grand_total'
+        'grand_total',
+        'stripe_pid',
     )
     
     inlines = (OrderItemAdmin, ShippingDetailsAdmin)
