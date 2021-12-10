@@ -53,10 +53,12 @@ form.addEventListener('submit', function(ev) {
 
     var saveDefaults = Boolean($('#id-save-defaults').attr('checked'));
     var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+    var orderNumber = $('input[name="order_num"]').val();
     var postData = {
       'csrfmiddlewaretoken': csrfToken,
       'client_secret': clientSecret,
       'save_defaults': saveDefaults,
+      'order_num': orderNumber,
     };
     var url = '/checkout/cache_checkout_data/';
 
@@ -66,7 +68,7 @@ form.addEventListener('submit', function(ev) {
         payment_method: {
             card: card,
             billing_details: {
-              name: $.trim(form.last_name.value),
+              name: $.trim(form.full_name.value),
               phone: $.trim(form.phone.value),
               email: $.trim(form.email.value),
               address: {
@@ -78,7 +80,7 @@ form.addEventListener('submit', function(ev) {
             }
         },
         shipping: {
-          name: $.trim(form.last_name.value),
+          name: $.trim(form.full_name.value),
           phone: $.trim(form.phone.value),
           address: {
             line1: $.trim(form.address1.value),

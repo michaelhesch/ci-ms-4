@@ -27,8 +27,7 @@
                     {% csrf_token %}
                     <fieldset class="rounded px-3 mb-3">
                         <legend class="fieldset-label px-2 w-auto">Contact Details</legend>
-                        {{ form.first_name|as_crispy_field }}
-                        {{ form.last_name|as_crispy_field }}
+                        {{ form.full_name|as_crispy_field }}
                         {{ form.email|as_crispy_field }}
                         {{ form.phone|as_crispy_field }}
                     </fieldset>
@@ -53,6 +52,10 @@
                         <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
                         <!-- Pass client secret needed to get Stripe PID -->
                         <input type="hidden" value="{{ client_secret }}" name="client_secret">
+                        <!-- Pass order number -->
+                        {% if cart_items %}
+                        <input type="hidden" value="{{ order.order_num }}" name="order_num">
+                        {% endif %}
                     </fieldset>
                     <button class="btn btn-primary" type="submit" id="submit-button">Checkout</button>
                     <a href="{% url 'cart:cart' %}" class="btn btn-secondary">Back to Cart</a>

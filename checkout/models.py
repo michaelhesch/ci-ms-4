@@ -117,8 +117,7 @@ class ShippingDetails(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     order_num = models.OneToOneField(Order, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    full_name = models.CharField(max_length=175)
     email = models.EmailField(max_length=254)
     phone = models.CharField(max_length=16)
     address1 = models.CharField(max_length=80)
