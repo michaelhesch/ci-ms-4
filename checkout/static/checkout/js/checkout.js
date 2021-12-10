@@ -50,10 +50,44 @@ form.addEventListener('submit', function(ev) {
     ev.preventDefault();
     card.update({ 'disabled': true});
     $('#submit-button').attr('disabled', true);
-    stripe.confirmCardPayment(clientSecret, {
+
+    var saveDefaults = Boolean($('#id-save-defaults').attr('checked'));
+    var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+    var postData = {
+      'csrfmiddlewaretoken': csrfToken,
+      'client_secret': clientSecret,
+      'save_defaults': saveDefaults,
+    };
+    var url = '/checkout/cache_checkout_data/';
+
+    $.post(url, postData).done(function() {
+      // Execute Stripe function if 200 server response returned
+      stripe.confirmCardPayment(clientSecret, {
         payment_method: {
             card: card,
-        }
+            billing_details: {
+              name: $.trim(form.last_name.value),
+              phone: $.trim(form.phone.value),
+              email: $.trim(form.email.value),
+              address: {
+                line1: $.trim(form.address1.value),
+                line2: $.trim(form.address2.value),
+                city: $.trim(form.city.value),
+                state: $.trim(form.state.value)
+              }
+            }
+        },
+        shipping: {
+          name: $.trim(form.last_name.value),
+          phone: $.trim(form.phone.value),
+          address: {
+            line1: $.trim(form.address1.value),
+            line2: $.trim(form.address2.value),
+            city: $.trim(form.city.value),
+            state: $.trim(form.state.value),
+            postal_code: $.trim(form.zipcode.value)
+          }
+        },
     }).then(function(result) {
         if (result.error) {
             var errorDiv = document.getElementById('card-errors');
@@ -71,4 +105,8 @@ form.addEventListener('submit', function(ev) {
             }
         }
     });
+  }).fail(function() {
+    // If 200 response not returned, reload page to display Django error message
+    location.reload();
+  });
 });
