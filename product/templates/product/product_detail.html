@@ -115,26 +115,22 @@
       <!--Grid row-->
 
       <!--Grid row-->
+      {% if product.get_similar_products %}
       <div class="row wow fadeIn">
+        <h4>Similar Products:</h4>
         <!--Grid column-->
+        {% for product in product.get_similar_products %}
         <div class="col-lg-4 col-md-12 mb-4">
-          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/11.jpg" class="img-fluid" alt="">
+          <a href="{{ product.get_absolute_url }}">
+            <img src="{{ product.image_url }}" class="img-fluid" alt="{{ product.product_name }}">
+          </a>
+          <p>{{ product.product_name }}</p>
         </div>
-        <!--Grid column-->
-
-        <!--Grid column-->
-        <div class="col-lg-4 col-md-6 mb-4">
-          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/12.jpg" class="img-fluid" alt="">
-        </div>
-        <!--Grid column-->
-
-        <!--Grid column-->
-        <div class="col-lg-4 col-md-6 mb-4">
-          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/13.jpg" class="img-fluid" alt="">
-        </div>
+        {% endfor %}
         <!--Grid column-->
       </div>
       <!--Grid row-->
+      {% endif %}
 
 {% endblock %}
 
