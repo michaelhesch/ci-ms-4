@@ -3,7 +3,7 @@ import time
 from django.http import HttpResponse
 
 from product.models import Product
-from checkout.models import Order, OrderItem
+from checkout.models import Order, OrderItem, ShippingDetails
 
 
 class StripeWH_Handler:
@@ -27,13 +27,14 @@ class StripeWH_Handler:
         Handler for payment_intent.succeeded webhook
         """
         intent = event.data.object
-        pid = intent.pid
+        pid = intent.id
         cart = intent.metadata.cart
+        order_num = intent.metadata.order_num
         save_defaults = intent.metadata.save_defaults
 
         billing_details = intent.charges.data[0].billing_details
         shipping_details = intent.charges.data[0].shipping_details
-        grand_total = round(intent.data.charges[0].amount /100, 2)        
+        grand_total = round(intent.data.charges[0].amount / 100, 2)        
 
         # Clean up shipping details data coming from Stripe
         for field, value in shipping_details.address.items():
@@ -46,9 +47,12 @@ class StripeWH_Handler:
         while attempt <= 5:
             try:
                 order = Order.objects.get(
-                    
-                    stripe_pid=pid,
+                    order_num=order_num,
+                    ordered=False,
                 )
+                if not order.stripe_pid:
+                    order.stripe_pid = pid
+                    order.save()
                 order_exists = True
                 break
             except Order.DoesNotExist:
@@ -60,13 +64,29 @@ class StripeWH_Handler:
                     status=200,
                 )
         else:
+            order = None
+            cart = intent.metadata.cart
             try:   
                 # Create new order in DB using form details passed from Stripe
                 order = Order.objects.create(
                         stripe_pid=pid,
                     )
+                # Create shipping details model and save to order
+                order_shipping_details = ShippingDetails(
+                    order_num=order_num,
+                    full_name=shipping_details.full_name,
+                    email=shipping_details.email,
+                    phone=shipping_details.phone,
+                    address1=shipping_details.address.line1,
+                    address2=shipping_details.address.line2,
+                    city=shipping_details.address.city,
+                    state=shipping_details.address.state,
+                    zipcode=shipping_details.address.postal_code
+                )
+                order.shipping_details = order_shipping_details
+                order.save()
                 # Loop through cart provided in metadata to add order items
-                for sku, item_data in json.load(cart).items():
+                for sku, item_data in json.loads(cart).items():
                     product = Product.objects.get(sku=sku)
                     order_item = OrderItem(
                         related_order=order,

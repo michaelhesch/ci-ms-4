@@ -4,8 +4,7 @@ from django_countries.widgets import CountrySelectWidget
 
 
 class CheckoutForm(forms.Form):
-    first_name = forms.CharField(max_length=100)
-    last_name = forms.CharField(max_length=100)
+    full_name = forms.CharField(max_length=100)
     email = forms.EmailField(max_length=250)
     phone = forms.CharField(max_length=20)
     address1 = forms.CharField(max_length=80,
@@ -27,17 +26,16 @@ class CheckoutForm(forms.Form):
 
 
     class Meta:
-        fields = ('first_name', 'last_name', 'email',
-                  'phone', 'address1', 'address2',
-                  'state', 'city', 'zipcode', 'country',
+        fields = ('full_name', 'email', 'phone',
+                  'address1', 'address2', 'state',
+                  'city', 'zipcode', 'country',
                   'save_defaults')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         placeholders = {
-            'first_name': 'First Name',
-            'last_name': 'Last Name',
+            'full_name': 'Full Name',
             'email': 'Email Address',
             'phone': 'Phone Number',
             'address1': 'Address',
@@ -48,7 +46,7 @@ class CheckoutForm(forms.Form):
             'country': 'Choose Country',
             'save_defaults': 'Save defaults to your profile?'
         }
-        self.fields['first_name'].widget.attrs['autofocus'] = True
+        self.fields['full_name'].widget.attrs['autofocus'] = True
 
         for field in self.fields:
             if self.fields[field].required:

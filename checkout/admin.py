@@ -21,6 +21,7 @@ class ShippingDetailsAdmin(admin.TabularInline):
     model = ShippingDetails
 
     list_display = (
+        'full_name'
         'address1',
         'address2',
         'city',

@@ -42,9 +42,17 @@ class CheckoutView(LoginRequiredMixin,View):
     def get(self, *args, **kwargs):
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         stripe_secret_key = settings.STRIPE_SECRET_KEY
-
+        
         cart = self.request.session.get('cart', {})
-        if not cart:
+        
+        if cart:
+            # Create blank order to get new order number if user has a cart
+            # Set UserProfile for new order
+            order = Order.objects.get_or_create(user=self.request.user, ordered=False)[0]
+            user_profile = UserProfile.objects.get(user=self.request.user)
+            order.user_profile = user_profile
+            order.save()
+        else:
             messages.warning(self.request, "There is nothing in your cart.")
             return redirect("home:store")
         
@@ -58,8 +66,10 @@ class CheckoutView(LoginRequiredMixin,View):
         )
 
         form = CheckoutForm()
+
         context = {
             'form': form,
+            'order': order,
             'stripe_public_key': stripe_public_key,
             'client_secret': intent.client_secret,
         }
@@ -71,6 +81,19 @@ class CheckoutView(LoginRequiredMixin,View):
             messages.warning(self.request, "There is nothing in your cart.")
             return redirect("home:store")
 
+        form_data = {
+            'full_name': self.request.POST['full_name'],
+            'email': self.request.POST['email'],
+            'phone': self.request.POST['phone'],
+            'address1': self.request.POST['address1'],
+            'address2': self.request.POST['address2'],
+            'city': self.request.POST['city'],
+            'state': self.request.POST['state'],
+            'zipcode': self.request.POST['zipcode'],
+            'country': self.request.POST['country'],
+            'email': self.request.POST['email'],
+        }
+
         form = CheckoutForm(self.request.POST or None)
 
         try:
@@ -78,8 +101,8 @@ class CheckoutView(LoginRequiredMixin,View):
 
             # If order form is valid, proceed with checkout logic
             if form.is_valid():
-                first_name = form.cleaned_data.get('first_name')
-                last_name = form.cleaned_data.get('last_name')
+                """
+                full_name = form.cleaned_data.get('full_name')
                 email = form.cleaned_data.get('email')
                 phone = form.cleaned_data.get('phone')
                 address1 = form.cleaned_data.get('address1')
@@ -97,8 +120,7 @@ class CheckoutView(LoginRequiredMixin,View):
                 shipping_details = ShippingDetails(
                     user=self.request.user,
                     order_num=order,
-                    first_name=first_name,
-                    last_name=last_name,
+                    full_name=full_name,
                     email=email,
                     phone=phone,
                     address1=address1,
@@ -126,7 +148,9 @@ class CheckoutView(LoginRequiredMixin,View):
                     profile.default_zipcode = zipcode
                     profile.default_country = country
                     profile.save()
-
+                    order.user_profile = profile
+                """
+                # Retrieve Stripe intent PID and save to order
                 pid = self.request.POST.get('client_secret').split('_secret')[0]
                 order.stripe_pid = pid
                 # Create order items for cart items, set attributes
