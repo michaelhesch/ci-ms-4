@@ -72,7 +72,7 @@ class StripeWH_Handler:
                         stripe_pid=pid,
                     )
                 # Create shipping details model and save to order
-                order_shipping_details = ShippingDetails(
+                order_shipping_details = ShippingDetails.objects.get_or_create(
                     order_num=order_num,
                     full_name=shipping_details.full_name,
                     email=shipping_details.email,
@@ -82,7 +82,7 @@ class StripeWH_Handler:
                     city=shipping_details.address.city,
                     state=shipping_details.address.state,
                     zipcode=shipping_details.address.postal_code
-                )
+                )[0]
                 order.shipping_details = order_shipping_details
                 order.save()
                 # Loop through cart provided in metadata to add order items

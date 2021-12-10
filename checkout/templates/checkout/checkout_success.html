@@ -11,38 +11,53 @@
 {% block content %}
 <div class="row">
     <div class="col">
-        {% if order_history %}
-            <h2>Order History: Order Details Below</h2>
-            <p>Please see your order details below. Your order was submitted on {{ order.order_date|date:"SHORT_DATE_FORMAT" }}.</p>
-            <p>An order confirmation email was sent to {{ order.shipping_details.email }}.</p>
-        {% else %}
-            <h2>Order Complete - Thank you!</h2>
-            <p>Please see your order details below.  A confirmation will be sent to {{ order.shipping_details.email }}.</p>
-        {% endif %}
+
     </div>
 </div>
 <div class="row">
     <div class="col">
-        <div class="card">
+        <div class="card my-3">
             <div class="card-body">
-                <div>Order Number: {{ order.order_num }}</div>
-                {% if order_history %}
-                <div>Order Items:</div>
-                <ul style="list-unstyled">
-                    {% for item in order.orderitems.all %}
-                        <li><strong><a href="{{ item.item.get_absolute_url }}" alt="{{ item.item.product_name }}">{{ item.item.product_name }}</a></strong>: {{ item.quantity }}x at ${{ item.item.price|intcomma }} each.</li>
-                    {% endfor %}
-                </ul>
-                <div>Order Total: ${{ order.grand_total|intcomma }}</div>
-                {% else %}
-                <div>Order Items:</div>
-                <ul style="list-unstyled">
-                    {% for item in order.orderitems.all %}
-                        <li><strong><a href="{{ item.item.get_absolute_url }}" alt="{{ item.item.product_name }}">{{ item.item.product_name }}</a></strong>: {{ item.quantity }}x at ${{ item.item.price|intcomma }} each.</li>
-                    {% endfor %}
-                </ul>
-                <div>Order Total: ${{ order.grand_total|intcomma }}</div>
-                {% endif %}
+                <div class="table-responsive text-nowrap">
+                    {% if order_history %}
+                    <h2>Order History</h2>
+                    <p>Please see your order details below. Your order was submitted on {{ order.order_date|date:"SHORT_DATE_FORMAT" }}.</p>
+                    <p>An order confirmation email was sent to {{ order.shipping_details.email }}.</p>
+                    {% else %}
+                    <h2>Order Complete - Thank you!</h2>
+                    <p>Please see your order details below.  A confirmation will be sent to {{ order.shipping_details.email }}.</p>
+                    {% endif %}
+                    <p>Order Number: {{ order.order_num }}</p>
+                    <h3>Order Summary:</h3>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Product Price</th>
+                                <th scope="col">Seller (Store)</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order_item in order.orderitems.all %}
+                            <tr>
+                                <td scope="row" class="p-3 w-25">{{ forloop.counter }}. <img class="img-fluid rounded pl-2" style="max-width: 50%;" src="{{ order_item.item.image_url }}"></td>
+                                <td scope="row"><a href="{{ order_item.item.get_absolute_url }}" alt="{{ order_item.item.product_name }}">{{ order_item.item.product_name }}</a></td>
+                                <td scope="row">${{ order_item.item.price|intcomma }}</td>
+                                <td scope="row"> TBU </td>
+                                <td scope="row">{{ order_item.quantity }}</td>
+                                <td scope="row">${{ order_item.item_total|intcomma }}</td>
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                <td colspan="5" scope="row"><strong>Order Total:</strong></td>
+                                <td scope="row"><strong>${{ order.grand_total|intcomma }}</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <a href="{% url 'home:store' %}" class="button btn btn-primary btn-small mt-1">Continue Shopping</a>

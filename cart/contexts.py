@@ -1,5 +1,4 @@
 from django.conf import settings
-from liffey.settings import FREE_DELIVERY_THRESHOLD
 from django.shortcuts import get_object_or_404
 
 from product.models import Product
@@ -37,7 +36,7 @@ def cart_contents(request):
         'item_count': item_count,
         'delivery': delivery,
         'free_delivery_delta': free_delivery_delta,
-        'free_delivery_threshold': FREE_DELIVERY_THRESHOLD,
+        'free_delivery_threshold': settings.FREE_DELIVERY_THRESHOLD,
         'grand_total': grand_total,
     }
 

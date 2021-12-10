@@ -49,10 +49,20 @@ class Product(models.Model):
     def __str__(self):
         return self.product_name
 
+    # Helper function to create list of suggested similar products
+    def get_similar_products(self):
+        similar_products = list(self.category.products.exclude(sku=self.sku))
+        if len(similar_products) >= 4:
+            similar_products = random.sample(similar_products, 4)
+
+        return similar_products
+        
+
     # Placeholder for function to get thumbnail, or make thumbnail from uploaded image
 
 
     # Placeholder for make thumbnail helper function
+
 
     # Helper function to determine if a 'New' tag should be added to items in the store
     def determine_if_new(self):
