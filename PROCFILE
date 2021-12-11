@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath liffey liffey.wsgi
+web: gunicorn liffey.wsgi:application
