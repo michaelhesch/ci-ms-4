@@ -138,7 +138,7 @@ WSGI_APPLICATION = 'liffey.wsgi.application'
 
 if 'DATABASE_URL' in env:
     DATABASES = {
-        'default': dj_database_url.parse()
+        'default': dj_database_url.parse(env('DATABASE_URL'))
     }
 else:
     DATABASES = {
