@@ -19,13 +19,13 @@ class StripeWH_Handler:
         """
         return HttpResponse(
             content=f'Unhandled webhook received: {event["type"]}',
-            status=200,
-        )
+            status=200)
 
     def handle_payment_intent_succeeded(self, event):
         """
         Handler for payment_intent.succeeded webhook
         """
+        # Gather data from Stripe payment intent
         intent = event.data.object
         pid = intent.id
         cart = intent.metadata.cart
@@ -36,12 +36,13 @@ class StripeWH_Handler:
         shipping_details = intent.charges.data[0].shipping_details
         grand_total = round(intent.data.charges[0].amount / 100, 2)        
 
-        # Clean up shipping details data coming from Stripe
+        # Clean up shipping details data coming from Stripe to remove blank strings
         for field, value in shipping_details.address.items():
             if value == "":
                 shipping_details.address[field] = None
 
-        # Assume order does not exist yet, check for existing order
+        # Assume order does not exist yet, check for existing order with delay counter
+        # Will check for the order 5 times, delaying for one second each time
         order_exists = False
         attempt = 1
         while attempt <= 5:
@@ -58,11 +59,12 @@ class StripeWH_Handler:
             except Order.DoesNotExist:
                 attempt += 1
                 time.sleep(1)
+        # If order exists already, return 200 response to Stripe
         if order_exists:
             return HttpResponse(
                     content=f'Webhook received: {event["type"]} | SUCCESS: Order exists in database.',
-                    status=200,
-                )
+                    status=200)
+        # If order does not exist, proceed with creating new order
         else:
             order = None
             cart = intent.metadata.cart
@@ -96,6 +98,7 @@ class StripeWH_Handler:
                         ordered=True,
                     )
                     order_item.save()
+            # If an error occurs, delete order if created and return error to Stripe
             except Exception as e:
                 if order:
                     order.delete()
@@ -103,9 +106,8 @@ class StripeWH_Handler:
                     status=500)
 
         return HttpResponse(
-            content=f'Webhook received: {event["type"]} | SUCCESS: Order created in webhook.',
-            status=200,
-        )
+            content=f'Webhook received: {event["type"]} | SUCCESS: Order created in webhook handler.',
+            status=200)
 
     def handle_payment_intent_failed(self, event):
         """
@@ -113,5 +115,4 @@ class StripeWH_Handler:
         """
         return HttpResponse(
             content=f'Webhook received: {event["type"]}',
-            status=200,
-        )
+            status=200)
