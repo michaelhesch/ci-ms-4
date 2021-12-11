@@ -27,6 +27,7 @@ class StripeWH_Handler:
         """
         # Gather data from Stripe payment intent
         intent = event.data.object
+        print(intent)
         pid = intent.id
         cart = intent.metadata.cart
         order_num = intent.metadata.order_num
@@ -87,7 +88,8 @@ class StripeWH_Handler:
                     address2=shipping_details.address.line2,
                     city=shipping_details.address.city,
                     state=shipping_details.address.state,
-                    zipcode=shipping_details.address.postal_code
+                    zipcode=shipping_details.address.postal_code,
+                    country=shipping_details.address.country,
                 )[0]
                 order.shipping_details = order_shipping_details
                 print("Shipping details object created successfully")

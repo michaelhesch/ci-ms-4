@@ -46,6 +46,7 @@ card.addEventListener("change", function (event) {
 // Handle form submission
 var form = document.getElementById('checkout-form');
 var orderNumber = $('input[name="order_num"]').val();
+console.log(orderNumber)
 
 form.addEventListener('submit', function(ev) {
     ev.preventDefault();
@@ -63,6 +64,7 @@ form.addEventListener('submit', function(ev) {
     var url = '/checkout/cache_checkout_data/';
 
     $.post(url, postData).done(function() {
+      console.log(postData);
       // Execute Stripe function if 200 server response returned
       stripe.confirmCardPayment(clientSecret, {
         payment_method: {
@@ -75,7 +77,8 @@ form.addEventListener('submit', function(ev) {
                 line1: $.trim(form.address1.value),
                 line2: $.trim(form.address2.value),
                 city: $.trim(form.city.value),
-                state: $.trim(form.state.value)
+                state: $.trim(form.state.value),
+                country: $.trim(form.country.value),
               }
             }
         },
