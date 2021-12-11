@@ -32,9 +32,8 @@ class StripeWH_Handler:
         order_num = intent.metadata.order_num
         save_defaults = intent.metadata.save_defaults
 
-        billing_details = intent.charges.data[0].billing_details
         shipping_details = intent.charges.data[0].shipping_details
-        grand_total = round(intent.data.charges[0].amount / 100, 2)        
+        grand_total = round(intent.charges.data[0].amount / 100, 2)        
 
         # Clean up shipping details data coming from Stripe to remove blank strings
         for field, value in shipping_details.address.items():
@@ -48,12 +47,14 @@ class StripeWH_Handler:
         while attempt <= 5:
             try:
                 order = Order.objects.get(
+                    user=self.request.user,
                     order_num=order_num,
                     ordered=False,
                 )
                 if not order.stripe_pid:
                     order.stripe_pid = pid
                     order.save()
+                print("Order found in WH loop")
                 order_exists = True
                 break
             except Order.DoesNotExist:
@@ -61,16 +62,19 @@ class StripeWH_Handler:
                 time.sleep(1)
         # If order exists already, return 200 response to Stripe
         if order_exists:
+            print("Order found in DB")
             return HttpResponse(
                     content=f'Webhook received: {event["type"]} | SUCCESS: Order exists in database.',
                     status=200)
         # If order does not exist, proceed with creating new order
         else:
+            print("Order not found, attempting to create")
             order = None
             cart = intent.metadata.cart
             try:   
                 # Create new order in DB using form details passed from Stripe
                 order = Order.objects.create(
+                        user=self.request.user,
                         stripe_pid=pid,
                     )
                 # Create shipping details model and save to order
@@ -86,9 +90,11 @@ class StripeWH_Handler:
                     zipcode=shipping_details.address.postal_code
                 )[0]
                 order.shipping_details = order_shipping_details
+                print("Shipping details object created successfully")
                 order.save()
                 # Loop through cart provided in metadata to add order items
                 for sku, item_data in json.loads(cart).items():
+                    print(f"Adding order item {sku}")
                     product = Product.objects.get(sku=sku)
                     order_item = OrderItem(
                         related_order=order,
@@ -104,7 +110,7 @@ class StripeWH_Handler:
                     order.delete()
                 return HttpResponse(content=f'Webhook received: {event["type"]} | ERROR: {e}',
                     status=500)
-
+        print("Order created by webhook")
         return HttpResponse(
             content=f'Webhook received: {event["type"]} | SUCCESS: Order created in webhook handler.',
             status=200)
@@ -114,5 +120,5 @@ class StripeWH_Handler:
         Handler for payment_intent.payment_failed webhook
         """
         return HttpResponse(
-            content=f'Webhook received: {event["type"]}',
+            content=f'Webhook received: {event["type"]} | ERROR: Payment failed.',
             status=200)
