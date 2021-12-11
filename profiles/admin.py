@@ -5,7 +5,6 @@ from .models import UserProfile
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = (
         'user',
-        'store_name',
         'verified',
         'created_on',
     )
