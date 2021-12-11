@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.views.generic import View, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import UserProfile
+from .models import UserProfile, VendorProfile
 from checkout.models import Order
 
 
@@ -23,6 +23,12 @@ class ProfileView(LoginRequiredMixin, View):
         }
 
         return render(self.request, "profile.html", context)
+
+
+class VendorProfileView(LoginRequiredMixin, ListView):
+    model = VendorProfile
+    paginate_by = 6
+    template_name='store.html'
 
 
 class OrderHistoryView(LoginRequiredMixin, ListView):

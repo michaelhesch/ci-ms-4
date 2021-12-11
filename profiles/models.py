@@ -18,8 +18,6 @@ class UserProfile(models.Model):
     default_country = CountryField(blank_label='Select Country', null=True, blank=True)
     avatar = models.ImageField(upload_to="avatars/", null=True, blank=True)
     avatar_url = models.URLField(null=True, blank=True)
-    store_name = models.CharField(max_length=100, null=True, blank=True)
-    seller_balance = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     verified = models.BooleanField(default=False)
     created_on = models.DateTimeField(auto_now_add=True)
 
@@ -43,3 +41,9 @@ def create_update_profile(sender,instance, created, **kwargs):
         UserProfile.objects.create(user=instance)
     # If user profile exists already, save profile
     instance.userprofile.save()
+
+
+class VendorProfile(models.Model):
+    store_owner = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
+    store_name = models.CharField(max_length=100, null=True, blank=True)
+    vendor_balance = models.DecimalField(max_digits=12, decimal_places=2, default=0)
