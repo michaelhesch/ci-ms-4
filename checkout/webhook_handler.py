@@ -33,7 +33,7 @@ class StripeWH_Handler:
         order_num = intent.metadata.order_num
         save_defaults = intent.metadata.save_defaults
 
-        shipping_details = intent.charges.data[0].shipping_details
+        shipping_details = intent.charges.data[0].shipping
         grand_total = round(intent.charges.data[0].amount / 100, 2)        
 
         # Clean up shipping details data coming from Stripe to remove blank strings

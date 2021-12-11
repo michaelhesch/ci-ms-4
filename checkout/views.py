@@ -23,13 +23,14 @@ def cache_checkout_data(request):
         # Retrieve payment intent ID from the post request
         pid = request.POST.get('client_secret').split('_secret')[0]
         order_num = request.POST.get('order_num')
-        print(order_num)
+        save_defaults = request.POST.get('save_defaults')
+        cart = json.dumps(request.session.get('cart', {}))
         # Setup Stripe to modify the payment intent
         stripe.api_key = settings.STRIPE_SECRET_KEY
         # Modify payment intent with additional metadata fields not captured in intent
         stripe.PaymentIntent.modify(pid, metadata={
-            'cart': json.dumps(request.session.get('cart', {})),
-            'save_defaults': request.POST.get('save_defaults'),
+            'cart': cart,
+            'save_defaults': save_defaults,
             'order_num': order_num,
             'user': request.user,
         })
