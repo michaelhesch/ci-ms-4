@@ -45,6 +45,7 @@ card.addEventListener("change", function (event) {
 
 // Handle form submission
 var form = document.getElementById('checkout-form');
+var orderNumber = $('input[name="order_num"]').val();
 
 form.addEventListener('submit', function(ev) {
     ev.preventDefault();
@@ -53,7 +54,6 @@ form.addEventListener('submit', function(ev) {
 
     var saveDefaults = Boolean($('#id-save-defaults').attr('checked'));
     var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
-    var orderNumber = $('input[name="order_num"]').val();
     var postData = {
       'csrfmiddlewaretoken': csrfToken,
       'client_secret': clientSecret,
