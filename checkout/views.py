@@ -24,11 +24,14 @@ def cache_checkout_data(request):
         pid = request.POST.get('client_secret').split('_secret')[0]
         # Setup Stripe to modify the payment intent
         stripe.api_key = settings.STRIPE_SECRET_KEY
+        # Modify payment intent with additional metadata fields not captured in intent
         stripe.PaymentIntent.modify(pid, metadata={
             'cart': json.dumps(request.session.get('cart', {})),
             'save_defaults': request.POST.get('save_defaults'),
+            'order_number': request.POST.get('order_number'),
             'user': request.user,
         })
+        # Return 200 to continue processing in checkout.js
         return HttpResponse(status=200)
     except Exception as e:
         messages.error(request, 'Sorry, your payment cannot \
@@ -66,14 +69,14 @@ class CheckoutView(LoginRequiredMixin,View):
         )
 
         form = CheckoutForm()
-
+        template = 'checkout/checkout.html'
         context = {
             'form': form,
             'order': order,
             'stripe_public_key': stripe_public_key,
             'client_secret': intent.client_secret,
         }
-        return render(self.request, "checkout.html", context)
+        return render(self.request, template, context)
 
     def post(self, *args, **kwargs):
         cart = self.request.session.get('cart', {})
@@ -97,11 +100,11 @@ class CheckoutView(LoginRequiredMixin,View):
         form = CheckoutForm(self.request.POST or None)
 
         try:
+            # Retrieve current order or create new order if missing
             order = Order.objects.get_or_create(user=self.request.user, ordered=False)[0]
 
             # If order form is valid, proceed with checkout logic
-            if form.is_valid():
-                """
+            if form.is_valid():  
                 full_name = form.cleaned_data.get('full_name')
                 email = form.cleaned_data.get('email')
                 phone = form.cleaned_data.get('phone')
@@ -116,8 +119,8 @@ class CheckoutView(LoginRequiredMixin,View):
                 else:
                     save_defaults = False
 
-                # Create shipping details model for the order
-                shipping_details = ShippingDetails(
+                # Create shipping details object and save to order
+                shipping_details = ShippingDetails.objects.create(
                     user=self.request.user,
                     order_num=order,
                     full_name=full_name,
@@ -149,7 +152,7 @@ class CheckoutView(LoginRequiredMixin,View):
                     profile.default_country = country
                     profile.save()
                     order.user_profile = profile
-                """
+
                 # Retrieve Stripe intent PID and save to order
                 pid = self.request.POST.get('client_secret').split('_secret')[0]
                 order.stripe_pid = pid
@@ -191,19 +194,6 @@ class CheckoutView(LoginRequiredMixin,View):
         except ObjectDoesNotExist:
             messages.error(self.request, "You do not have an active order.")
             return redirect("cart:cart")
-
-
-class CheckoutSuccessView(LoginRequiredMixin, View):
-    def get(self, request, order):
-
-        if 'cart' in request.session:
-            del request.session['cart']
-
-        template = 'checkout/checkout_success.html'
-        context = {
-            'order': order,
-        }
-        return render(self.request, template, context)
 
 
 class OrderHistoryView(LoginRequiredMixin, View):

@@ -1,5 +1,5 @@
 import random
-from datetime import datetime, date
+from datetime import datetime
 from django.db import models
 from django.shortcuts import reverse
 from django.utils.text import slugify
