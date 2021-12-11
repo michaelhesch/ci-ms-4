@@ -28,7 +28,7 @@ def cache_checkout_data(request):
         stripe.PaymentIntent.modify(pid, metadata={
             'cart': json.dumps(request.session.get('cart', {})),
             'save_defaults': request.POST.get('save_defaults'),
-            'order_number': request.POST.get('order_number'),
+            'order_num': request.POST.get('order_num'),
             'user': request.user,
         })
         # Return 200 to continue processing in checkout.js

@@ -75,7 +75,8 @@ form.addEventListener('submit', function(ev) {
                 line1: $.trim(form.address1.value),
                 line2: $.trim(form.address2.value),
                 city: $.trim(form.city.value),
-                state: $.trim(form.state.value)
+                state: $.trim(form.state.value),
+                country: $.trim(form.country.value),
               }
             }
         },
