@@ -22,15 +22,20 @@ def cache_checkout_data(request):
     try:
         # Retrieve payment intent ID from the post request
         pid = request.POST.get('client_secret').split('_secret')[0]
+        order_num = request.POST.get('order_num')
+        print(order_num)
         # Setup Stripe to modify the payment intent
         stripe.api_key = settings.STRIPE_SECRET_KEY
         # Modify payment intent with additional metadata fields not captured in intent
         stripe.PaymentIntent.modify(pid, metadata={
             'cart': json.dumps(request.session.get('cart', {})),
             'save_defaults': request.POST.get('save_defaults'),
-            'order_num': request.POST.get('order_num'),
+            'order_num': order_num,
             'user': request.user,
         })
+        print(request)
+        print(request.POST.get('order_num'))
+        
         # Return 200 to continue processing in checkout.js
         return HttpResponse(status=200)
     except Exception as e:
