@@ -35,13 +35,16 @@ class StripeWH_Handler:
         user_id = intent.metadata.user_id
         print(intent)
         shipping_details = intent.charges.data[0].shipping
-        grand_total = round(intent.charges.data[0].amount / 100, 2)        
-
+        grand_total = round(intent.charges.data[0].amount / 100, 2)
+        intent_user = intent.metadata.user        
+        order_user = User.objects.get(user__username=intent_user)
         # Clean up shipping details data coming from Stripe to remove blank strings
         for field, value in shipping_details.address.items():
             if value == "":
                 shipping_details.address[field] = None
 
+        order_num_test = Order.objects.get(order_num=order_num)
+        print(order_num_test)
         # Assume order does not exist yet, check for existing order with delay counter
         # Will check for the order 5 times, delaying for one second each time
         order_exists = False
@@ -49,13 +52,14 @@ class StripeWH_Handler:
         while attempt <= 5:
             try:
                 order = Order.objects.get(
-                    user=user_id,
+                    user=order_user,
                     order_num=order_num,
                     ordered=False,
                 )
+                """
                 if order.stripe_pid == None:
                     order.stripe_pid = pid
-                    order.save()
+                    order.save()"""
                 print("Order found in WH loop")
                 order_exists = True
                 break
@@ -78,12 +82,11 @@ class StripeWH_Handler:
                 # Create new order in DB using form details passed from Stripe
                 order = Order.objects.get_or_create(
                         user=user_id,
-                        stripe_pid=pid,
-                    )[0]
+                    )
                 # Create shipping details model and save to order
                 order_shipping_details = ShippingDetails.objects.get_or_create(
                     order_num=order.order_num,
-                    full_name=shipping_details.full_name,
+                    full_name=intent.charges.data.name,
                     email=shipping_details.email,
                     phone=shipping_details.phone,
                     address1=shipping_details.address.line1,
@@ -102,7 +105,7 @@ class StripeWH_Handler:
                     product = Product.objects.get(sku=sku)
                     order_item = OrderItem(
                         related_order=order,
-                        buyer=user_id,
+                        buyer=order_user,
                         item=product,
                         quantity=item_data,
                         ordered=True,
