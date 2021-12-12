@@ -48,6 +48,7 @@ class StripeWH_Handler:
         while attempt <= 5:
             try:
                 order = Order.objects.get(
+                    username=intent.metadata.user,
                     order_num=order_num,
                     ordered=False,
                 )
@@ -75,7 +76,7 @@ class StripeWH_Handler:
             try:   
                 # Create new order in DB using form details passed from Stripe
                 order = Order.objects.get_or_create(
-                        user=intent.metadata.user,
+                        username=intent.metadata.user,
                         stripe_pid=pid,
                     )[0]
                 # Create shipping details model and save to order
