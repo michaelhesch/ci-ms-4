@@ -1,5 +1,7 @@
 import random
 from datetime import datetime
+from decimal import Decimal
+from django.conf import settings
 from django.db import models
 from django.shortcuts import reverse
 from django.utils.text import slugify
@@ -21,13 +23,30 @@ class Category(models.Model):
         return self.category_name
 
 
+class ProductName(models.Model):
+    product_name = models.CharField(max_length=200, default="")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name_plural = 'Product Names'
+    
+    def __str__(self):
+        return self.product_name
+
+
 class Product(models.Model):
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     sku = models.CharField(max_length=20, null=False, editable=False)
     seller = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    product_name = models.CharField(max_length=200)
+    product_name = models.ForeignKey(ProductName, on_delete=models.CASCADE)
     slug = models.SlugField(max_length=200)
     description = models.TextField()
+    brand = models.CharField(max_length=120)
+    boost_clock = models.CharField(max_length=15)
+    memory_clock = models.CharField(max_length=15)
+    memory_size = models.CharField(max_length=20)
+    memory_type = models.CharField(max_length=10)
+    interface_type = models.CharField(max_length=40)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     image = models.ImageField(upload_to="product/", null=True, blank=True)
     image_url = models.URLField(null=True, blank=True)
@@ -42,12 +61,12 @@ class Product(models.Model):
     # Over-ride default save function to set slug field
     def save(self, *args, **kwargs):
         self.sku = random.randrange(10**1, 10**20)
-        slug_name = str(self.seller) + str(self.product_name)
+        slug_name = str(self.seller) + str(self.product_name.product_name)
         self.slug = slugify(slug_name)
         super(Product, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.product_name
+        return self.product_name.product_name
 
     # Helper function to create list of suggested similar products
     def get_similar_products(self):
@@ -97,6 +116,10 @@ class Product(models.Model):
             'slug': self.slug,
             })
 
+    # Helper function to calculate the item's selling fee
+    def get_selling_fee(self):
+        selling_fee = round(self.price * round(Decimal(settings.SELLING_FEE_PERCENTAGE / 100), 2), 2)
+        return selling_fee
 
 class Review(models.Model):
     title = models.CharField(max_length=100)
