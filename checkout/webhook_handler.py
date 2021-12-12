@@ -51,11 +51,7 @@ class StripeWH_Handler:
         attempt = 1
         while attempt <= 5:
             try:
-                order = Order.objects.get(
-                    user=order_user,
-                    order_num=order_num_test,
-                    ordered=False,
-                )
+                order = Order.objects.get(order_num=order_num)
                 """
                 if order.stripe_pid == None:
                     order.stripe_pid = pid
@@ -83,7 +79,7 @@ class StripeWH_Handler:
                 order = Order.objects.get_or_create(
                         user=order_user,
                         ordered=False,
-                    )
+                    )[0]
                 # Create shipping details model and save to order
                 order_shipping_details = ShippingDetails.objects.get_or_create(
                     order_num=order.order_num,
