@@ -73,6 +73,11 @@
             <div class="card" style="height: 100%;">
                 <!--Card image-->
                 <div class="view overlay">
+                {% if product.determine_if_new %}
+                <div class="text-left pl-2 pt-1">
+                  <span class="badge blue">NEW</span>
+                </div>
+                {% endif %}
                 {% if product.image_url %}
                     <img
                         src="{{ product.image_url }}"
@@ -102,9 +107,6 @@
                     <h5>
                         <strong>
                         <a href="{{ product.get_absolute_url }}" class="dark-grey-text"> {{ product.product_name }}
-                          {% if product.determine_if_new %}
-                            <span class="badge blue">NEW</span>
-                          {% endif %}
                         </a>
                         </strong>
                     </h5>
