@@ -32,7 +32,7 @@ class StripeWH_Handler:
         cart = intent.metadata.cart
         order_num = intent.metadata.order_num
         save_defaults = intent.metadata.save_defaults
-        order_user = User.objects.get(user=intent.metadata.user)
+        order_user = User.objects.get(user=self.user)
 
         shipping_details = intent.charges.data[0].shipping
         grand_total = round(intent.charges.data[0].amount / 100, 2)        
