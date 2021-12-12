@@ -35,6 +35,7 @@ def cache_checkout_data(request):
             'user': request.user,
         })
         print(request)
+        print(request.user)
         print(request.POST.get('order_num'))
 
         # Return 200 to continue processing in checkout.js
