@@ -32,6 +32,7 @@ class StripeWH_Handler:
         cart = intent.metadata.cart
         order_num = intent.metadata.order_num
         save_defaults = intent.metadata.save_defaults
+        user_id = intent.metadata.user_id
         print(intent)
         shipping_details = intent.charges.data[0].shipping
         grand_total = round(intent.charges.data[0].amount / 100, 2)        
@@ -48,6 +49,7 @@ class StripeWH_Handler:
         while attempt <= 5:
             try:
                 order = Order.objects.get(
+                    user=user_id,
                     order_num=order_num,
                     ordered=False,
                 )
@@ -75,7 +77,7 @@ class StripeWH_Handler:
             try:
                 # Create new order in DB using form details passed from Stripe
                 order = Order.objects.get_or_create(
-                        user=intent.metadata.user,
+                        user=user_id,
                         stripe_pid=pid,
                     )[0]
                 # Create shipping details model and save to order
@@ -100,7 +102,7 @@ class StripeWH_Handler:
                     product = Product.objects.get(sku=sku)
                     order_item = OrderItem(
                         related_order=order,
-                        buyer=intent.metadata.user,
+                        buyer=user_id,
                         item=product,
                         quantity=item_data,
                         ordered=True,
