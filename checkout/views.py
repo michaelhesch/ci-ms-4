@@ -36,7 +36,7 @@ def cache_checkout_data(request):
         })
         print(request)
         print(request.POST.get('order_num'))
-        
+
         # Return 200 to continue processing in checkout.js
         return HttpResponse(status=200)
     except Exception as e:
@@ -53,7 +53,6 @@ class CheckoutView(LoginRequiredMixin,View):
         stripe_secret_key = settings.STRIPE_SECRET_KEY
         
         cart = self.request.session.get('cart', {})
-        
         if cart:
             # Create blank order to get new order number if user has a cart
             # Set UserProfile for new order
