@@ -69,14 +69,16 @@ class StripeWH_Handler:
         # If order does not exist, proceed with creating new order
         else:
             print("Order not found, attempting to create")
+            print(self.user)
             order = None
             cart = intent.metadata.cart
+            print(cart)
             try:   
                 # Create new order in DB using form details passed from Stripe
-                order = Order.objects.create(
+                order = Order.objects.get_or_create(
                         user=self.user,
                         stripe_pid=pid,
-                    )
+                    )[0]
                 # Create shipping details model and save to order
                 order_shipping_details = ShippingDetails.objects.get_or_create(
                     order_num=order_num,
