@@ -37,7 +37,7 @@ class StripeWH_Handler:
         shipping_details = intent.charges.data[0].shipping
         grand_total = round(intent.charges.data[0].amount / 100, 2)
         intent_user = intent.metadata.user        
-        order_user = User.objects.get(user__username=intent_user)
+        order_user = User.objects.get(username=intent_user)
         # Clean up shipping details data coming from Stripe to remove blank strings
         for field, value in shipping_details.address.items():
             if value == "":
