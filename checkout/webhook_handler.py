@@ -1,6 +1,7 @@
 import json
 import time
 from django.http import HttpResponse
+from django.contrib.auth.models import User
 
 from product.models import Product
 from checkout.models import Order, OrderItem, ShippingDetails
@@ -27,11 +28,11 @@ class StripeWH_Handler:
         """
         # Gather data from Stripe payment intent
         intent = event.data.object
-        print(intent)
         pid = intent.id
         cart = intent.metadata.cart
         order_num = intent.metadata.order_num
         save_defaults = intent.metadata.save_defaults
+        user = User.objects.get(user=intent.metadata.user)
 
         shipping_details = intent.charges.data[0].shipping
         grand_total = round(intent.charges.data[0].amount / 100, 2)        
@@ -48,7 +49,6 @@ class StripeWH_Handler:
         while attempt <= 5:
             try:
                 order = Order.objects.get(
-                    user=self.request.user,
                     order_num=order_num,
                     ordered=False,
                 )
@@ -75,7 +75,7 @@ class StripeWH_Handler:
             try:   
                 # Create new order in DB using form details passed from Stripe
                 order = Order.objects.create(
-                        user=self.request.user,
+                        user=self.user,
                         stripe_pid=pid,
                     )
                 # Create shipping details model and save to order
