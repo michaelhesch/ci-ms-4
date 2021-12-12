@@ -72,11 +72,11 @@ class StripeWH_Handler:
             print(self.user)
             order = None
             cart = intent.metadata.cart
-            print(cart)
+            print(intent.metadata.user)
             try:   
                 # Create new order in DB using form details passed from Stripe
                 order = Order.objects.get_or_create(
-                        user=self.user,
+                        user=intent.metadata.user,
                         stripe_pid=pid,
                     )[0]
                 # Create shipping details model and save to order
