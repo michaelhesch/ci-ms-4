@@ -69,7 +69,6 @@ class StripeWH_Handler:
         # If order does not exist, proceed with creating new order
         else:
             print("Order not found, attempting to create")
-            print(self.user)
             order = None
             cart = intent.metadata.cart
             print(intent.metadata.user)
