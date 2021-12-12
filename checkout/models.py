@@ -47,7 +47,6 @@ class Order(models.Model):
     # Calculate grand total for all order items
     def update_grand_total(self):
         free_shipping = settings.FREE_DELIVERY_THRESHOLD
-        shipping = int(10)
         self.grand_total = self.orderitems.aggregate(Sum('item_total'))['item_total__sum'] or 0
         if self.grand_total <= free_shipping:
             self.shipping = int(10)
