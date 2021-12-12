@@ -32,19 +32,16 @@ class StripeWH_Handler:
         cart = intent.metadata.cart
         order_num = intent.metadata.order_num
         save_defaults = intent.metadata.save_defaults
-        user_id = intent.metadata.user_id
-        print(intent)
         shipping_details = intent.charges.data[0].shipping
         grand_total = round(intent.charges.data[0].amount / 100, 2)
         intent_user = intent.metadata.user        
         order_user = User.objects.get(username=intent_user)
+
         # Clean up shipping details data coming from Stripe to remove blank strings
         for field, value in shipping_details.address.items():
             if value == "":
                 shipping_details.address[field] = None
 
-        order_num_test = Order.objects.get(order_num=order_num)
-        print(order_num_test)
         # Assume order does not exist yet, check for existing order with delay counter
         # Will check for the order 5 times, delaying for one second each time
         order_exists = False
@@ -52,11 +49,6 @@ class StripeWH_Handler:
         while attempt <= 5:
             try:
                 order = Order.objects.get(order_num=order_num)
-                """
-                if order.stripe_pid == None:
-                    order.stripe_pid = pid
-                    order.save()"""
-                print("Order found in WH loop")
                 order_exists = True
                 break
             except Order.DoesNotExist:
@@ -64,22 +56,18 @@ class StripeWH_Handler:
                 time.sleep(1)
         # If order exists already, return 200 response to Stripe
         if order_exists:
-            print("Order found in DB")
             return HttpResponse(
                     content=f'Webhook received: {event["type"]} | SUCCESS: Order exists in database.',
                     status=200)
         # If order does not exist, proceed with creating new order
         else:
-            print("Order not found, attempting to create")
             order = None
             cart = intent.metadata.cart
-            print(intent.metadata.user)
             try:
                 # Create new order in DB using form details passed from Stripe
-                order = Order.objects.get_or_create(
+                order = Order.objects.create(
                         user=order_user,
-                        ordered=False,
-                    )[0]
+                    )
                 # Create shipping details model and save to order
                 order_shipping_details = ShippingDetails.objects.get_or_create(
                     order_num=order.order_num,
@@ -94,11 +82,9 @@ class StripeWH_Handler:
                     country=shipping_details.address.country,
                 )[0]
                 order.shipping_details = order_shipping_details
-                print("Shipping details object created successfully")
                 order.save()
                 # Loop through cart provided in metadata to add order items
                 for sku, item_data in json.loads(cart).items():
-                    print(f"Adding order item {sku}")
                     product = Product.objects.get(sku=sku)
                     order_item = OrderItem(
                         related_order=order,
@@ -114,7 +100,6 @@ class StripeWH_Handler:
                     order.delete()
                 return HttpResponse(content=f'Webhook received: {event["type"]} | ERROR: {e}',
                     status=500)
-        print("Order created by webhook")
         return HttpResponse(
             content=f'Webhook received: {event["type"]} | SUCCESS: Order created in webhook handler.',
             status=200)
