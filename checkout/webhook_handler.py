@@ -53,7 +53,7 @@ class StripeWH_Handler:
             try:
                 order = Order.objects.get(
                     user=order_user,
-                    order_num=order_num,
+                    order_num=order_num_test,
                     ordered=False,
                 )
                 """
@@ -81,7 +81,8 @@ class StripeWH_Handler:
             try:
                 # Create new order in DB using form details passed from Stripe
                 order = Order.objects.get_or_create(
-                        user=user_id,
+                        user=order_user,
+                        ordered=False,
                     )
                 # Create shipping details model and save to order
                 order_shipping_details = ShippingDetails.objects.get_or_create(
