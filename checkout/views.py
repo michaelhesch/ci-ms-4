@@ -33,9 +33,11 @@ def cache_checkout_data(request):
             'save_defaults': save_defaults,
             'order_num': order_num,
             'user': request.user,
+            'user_id': request.user.id
         })
         print(request)
         print(request.user)
+        print(request.user.id)
         print(request.POST.get('order_num'))
 
         # Return 200 to continue processing in checkout.js
