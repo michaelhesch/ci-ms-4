@@ -31,6 +31,7 @@ class UserProfile(Profile):
     avatar_url = models.URLField(null=True, blank=True)
     verified = models.BooleanField(default=False)
     created_on = models.DateTimeField(auto_now_add=True)
+    vendor = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-created_on']

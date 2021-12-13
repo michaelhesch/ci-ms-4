@@ -4,13 +4,30 @@
 {% block title %}List a Product {% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-6 offset-3">
-        <h1>Sell A Product</h1>
-        <div class="card">
-            <form class="card-body mb-form" method="POST">
+<div class="row pt-3 d-flex justify-content-center">
+    <div class="col-8">
+        <h2>Sell Your Product</h2>
+        <div class="card px-3">
+            <form class="card-body mb-form px-3" method="POST">
                 {% csrf_token %}
-                {{ form|crispy }}
+                <fieldset class="rounded">
+                    <legend class="fieldset-label w-auto">Product Details</legend>
+                    {{ form.category|as_crispy_field }}
+                    {{ form.brand|as_crispy_field }}
+                    {{ form.product_name|as_crispy_field }}
+                    {{ form.description|as_crispy_field }}
+                    {{ form.price|as_crispy_field }}
+                    {{ form.image|as_crispy_field }}
+                    {{ form.image_url|as_crispy_field }}
+                </fieldset>
+                <fieldset>
+                    <legend class="fieldset-label w-auto">Technical Specifications</legend>
+                    {{ form.boost_clock|as_crispy_field }}
+                    {{ form.memory_clock|as_crispy_field }}
+                    {{ form.memory_size|as_crispy_field }}
+                    {{ form.memory_type|as_crispy_field }}
+                    {{ form.interface_type|as_crispy_field }}
+                </fieldset>
                 <button class="btn btn-primary" type="submit">Add Product</button>
             </form>
         </div>

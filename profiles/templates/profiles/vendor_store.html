@@ -9,13 +9,41 @@
 <div class="row py-3 my-3 border">
   <div class="col">
     <div>
-      <h4>Welcome to your store.</h4>
+      <h4>Welcome to your store!</h4>
       <p>Below are all products you have listed for sale.</p>
-      <p>Your un-claimed sales balance is: ${{ store.vendor_balance_unpaid }}</p>
-      <p>Your claimed sales balance is: ${{ store.vendor_balance_paid }}</p>
+      <p>Your current un-claimed sales balance is: ${{ unpaid_balance|intcomma }}</p>
+      <p>Your claimed sales balance is: ${{ paid_balance|intcomma }}</p>
       <h5>Manage your store:</h5>
-      <a href="" class="button btn btn-primary btn-sm">Change Store Name</a>
-      <a href="" class="button btn btn-primary btn-sm">Add a Product</a>
+      <!-- Change Store Modal Button trigger -->
+      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#changeStoreName">
+        Change Store Name
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="changeStoreName" tabindex="-1" role="dialog" aria-labelledby="changeStoreNameLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="changeStoreNameLabel">Change Store Name</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="{% url 'profiles:vendorprofile' store_slug=store.store_slug %}" method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <a href="" class="button btn btn-primary btn-sm">Request Payment</a>
     </div>
   </div>

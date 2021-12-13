@@ -86,7 +86,7 @@
             <div class="pt-2">
               {% if request.user == product.seller.user %}
               <h5><strong>Product Owner Details:</strong></h5>
-              <p class="text-danger mb-1">The selling fee for your item is: ${{ product.get_selling_fee }}</p>
+              <p class="text-danger mb-1">The selling fee for your item is ${{ product.get_selling_fee }} per item sold.</p>
               <p class="mb-1">You listed this product for sale on {{ product.date_added|date:"SHORT_DATE_FORMAT" }}.</p>
               <p class="mb-1">
                 <a href="" class="button btn btn-primary btn-sm">Modify Product</a>

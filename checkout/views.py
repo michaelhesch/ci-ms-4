@@ -1,5 +1,6 @@
 import stripe
 import json
+from decimal import Decimal
 
 from django.contrib import messages
 from django.conf import settings
@@ -122,22 +123,25 @@ class CheckoutView(LoginRequiredMixin,View):
                 else:
                     save_defaults = False
 
-                # Create shipping details object and save to order
-                shipping_details = ShippingDetails.objects.create(
-                    user=self.request.user,
-                    order_num=order,
-                    full_name=full_name,
-                    email=email,
-                    phone=phone,
-                    address1=address1,
-                    address2=address2,
-                    state=state,
-                    city=city,
-                    zipcode=zipcode,
-                    country=country,
-                )
-                shipping_details.save()
-                order.shipping_details = shipping_details
+                # Create shipping details object and save to order, or get if exists already
+                try:
+                    shipping_details = ShippingDetails.objects.get(order_num=order)
+                except ShippingDetails.DoesNotExist:
+                    shipping_details = ShippingDetails.objects.get_or_create(
+                        user=self.request.user,
+                        order_num=order,
+                        full_name=full_name,
+                        email=email,
+                        phone=phone,
+                        address1=address1,
+                        address2=address2,
+                        state=state,
+                        city=city,
+                        zipcode=zipcode,
+                        country=country,
+                    )[0]
+                    shipping_details.save()
+                    order.shipping_details = shipping_details
 
                 # Update profile defaults if option selected
                 if save_defaults == True:
@@ -163,12 +167,17 @@ class CheckoutView(LoginRequiredMixin,View):
                 for sku, item_data in cart.items():
                         try:
                             product = Product.objects.get(sku=sku)
+                            liffey_amount = round(Decimal(product.price) * Decimal(item_data) * Decimal(0.05), 2)
+                            vendor_amount = round(Decimal(product.price) * Decimal(item_data) * Decimal(0.95), 2)
                             order_item = OrderItem(
                                 related_order=order,
                                 buyer=self.request.user,
+                                vendor=product.seller.vendorprofile,
                                 item=product,
                                 quantity=item_data,
                                 ordered=True,
+                                liffey_amount= liffey_amount,
+                                vendor_amount= vendor_amount,
                             )
                             order_item.save()
                         except Product.DoesNotExist:

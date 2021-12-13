@@ -6,7 +6,6 @@ from django.shortcuts import redirect, render, reverse
 from django.views.generic import View
 
 
-
 # Order summary (cart detail) class based view
 class ViewCart(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
