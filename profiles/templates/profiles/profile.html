@@ -17,20 +17,25 @@
     <div class="col">
         <div class="card mb-3">
             <div class="card-body">
-                <div class="row">
+                <div class="row pb-3">
                     <div class="col-3">
                         {% if avatar %}
                             <!--Render avatar photo here-->
                         {% else %}
-                            <i class="fas fa-7x fa-user-circle"></i>
+                        <span>
+                            <i class="fas fa-7x fa-user-circle ml-2 pb-3"></i>
+                        </span>
                         {% endif %}
+                        <span class="ml-2">
+                            <a href="" class="mt-3">Update Photo</a>
+                        </span>
                     </div>
                     <div class="col-9">
                         <h4>Manage Profile</h4>
-                        <h5>Store Name: {{ profile.store_name }}</h5>
-                        <h5>Store Balance: $</h5>
-                        <button class="button btn btn-primary btn-sm">Change Avatar Photo</button>
-                        <button class="button btn btn-primary btn-sm">View Vendor Profile</button>
+                        <p class="mb-2">Store Name: {{ vendor.store_name }}</p>
+                        <p class="mb-2">Store Balance (unpaid): ${{ vendor.vendor_balance_unpaid }}</p>
+                        <p class="mb-2">Paid Balance: $ {{ vendor.vendor_balance_paid }}</p>
+                        <a href="{% url 'profiles:vendorprofile' store_slug=vendor.store_slug %}"class="button btn btn-primary btn-sm">View Your Store</a>
                         <button class="button btn btn-danger btn-sm">Delete Account</button>
                     </div>
                 </div>
@@ -66,7 +71,7 @@
                             </tr>
                         </table>
                         <!--Shipping info table here -->
-                        <button class="button btn btn-primary">Edit Shipping Details</button>
+                        <button class="button btn btn-primary btn-sm">Edit Shipping Details</button>
                     </div>
             </div>
         </div>
