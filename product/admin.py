@@ -16,6 +16,7 @@ class ProductAdmin(admin.ModelAdmin):
 class ProductNameAdmin(admin.ModelAdmin):
     list_display = (
         'product_name',
+        'category',
     )
 
 class CategoryAdmin(admin.ModelAdmin):

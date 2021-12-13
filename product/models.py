@@ -28,6 +28,7 @@ class ProductName(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     class Meta:
+        ordering = ['-category', '-product_name']
         verbose_name_plural = 'Product Names'
     
     def __str__(self):
@@ -35,10 +36,10 @@ class ProductName(models.Model):
 
 
 class Product(models.Model):
-    category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, related_name='productcategory', on_delete=models.CASCADE)
     sku = models.CharField(max_length=20, null=False, editable=False)
     seller = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    product_name = models.ForeignKey(ProductName, on_delete=models.CASCADE)
+    product_name = models.ForeignKey(ProductName, on_delete=models.CASCADE, related_name='productname')
     slug = models.SlugField(max_length=200)
     description = models.TextField()
     brand = models.CharField(max_length=120)
@@ -70,7 +71,7 @@ class Product(models.Model):
 
     # Helper function to create list of suggested similar products
     def get_similar_products(self):
-        similar_products = list(self.category.products.exclude(sku=self.sku))
+        similar_products = list(self.category.productcategory.exclude(sku=self.sku))
         if len(similar_products) >= 4:
             similar_products = random.sample(similar_products, 4)
 
@@ -97,6 +98,10 @@ class Product(models.Model):
     # Helper function to return category to UI
     def get_category_display(self):
         return self.category.category_name
+
+    # Helper function to return slug to UI
+    def get_product_slug(self):
+        return self.slug
 
     # Generate url for products to be used in front-end navigation
     def get_absolute_url(self):

@@ -20,7 +20,11 @@
         <tbody>
         {% for order_item in cart_items %}
         <tr>
-            <td scope="row" class="p-3 w-25">{{ forloop.counter }}. <img class="img-fluid rounded pl-2" style="max-width: 50%;" src="{{ order_item.product.image_url }}"></td>
+            <td scope="row" class="p-3 w-25">{{ forloop.counter }}. 
+                <a href="{{ order_item.product.get_absolute_url }}" alt="{{ order_item.product.product_name }}">
+                    <img class="img-fluid rounded pl-2" style="max-width: 50%;" src="{{ order_item.product.image_url }}">
+                </a>
+            </td>
             <td scope="row"><a href="{{ order_item.product.get_absolute_url }}" alt="{{ order_item.product.product_name }}">{{ order_item.product.product_name }}</a></td>
             <td scope="row">${{ order_item.product.price|intcomma }}</td>
             <td scope="row">{{ order_item.product.seller.store_name }}</td>

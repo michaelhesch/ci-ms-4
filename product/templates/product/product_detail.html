@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
-{% load static %}
 
-{% block title %}{{ object.product_name }} {% endblock %}
+{% block title %}{{ product.product_name }} {% endblock %}
 
 {% block content %}
     <div class="container dark-grey-text mt-5">
@@ -9,8 +8,8 @@
       <div class="row wow fadeIn">
         <!--Grid column-->
         <div class="col-md-6 mb-4">
-          {% if object.image_url %}
-          <img src="{{ object.image_url }}" class="img-fluid" alt="Image of {{ object.product_name }}">
+          {% if product.image_url %}
+          <img src="{{ product.image_url }}" class="img-fluid" alt="Image of {{ product.product_name }}">
           {% else %}
           <!--TODO:Update the Default image-->
           <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/14.jpg" class="img-fluid" alt="">
@@ -23,34 +22,33 @@
           <!--Content-->
           <div class="p-4">
             <div class="mb-3">
-                <span class="badge purple mr-1">{{ object.get_category_display }}</span>
-              {% if object.determine_if_new %}
+                <span class="badge purple mr-1">{{ product.get_category_display }}</span>
+              {% if product.determine_if_new %}
                 <span class="badge blue mr-1">New</span>
               {% endif %}
-              {% if object.price > 99 %}
+              {% if product.price > 99 %}
                 <span class="badge red mr-1">Free Shipping</span>
               {% endif %}
             </div>
 
-            <p class="lead font-weight-bold">{{ object.brand }} {{ object.product_name }}</p>
-            <p class="lead">GPU Manufacturer: {{ object.category }}</p>
-            {% if object.seller.store_name %}
-            <p class="lead">Sold by: {{ object.seller.store_name }}</p>
+            <p class="lead font-weight-bold">{{ propduct.brand }} {{ product.product_name }}</p>
+            <p class="lead">GPU Manufacturer: {{ product.category }}</p>
+            {% if product.seller.store_name %}
+            <p class="lead">Sold by: {{ product.seller.store_name }}</p>
             {% else %}
-            <p class="lead">Sold by: {{ object.seller }}</p>
+            <p class="lead">Sold by: {{ product.seller }}</p>
             {% endif %}
             <p class="lead">
-              <span>${{ object.price }}</span>
+              <span>${{ product.price }}</span>
               <br />
-              {% if request.user == object.seller.user %}
-              <span class="text-danger small">The selling fee for your item is: ${{ object.get_selling_fee }}</span>
+              {% if request.user == product.seller.user %}
+              <span class="text-danger small">The selling fee for your item is: ${{ product.get_selling_fee }}</span>
               {% endif %}
             </p>
 
             <p class="lead font-weight-bold">Description</p>
-
-            <p>{{ object.description }}</p>
-            
+            <p>{{ product.description }}</p>
+          
             <form class="d-flex justify-content-left" method="POST" action="{% url 'cart:add_to_cart' product.sku %}">
               {% csrf_token %}
               <div class="form-group">
@@ -99,42 +97,63 @@
         <!--Grid column-->
       </div>
       <!--Grid row-->
-
       <hr>
-
+      <!--Product details section-->
       <!--Grid row-->
       <div class="row d-flex justify-content-center wow fadeIn">
         <!--Grid column-->
-        <div class="col-md-8 text-center">
-          <h4 class="my-4 h4">Additional information about the {{ object.brand }} {{ object.product_name }}:</h4>
-          <p>Boost Clock Speed: {{ object.boost_clock }}</p>
-          <p>Memory Clock Speed: {{ object.memory_clock }}</p>
-          <p>Memory Size: {{ object.memory_size }}</p>
-          <p>Memory Type: {{ object.memory_type }}</p>
-          <p>Interface Type: {{ object.interface_type }}</p>
+        <div class="col-md-8 text-left">
+          <h4 class="my-4 h4">Additional information about the {{ product.brand }} {{ product.product_name }}:</h4>
+          <p>Boost Clock Speed: {{ product.boost_clock }}</p>
+          <p>Memory Clock Speed: {{ product.memory_clock }}</p>
+          <p>Memory Size: {{ product.memory_size }}</p>
+          <p>Memory Type: {{ product.memory_type }}</p>
+          <p>Interface Type: {{ product.interface_type }}</p>
         </div>
         <!--Grid column-->
-
       </div>
       <!--Grid row-->
-
+      <!--Similar product recommendations section-->
       <!--Grid row-->
       {% if product.get_similar_products %}
-      <h4>Similar Products:</h4>
-      <p>Here are some additional products we think you will love!</p>
+      <hr>
+      <div class="row wow fadeIn pt-2">
+        <div class="col">
+          <h4>Similar Products:</h4>
+          <p>Here are some additional products we think you will love!</p>
+        </div>
+      </div>
       <div class="row wow fadeIn">
         <!--Grid column-->
         {% for product in product.get_similar_products %}
-        <div class="col-lg-4 col-md-12 mb-4">
+        <div class="col-lg-4 col-md-12 mb-4 mr-1 border d-flex justify-content-center align-items-center">
           <a href="{{ product.get_absolute_url }}">
             <img src="{{ product.image_url }}" class="img-fluid" style="height: 50%;" alt="{{ product.product_name }}">
-            <p>{{ product.product_name }}</p>
+            <div class="row text-center">
+              <div class="col">
+                {{ product.product_name }}
+              </div>
+              <div class="col">
+                ${{ product.price|intcomma }}
+              </div>
+            </div>
           </a>
         </div>
         {% endfor %}
         <!--Grid column-->
       </div>
       <!--Grid row-->
+      {% endif %}
+      <!--Product review section-->
+      {% if product.reviews %}
+      <hr>
+      <!--Grid row-->
+      <div class="row wow fadeIn">
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+          
+        </div>
+      </div>
       {% endif %}
 
 {% endblock %}

@@ -27,8 +27,6 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
-    
-    # Placeholder for seller payment handling functions
 
 
 @receiver(post_save, sender=User)
@@ -47,3 +45,9 @@ class VendorProfile(models.Model):
     store_owner = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     store_name = models.CharField(max_length=100, null=True, blank=True)
     vendor_balance = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+
+    class Meta:
+        verbose_name_plural = 'Vendor Profiles'
+
+    def __str__(self):
+        return self.store_name

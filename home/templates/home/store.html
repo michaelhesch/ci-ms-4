@@ -27,33 +27,29 @@
   </button>
 
   <!-- Collapsible content -->
-  <div class="collapse navbar-collapse" id="basicExampleNav">
+  <div class="collapse navbar-collapse" id="store-nav">
     <!-- Links -->
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">All
-          <span class="sr-only">(current)</span>
-        </a>
+      <li class="nav-item {% if current_category == None %}active{% endif %}">
+        <a class="nav-link" href="{% url 'home:store' %}">All</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Shirts</a>
+      <li class="nav-item {% if current_category == 'AMD' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'home:store'%}?category=AMD">AMD</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Sport wears</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Outwears</a>
+      <li class="nav-item {% if current_category == 'Nvidia' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'home:store'%}?category=Nvidia">Nvidia</a>
       </li>
     </ul>
     <!-- Links -->
 
-    <form class="form-inline">
+    <form class="form-inline" method="GET" action="{% url 'home:store' %}">
       <div class="md-form my-0">
         <input
           class="form-control mr-sm-2"
           type="text"
-          placeholder="Search"
-          aria-label="Search"
+          name="q"
+          placeholder="Search the store"
+          aria-label="Search the store"
         />
       </div>
     </form>
@@ -64,10 +60,20 @@
 
 <!--Section: Products v.3-->
 <section class="text-center my-3 pt-2">
+  <div class="row">
+    <div class="col">
+    {% if search_term %}
+    <p>Search results for your search: '{{ search_term }}'</p>
+    {% endif %}
+    {% if current_category %}
+    <p>Store filtered for: '{{ current_category }}'</p>
+    {% endif %}
+    </div>
+  </div>
     <!--Grid row-->
     <div class="row wow fadeIn">
         <!--Grid column-->
-        {% for product in object_list %}
+        {% for product in products %}
         <div class="col-lg-3 col-md-6 mb-4">
             <!--Card-->
             <div class="card" style="height: 100%;">
@@ -92,7 +98,7 @@
                         alt="Default product image"
                     />
                 {% endif %}
-                    <a href="{{ product.get_absolute_url }}">
+                    <a href="{% url 'product:product_detail' slug=product.slug %}">
                         <div class="mask rgba-white-slight"></div>
                     </a>
                 </div>
@@ -106,7 +112,7 @@
                     </a>
                     <h5>
                         <strong>
-                        <a href="{{ product.get_absolute_url }}" class="dark-grey-text"> {{ product.product_name }}
+                        <a href="{% url 'product:product_detail' slug=product.slug %}" class="dark-grey-text"> {{ product.product_name }}
                         </a>
                         </strong>
                     </h5>
@@ -126,7 +132,7 @@
 <!--Section: Products v.3-->
 
 <!--Pagination-->
-{% if is_paginated %}
+{% if page_obj %}
 <nav class="d-flex justify-content-center wow fadeIn">
   <ul class="pagination pg-blue">
     <!--Arrow left-->
@@ -156,7 +162,6 @@
         <a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
         </li>
     {% endif %}
-
     <!-- Arrow right -->
     {% if page_obj.has_next %}
         <li class="page-item">
