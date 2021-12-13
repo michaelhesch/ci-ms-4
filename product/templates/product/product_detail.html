@@ -31,24 +31,17 @@
               {% endif %}
             </div>
 
-            <p class="lead font-weight-bold">{{ propduct.brand }} {{ product.product_name }}</p>
-            <p class="lead">GPU Manufacturer: {{ product.category }}</p>
-            {% if product.seller.store_name %}
-            <p class="lead">Sold by: {{ product.seller.store_name }}</p>
+            <p class="lead font-weight-bold">{{ product.brand }} {{ product.product_name }}</p>
+            {% if product.seller.vendorprofile.store_name %}
+            <p class="lead">Sold by: {{ product.seller.vendorprofile.store_name }}</p>
             {% else %}
             <p class="lead">Sold by: {{ product.seller }}</p>
             {% endif %}
             <p class="lead">
-              <span>${{ product.price }}</span>
+              <span><strong>${{ product.price }}</strong></span>
               <br />
-              {% if request.user == product.seller.user %}
-              <span class="text-danger small">The selling fee for your item is: ${{ product.get_selling_fee }}</span>
-              {% endif %}
+     
             </p>
-
-            <p class="lead font-weight-bold">Description</p>
-            <p>{{ product.description }}</p>
-          
             <form class="d-flex justify-content-left" method="POST" action="{% url 'cart:add_to_cart' product.sku %}">
               {% csrf_token %}
               <div class="form-group">
@@ -90,7 +83,17 @@
               </div>
               <input type="hidden" name="redirect_url" value="{{ request.path }}" />
             </form>
-            
+            <div class="pt-2">
+              {% if request.user == product.seller.user %}
+              <h5><strong>Product Owner Details:</strong></h5>
+              <p class="text-danger mb-1">The selling fee for your item is: ${{ product.get_selling_fee }}</p>
+              <p class="mb-1">You listed this product for sale on {{ product.date_added|date:"SHORT_DATE_FORMAT" }}.</p>
+              <p class="mb-1">
+                <a href="" class="button btn btn-primary btn-sm">Modify Product</a>
+                <a href="" class="button btn btn-danger btn-sm">Remove Product</a>
+              </p>
+              {% endif %}
+            </div>
           </div>
           <!--Content-->
         </div>
@@ -100,10 +103,14 @@
       <hr>
       <!--Product details section-->
       <!--Grid row-->
-      <div class="row d-flex justify-content-center wow fadeIn">
+      <div class="row d-flex wow fadeIn">
         <!--Grid column-->
-        <div class="col-md-8 text-left">
+        <div class="col-md-8">
+          <h4 class="my-4 h4">Description:</h4>
+          <p>{{ product.description|capfirst }}</p>
           <h4 class="my-4 h4">Additional information about the {{ product.brand }} {{ product.product_name }}:</h4>
+          <p>GPU Manufacturer: {{ product.category }}</p>
+          <p>Brand: {{ product.brand }}</p>
           <p>Boost Clock Speed: {{ product.boost_clock }}</p>
           <p>Memory Clock Speed: {{ product.memory_clock }}</p>
           <p>Memory Size: {{ product.memory_size }}</p>
@@ -113,21 +120,62 @@
         <!--Grid column-->
       </div>
       <!--Grid row-->
+
+      <!--Product review section-->
+
+      <hr>
+      <h4 class="my-4 h4">Product Reviews:</h4>
+      {% if product.reviews.count > 0 %}
+      <!--Grid row-->
+      <div class="row d-flex wow fadeIn">
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+          <div>
+            <p></p>
+            <p></p>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <!--Grid row-->
+      <div class="row d-flex wow fadeIn">
+        <!-- Test placeholder for collapse control for review Div
+        <button 
+          class="btn btn-primary"
+          type="button"
+          data-mdb-toggle="collapse"
+          data-mdb-target="#reviewCollapse"
+          aria-expanded="true"
+          aria-controls="reviewCollapse">
+        +/-
+        </button>-->
+          <!--Grid column-->
+          <div class="col-md-6 mb-2">
+            <div>
+              <p>There are no reviews for this product yet.  Leave a review now!</p>
+            </div>
+            <div>
+              <button class="button btn btn-primary btn-sm">Leave a Review</button>
+            </div>
+          </div>
+      </div>
+      {% endif %}
+
       <!--Similar product recommendations section-->
       <!--Grid row-->
       {% if product.get_similar_products %}
       <hr>
-      <div class="row wow fadeIn pt-2">
+      <div class="row d-flex wow fadeIn">
         <div class="col">
-          <h4>Similar Products:</h4>
+          <h4 class="my-2 h4">Similar Products:</h4>
           <p>Here are some additional products we think you will love!</p>
         </div>
       </div>
-      <div class="row wow fadeIn">
+      <div class="row wow fadeIn p-3">
         <!--Grid column-->
         {% for product in product.get_similar_products %}
         <div class="col-lg-4 col-md-12 mb-4 mr-1 border d-flex justify-content-center align-items-center">
-          <a href="{{ product.get_absolute_url }}">
+          <a href="{% url 'product:product_detail' slug=product.slug %}">
             <img src="{{ product.image_url }}" class="img-fluid" style="height: 50%;" alt="{{ product.product_name }}">
             <div class="row text-center">
               <div class="col">
@@ -144,18 +192,6 @@
       </div>
       <!--Grid row-->
       {% endif %}
-      <!--Product review section-->
-      {% if product.reviews %}
-      <hr>
-      <!--Grid row-->
-      <div class="row wow fadeIn">
-        <!--Grid column-->
-        <div class="col-md-6 mb-4">
-          
-        </div>
-      </div>
-      {% endif %}
-
 {% endblock %}
 
 {% block postloadjs %}

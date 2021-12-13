@@ -13,7 +13,7 @@
                     <tbody>
                         {% for order in orders %}
                         <tr>
-                            <td scope="row"><a href="{% url 'checkout:order_history' order.order_num %}">{{ order.order_num|truncatechars:7 }}</a></td>
+                            <td scope="row"><a href="{% url 'checkout:order_history' order.order_num %}">{{ order.order_num|truncatechars:9 }}</a></td>
                             <td scope="row">{{ order.order_date|date:"SHORT_DATE_FORMAT" }}</td>
                             <td scope="row">
                                 <ul class="list-unstyled">

@@ -20,7 +20,8 @@ class ProductDetail(LoginRequiredMixin, View):
         context = {
             'product': product,
         }
-        return render(self.request, 'product/product_detail.html', context)
+        return render(self.request, 'product_detail.html', context)
+
 
 class ListProduct(LoginRequiredMixin, View):
     model = Product

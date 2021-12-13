@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Category, Product, ProductName
+from .models import Category, Product, ProductName, Review
 
 
 class ProductForm(forms.ModelForm):
@@ -31,3 +31,14 @@ class ProductForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         categories = Category.objects.all()
         product_names = ProductName.objects.all()
+
+
+class ProductReview(forms.ModelForm):
+
+    class Meta:
+        model = Review
+        fields = [
+            'title',
+            'body_content',
+            'rating',
+        ]

@@ -10,6 +10,16 @@ header {
   height: 65px;
 }
 
+/* Footer color for sake of consistency with Navbar */
+.page-footer {
+  background-color: #929FBA; 
+}
+
+select:invalid,
+select option[value=""] {
+  color:#aab7c4;
+}
+
 @media (max-width: 740px) {
   html,
   body,
@@ -25,6 +35,4 @@ header {
     height: 65px;
   }
 }
-/* Footer color for sake of consistency with Navbar */
-.page-footer {
-  background-color: #929FBA; }
+

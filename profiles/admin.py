@@ -1,8 +1,19 @@
 from django.contrib import admin
+
 from .models import UserProfile, VendorProfile
 
 
+class VendorProfileAdmin(admin.ModelAdmin):
+    model = VendorProfile
+    """
+    list_display = (
+        'store_name',
+    )
+    """
+
+
 class UserProfileAdmin(admin.ModelAdmin):
+
 
     list_display = (
         'user',
@@ -11,14 +22,5 @@ class UserProfileAdmin(admin.ModelAdmin):
     )
 
 
-class VendorProfileAdmin(admin.TabularInline):
-    model = VendorProfile
-    
-    list_display = (
-        'store_owner',
-        'store_name',
-        'vendor_balance',
-    )
-
-
 admin.site.register(UserProfile, UserProfileAdmin)
+admin.site.register(VendorProfile, VendorProfileAdmin)

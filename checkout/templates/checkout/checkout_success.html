@@ -36,7 +36,7 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Product Name</th>
                                 <th scope="col">Product Price</th>
-                                <th scope="col">Seller (Store)</th>
+                                <th scope="col">Vendor Name</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Total Price</th>
                             </tr>
@@ -47,7 +47,7 @@
                                 <td scope="row" class="p-3 w-25">{{ forloop.counter }}. <img class="img-fluid rounded pl-2" style="max-width: 50%;" src="{{ order_item.item.image_url }}"></td>
                                 <td scope="row"><a href="{{ order_item.item.get_absolute_url }}" alt="{{ order_item.item.product_name }}">{{ order_item.item.product_name }}</a></td>
                                 <td scope="row">${{ order_item.item.price|intcomma }}</td>
-                                <td scope="row"> TBU </td>
+                                <td scope="row"><a href="{% url 'profiles:vendorprofile' store_slug=order_item.item.seller.vendorprofile.get_vendor_slug %}">{{ order_item.item.seller.vendorprofile.store_name }}</a></td>
                                 <td scope="row">{{ order_item.quantity }}</td>
                                 <td scope="row">${{ order_item.item_total|intcomma }}</td>
                             </tr>
