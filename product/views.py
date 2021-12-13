@@ -1,4 +1,4 @@
-from django.shortcuts import render, reverse, redirect
+from django.shortcuts import get_object_or_404, render, reverse, redirect
 from django.contrib import messages
 from django.views.generic import DetailView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -10,10 +10,17 @@ from .models import Category, Product
 from profiles.models import UserProfile
 
 
-class ProductDetail(DetailView):
+class ProductDetail(LoginRequiredMixin, View):
     model = Product
     template_name = 'product_detail.html'
 
+    def get(self, *args, **kwargs):
+        slug = self.kwargs['slug']
+        product = get_object_or_404(Product, slug=slug)
+        context = {
+            'product': product,
+        }
+        return render(self.request, 'product/product_detail.html', context)
 
 class ListProduct(LoginRequiredMixin, View):
     model = Product
