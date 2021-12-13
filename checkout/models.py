@@ -1,4 +1,5 @@
 import uuid
+from decimal import Decimal
 from django.db import models
 from django.db.models import Sum
 from django.conf import settings
@@ -6,7 +7,7 @@ from django_countries.fields import CountryField
 
 
 from product.models import Product
-from profiles.models import UserProfile
+from profiles.models import UserProfile, VendorProfile
 
 
 class Order(models.Model):
@@ -62,6 +63,7 @@ class Order(models.Model):
             item_count += order_item.quantity
         return item_count
 
+
     # Override standard save method to set order number
     def save(self, *args, **kwargs):
         if not self.order_num:
@@ -80,7 +82,8 @@ class OrderItem(models.Model):
                                       related_name='orderitems')
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL,
                               on_delete=models.CASCADE)
-    ordered = models.BooleanField(default=False)
+    vendor = models.ForeignKey(VendorProfile,
+                               on_delete=models.CASCADE)
     item = models.ForeignKey(Product,
                              null=False,
                              blank=False,
@@ -91,6 +94,14 @@ class OrderItem(models.Model):
                                      null=False,
                                      blank=False,
                                      editable=False)
+    ordered = models.BooleanField(default=False)
+    vendor_amount = models.DecimalField(max_digits=12,
+                                        decimal_places=2,
+                                        editable=False)
+    liffey_amount = models.DecimalField(max_digits=12,
+                                        decimal_places=2,
+                                        editable=False)
+    vendor_paid = models.BooleanField(default=False)
 
     class Meta:
         verbose_name_plural = 'Order Items'
@@ -108,8 +119,15 @@ class OrderItem(models.Model):
         store = UserProfile.objects.get(user=self.item.seller)
         return store.store_name
 
+    # Function to split vendor and store balances on order item
+    def update_vendor_balance(self):
+        self.liffey_amount= round(Decimal(self.item_total) * Decimal(0.05), 2)
+        self.vendor_amount= round(Decimal(self.item_total) * Decimal(0.95), 2)
+
+    # Function to update the line item total on save
     def save(self, *args, **kwargs):
         self.item_total = self.get_item_total()
+        self.update_vendor_balance()
         super().save(*args, **kwargs)
 
 
