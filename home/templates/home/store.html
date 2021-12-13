@@ -11,15 +11,15 @@
 <!--Navbar-->
 <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 my-3">
   <!-- Navbar brand -->
-  <span class="navbar-brand">Categories:</span>
+  <span class="navbar-brand">GPU Type:</span>
 
   <!-- Collapse button -->
   <button
     class="navbar-toggler"
     type="button"
     data-toggle="collapse"
-    data-target="#basicExampleNav"
-    aria-controls="basicExampleNav"
+    data-target="#store-nav"
+    aria-controls="store-nav"
     aria-expanded="false"
     aria-label="Toggle navigation"
   >
@@ -107,8 +107,8 @@
                 <!--Card content-->
                 <div class="card-body text-center">
                     <!--Category & Title-->
-                    <a href="" class="grey-text">
-                        <h5>{{ product.category }}</h5>
+                    <a href="{% url 'product:product_detail' slug=product.slug %}" class="grey-text">
+                        <h5>{{ product.brand }}</h5>
                     </a>
                     <h5>
                         <strong>
