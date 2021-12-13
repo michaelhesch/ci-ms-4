@@ -36,13 +36,34 @@ class ProductName(models.Model):
 
 
 class Product(models.Model):
+    # Brand option definitions for brand field
+    AMD = 'AMD'
+    NVIDIA = 'Nvidia'
+    MSI = 'MSI'
+    GIGABYTE = 'GIGABYTE'
+    ASUS = 'ASUS'
+    XFX = 'XFX'
+    SAPPHIRE = 'SAPPHIRE'
+    EVGA = 'EVGA'
+
+    BRAND_OPTIONS = (
+        (AMD, "AMD"),
+        (ASUS, "ASUS"),
+        (EVGA, "EVGA"),
+        (GIGABYTE, "GIGABYTE"),
+        (MSI, "MSI"),
+        (NVIDIA, "Nvidia"),
+        (SAPPHIRE, "SAPPHIRE"),
+        (XFX, "XFX"),
+    )
+
     category = models.ForeignKey(Category, related_name='productcategory', on_delete=models.CASCADE)
     sku = models.CharField(max_length=20, null=False, editable=False)
     seller = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     product_name = models.ForeignKey(ProductName, on_delete=models.CASCADE, related_name='productname')
     slug = models.SlugField(max_length=200)
     description = models.TextField()
-    brand = models.CharField(max_length=120)
+    brand = models.CharField(max_length=120, choices=BRAND_OPTIONS)
     boost_clock = models.CharField(max_length=15)
     memory_clock = models.CharField(max_length=15)
     memory_size = models.CharField(max_length=20)
@@ -125,6 +146,7 @@ class Product(models.Model):
     def get_selling_fee(self):
         selling_fee = round(self.price * round(Decimal(settings.SELLING_FEE_PERCENTAGE / 100), 2), 2)
         return selling_fee
+
 
 class Review(models.Model):
     title = models.CharField(max_length=100)
