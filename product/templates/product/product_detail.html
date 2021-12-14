@@ -32,13 +32,13 @@
             </div>
 
             <p class="lead font-weight-bold">{{ product.brand }} {{ product.product_name }}</p>
-            {% if product.seller.vendorprofile.store_name %}
-            <p class="lead">Sold by: {{ product.seller.vendorprofile.store_name }}</p>
-            {% else %}
-            <p class="lead">Sold by: {{ product.seller }}</p>
-            {% endif %}
+            <p class="lead">Sold by: 
+              <a href="{% url 'profiles:vendorprofile' store_slug=product.seller.vendorprofile.store_slug %}">
+                {{ product.seller.vendorprofile.store_name }} {% if product.seller.verified is True %}<i class="fas fa-check-circle fa-xs text-primary"></i>{% endif %}
+              </a>
+            </p>
             <p class="lead">
-              <span><strong>${{ product.price }}</strong></span>
+              <span><strong>${{ product.price|intcomma }}</strong></span>
             </p>
             <form class="d-flex justify-content-left" method="POST" action="{% url 'cart:add_to_cart' product.sku %}">
               {% csrf_token %}
@@ -86,10 +86,6 @@
               <h5><strong>Product Owner Details:</strong></h5>
               <p class="text-danger mb-1">The selling fee for your item is ${{ product.get_selling_fee }} per item sold.</p>
               <p class="mb-1">You listed this product for sale on {{ product.date_added|date:"SHORT_DATE_FORMAT" }}.</p>
-              <p class="mb-1">
-                <a href="" class="button btn btn-primary btn-sm">Modify Product</a>
-                <a href="" class="button btn btn-danger btn-sm">Remove Product</a>
-              </p>
               {% endif %}
             </div>
           </div>
@@ -103,59 +99,119 @@
       <!--Grid row-->
       <div class="row d-flex wow fadeIn">
         <!--Grid column-->
-        <div class="col-md-8">
+        <div class="col-md-8 ">
           <h4 class="my-4 h4">Description:</h4>
           <p>{{ product.description|capfirst }}</p>
-          <h4 class="my-4 h4">Additional information about the {{ product.brand }} {{ product.product_name }}:</h4>
-          <p>GPU Manufacturer: {{ product.category }}</p>
-          <p>Brand: {{ product.brand }}</p>
-          <p>Boost Clock Speed: {{ product.boost_clock }}</p>
-          <p>Memory Clock Speed: {{ product.memory_clock }}</p>
-          <p>Memory Size: {{ product.memory_size }}</p>
-          <p>Memory Type: {{ product.memory_type }}</p>
-          <p>Interface Type: {{ product.interface_type }}</p>
+          <div class="table-responsive">
+            <h4 class="my-4 h4">Additional information about the {{ product.brand }} {{ product.product_name }}:</h4>
+            <table class="table table-sm">
+              <tbody>
+                <tr>
+                  <th>GPU Manufacturer:</th>
+                  <td>{{ product.category }}</td>
+                </tr>
+                <tr>
+                  <th>Brand:</th>
+                  <td>{{ product.brand }}</td>
+                </tr>
+                <tr>
+                  <th>Boost Clock Speed:</th>
+                  <td>{{ product.boost_clock }}</td>
+                </tr>
+                <tr>
+                  <th>Memory Clock Speed:</th>
+                  <td>{{ product.memory_clock }}</td>
+                </tr>
+                <tr>
+                  <th>Memory Size:</th>
+                  <td>{{ product.memory_size }}</td>
+                </tr>
+                <tr>
+                  <th>Memory Type:</th>
+                  <td>{{ product.memory_type }}</td>
+                </tr>
+                <tr>
+                  <th>Interface Type:</th>
+                  <td>{{ product.interface_type }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
         <!--Grid column-->
       </div>
       <!--Grid row-->
+      <div class="row wow fadeIn">
+        <div class="col-md-8">
+          <!--Product review section-->
+          <hr>
+          <h4 class="my-4 h4">Product Reviews:</h4>
+          {% if reviews.count > 0 %}
+          <!--Grid row-->
+          <div class="row wow fadeIn">
+            <!--Grid column-->
+            {% for review in reviews %}
+            <div class="col mb-4">
+              <div>
+                <p class="mb-1"><strong>{{ review.title|capfirst }}</strong></p>
+                <p class="small mb-1">{% if review.added_by == request.user %}You reviewed this product on {{ review.added_on|date:"SHORT_DATE_FORMAT" }}.{% else %} Review by: {{ review.added_by|capfirst }} on {{ review.added_on|date:"SHORT_DATE_FORMAT" }}.{% endif %}</p>
+                <p class="mb-1">Rating: {{ review.rating }} / 5</p>
+                <p class="mb-1">Comments: {{ review.body_content|capfirst }}</p>
+                {% if review.added_by == request.user %}
+                  <hr class="my-1">
+                  <a href="{% url 'product:product_review' slug=product.slug %}" class="mx-1"><i class="far fa-edit"></i> Edit</a>
 
-      <!--Product review section-->
-
-      <hr>
-      <h4 class="my-4 h4">Product Reviews:</h4>
-      {% if reviews.count > 0 %}
-      <!--Grid row-->
-      <div class="row d-flex wow fadeIn">
-        <!--Grid column-->
-        {% for review in reviews %}
-        <div class="col-md-6 mb-4">
-          <div>
-            <p class="mb-1">{{ review.title }}</p>
-            <p class="small mb-1">Review by: {{ review.added_by.user }} on {{ review.added_on|date:"SHORT_DATE_FORMAT" }}</p>
-            <p class="mb-1">Rating: {{ review.rating }} / 5</p>
-            <p class="mb-1">{{ review.body_content }}</p>
+                  <!-- Remove Review Modal Button trigger -->
+                  <button type="button" class="btn btn-link m-1 p-0" data-toggle="modal" data-target="#removeReview">
+                    <i class="far fa-trash-alt"></i> Delete
+                  </button>
+                  <!-- Modal -->
+                  <div class="modal fade" id="removeReview" tabindex="-1" role="dialog" aria-labelledby="removeReviewLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="removeReviewLabel">Remove Your Review?</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Are you sure you want to remove this review?</p>
+                          <form method="POST" action="{% url 'product:delete_review' sku=product.sku %}">
+                            {% csrf_token %}
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-danger">Delete Review</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+            <hr />
+            {% endfor %}
           </div>
+          {% else %}
+          <!--Grid row-->
+          <div class="row d-flex wow fadeIn">
+            <!-- Test placeholder for collapse control for review Div-->
+              <!--Grid column-->
+              <div class="col mb-2">
+                <div>
+                  <p>There are no reviews for this product yet.  Leave a review now!</p>
+                </div>
+                <div>
+                  <a href="{% url 'product:product_review' slug=product.slug %}" class="button btn btn-primary btn-sm">Leave a Review</a>
+                </div>
+              </div>
+          </div>
+          {% endif %}
         </div>
-        {% endfor %}
       </div>
-      {% else %}
-      <!--Grid row-->
-      <div class="row d-flex wow fadeIn">
-        <!-- Test placeholder for collapse control for review Div-->
-          <!--Grid column-->
-          <div class="col-md-6 mb-2">
-            <div>
-              <p>There are no reviews for this product yet.  Leave a review now!</p>
-            </div>
-            <div>
-              <button class="button btn btn-primary btn-sm">Leave a Review</button>
-            </div>
-          </div>
-      </div>
-      {% endif %}
-
-      <!--Similar product recommendations section-->
-      <!--Grid row-->
+    <!--Similar product recommendations section-->
+    <!--Grid row-->
     {% if product.get_similar_products %}
       <hr>
       <div class="row d-flex wow fadeIn">

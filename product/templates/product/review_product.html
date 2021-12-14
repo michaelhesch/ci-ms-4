@@ -42,13 +42,22 @@
     <!--Grid row-->
     <div class="row wow fadeIn d-flex align-items-center justify-content-center">
       <!--Grid column-->
-      <div class="col-md-6 mb-4">
-            <h4 class="h4">Leave a Review:</h4>
-            <form method="POST" action="">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <button type="submit" class="button btn btn-primary">Submit Review</button>
-            </form>
+      <div class="col-md-8 mb-4">
+            <div class="card p-3">
+                <form class="card-body" method="POST" action="{% url 'product:product_review' slug=product.slug %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <fieldset class="rounded">
+                        <legend class="fieldset-label">Leave a Review:</legend>
+                        {{ form.title|as_crispy_field }}
+                        {{ form.body_content|as_crispy_field }}
+                        {{ form.rating|as_crispy_field }}
+                    </fieldset>
+                    <div class="row">
+                        <button type="submit" class="button btn btn-primary">Submit Review</button>
+                        <a href="{% url 'product:product_detail' slug=product.slug %}"class="button btn btn-secondary">Back to Product</a>
+                    </div>
+                </form>
+            </div>
       </div>
     </div>
 </div>

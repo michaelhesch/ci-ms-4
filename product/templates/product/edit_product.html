@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Edit Product {% endblock %}
+
+{% block content %}
+
+<div class="row wow fadeIn my-3 py-2 d-flex justify-content-center">
+    <div class="col-md-8">
+        <div class="card px-4">
+            <form class="card-body mb-form px-3" method="POST">
+                {% csrf_token %}
+                <fieldset class="rounded">
+                    <legend class="fieldset-label w-auto">Edit Product Details:</legend>
+                    {{ form.category|as_crispy_field }}
+                    {{ form.brand|as_crispy_field }}
+                    {{ form.product_name|as_crispy_field }}
+                    {{ form.description|as_crispy_field }}
+                    {{ form.price|as_crispy_field }}
+                </fieldset>
+                <fieldset>
+                    <legend class="fieldset-label w-auto">Edit Technical Specifications:</legend>
+                    {{ form.boost_clock|as_crispy_field }}
+                    {{ form.memory_clock|as_crispy_field }}
+                    {{ form.memory_size|as_crispy_field }}
+                    {{ form.memory_type|as_crispy_field }}
+                    {{ form.interface_type|as_crispy_field }}
+                </fieldset>
+                <button type="submit" class="button btn btn-primary btn-small">Update Product</button>
+                <a href="{% url 'product:product_detail' slug=slug %}" class="button btn btn-secondary btn-small">Back to Product</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
