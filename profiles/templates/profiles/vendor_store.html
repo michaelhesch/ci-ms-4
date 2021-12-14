@@ -180,7 +180,33 @@
                     {% if store.user == request.user %}
                     <div class="d-flex">
                       <a href="" class="btn btn-sm">Modify</a>
-                      <a href="" class="btn btn-sm">Remove</a>
+
+                      <!-- Change Store Modal Button trigger -->
+                      <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removeItem">
+                        Remove
+                      </button>
+                      <!-- Modal -->
+                      <div class="modal fade" id="removeItem" tabindex="-1" role="dialog" aria-labelledby="removeItemLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="removeItemLabel">Remove Item?</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <p>Are you sure you want to remove this item from the store?</p>
+                              <form method="POST" action="{% url 'product:remove_item' sku=product.sku %}">
+                                {% csrf_token %}
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-danger">Remove Item</button>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     {% endif %}
                 </div>

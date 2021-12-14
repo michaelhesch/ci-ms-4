@@ -149,10 +149,17 @@ class Product(models.Model):
 
 
 class Review(models.Model):
+    class Ratings(models.IntegerChoices):
+        ONE = 1,
+        TWO = 2,
+        THREE = 3,
+        FOUR = 4,
+        FIVE = 5
+
     title = models.CharField(max_length=100)
-    body_content = models.TextField()
+    body_content = models.TextField(max_length=600)
     added_by = models.ForeignKey(User, related_name='reviews', on_delete=models.CASCADE)
-    rating = models.IntegerField()
+    rating = models.IntegerField(choices=Ratings.choices)
     product_reviewed = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE)
     added_on = models.DateTimeField(auto_now_add=True)
 

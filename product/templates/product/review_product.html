@@ -1,16 +1,53 @@
 {% extends 'base.html' %}
 
-{% block title %}{% endblock %}
+{% block title %}Reviewing {{ product.product_name }} {% endblock %}
 
 {% block content %}
 <div class="container dark-grey-text mt-5">
+    <div class="row d-flex align-items-center">
+        <div class="col">
+            <h4><strong>Reviewing {{ product.brand }} {{ product.product_name }}</strong></h4>
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Product Price</th>
+                        <th scope="col">Vendor Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="row" class="p-3 w-25 align-middle">
+                            <a href="{{ product.get_absolute_url }}" alt="{{ product.product_name }}">
+                                <img class="img-fluid rounded pl-2" style="max-width: 75%;" src="{{ product.image_url }}">
+                            </a>
+                        </td>
+                        <td scope="row" class="align-middle">
+                            <a href="{{ product.get_absolute_url }}" alt="{{ product.product_name }}">
+                                {{ product.product_name }}
+                            </a>
+                        </td>
+                        <td scope="row" class="align-middle">${{ product.price|intcomma }}</td>
+                        <td scope="row" class="align-middle">
+                            <a href="{% url 'profiles:vendorprofile' store_slug=product.seller.vendorprofile.get_vendor_slug %}">
+                                {{ product.seller.vendorprofile.store_name }}
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <!--Grid row-->
-    <div class="row wow fadeIn">
+    <div class="row wow fadeIn d-flex align-items-center justify-content-center">
       <!--Grid column-->
       <div class="col-md-6 mb-4">
             <h4 class="h4">Leave a Review:</h4>
             <form method="POST" action="">
-                
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="button btn btn-primary">Submit Review</button>
             </form>
       </div>
     </div>

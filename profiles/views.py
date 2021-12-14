@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.core.paginator import Paginator
 from django.forms.models import model_to_dict
 from django.views.generic import View, ListView
@@ -30,10 +30,7 @@ class ProfileView(LoginRequiredMixin, View):
         #if orders.count() > 6:
         paginator = Paginator(orders, 6)
 
-        form = VendorRegistrationForm()
-        
         context = {
-            'form': form,
             'username': profile.user,
             'verified': profile.verified,
             'avatar': profile.avatar_url,
