@@ -4,6 +4,7 @@ from django.http.response import HttpResponse
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.forms.models import model_to_dict
 
 
 from product.forms import ProductForm
@@ -71,8 +72,15 @@ class ListProduct(LoginRequiredMixin, View):
 class ReviewProduct(LoginRequiredMixin, View):
     model = Review
     def get(self, *args, **kwargs):
-        form = ProductReview()
         product = Product.objects.get(slug=self.kwargs['slug'])
+
+        existing_review = Review.objects.filter(product_reviewed=product, added_by=self.request.user).exists()
+        if existing_review:
+            review = Review.objects.get(product_reviewed=product, added_by=self.request.user)
+            form_init = model_to_dict(review)
+            form = ProductReview(initial=form_init)
+        else:
+            form = ProductReview()
 
         context = {
             'form': form,
@@ -81,8 +89,40 @@ class ReviewProduct(LoginRequiredMixin, View):
         return render(self.request, 'review_product.html', context)
     
     def post(self, *args, **kwargs):
+        print(self.request.POST)
+        form = ProductReview(self.request.POST or None)
+        product_slug = self.kwargs['slug']
+        product = Product.objects.get(slug=product_slug)
+        
+        form_data = {
+            'title': self.request.POST['title'],
+            'body_content': self.request.POST['body_content'],
+            'rating': self.request.POST['rating']
+        }
+        try:
+            if form.is_valid():
+                title = self.request.POST['title']
+                body_content = self.request.POST['body_content']
+                added_by = self.request.user
+                rating = self.request.POST['rating']
+                print(rating)
+                product_reviewed = product
 
-        return
+                review = Review.objects.get_or_create(product_reviewed=product, added_by=added_by)[0]
+                print(review)
+                review.title = title
+                review.body_content = body_content
+                review.added_by = added_by
+                review.rating = rating
+                review.product_reviewed = product_reviewed
+                print(review)
+                review.save()
+
+                return redirect(reverse("product:product_detail", kwargs={'slug': product_slug}))
+        
+        except Exception as e:
+             messages.error(self.request, f"An unexpected error occured: {e}.")
+             return redirect("product:product_detail", slug=product_slug)
 
 
 # Delete product from the store

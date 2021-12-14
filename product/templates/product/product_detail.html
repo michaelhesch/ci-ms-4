@@ -38,7 +38,7 @@
             <p class="lead">Sold by: {{ product.seller }}</p>
             {% endif %}
             <p class="lead">
-              <span><strong>${{ product.price }}</strong></span>
+              <span><strong>${{ product.price|intcomma }}</strong></span>
             </p>
             <form class="d-flex justify-content-left" method="POST" action="{% url 'cart:add_to_cart' product.sku %}">
               {% csrf_token %}
@@ -86,10 +86,11 @@
               <h5><strong>Product Owner Details:</strong></h5>
               <p class="text-danger mb-1">The selling fee for your item is ${{ product.get_selling_fee }} per item sold.</p>
               <p class="mb-1">You listed this product for sale on {{ product.date_added|date:"SHORT_DATE_FORMAT" }}.</p>
+              <!--
               <p class="mb-1">
-                <a href="" class="button btn btn-primary btn-sm">Modify Product</a>
+              <a href="" class="button btn btn-primary btn-sm">Modify Product</a>
                 <a href="" class="button btn btn-danger btn-sm">Remove Product</a>
-              </p>
+              </p>-->
               {% endif %}
             </div>
           </div>
@@ -103,59 +104,91 @@
       <!--Grid row-->
       <div class="row d-flex wow fadeIn">
         <!--Grid column-->
-        <div class="col-md-8">
+        <div class="col-md-8 ">
           <h4 class="my-4 h4">Description:</h4>
           <p>{{ product.description|capfirst }}</p>
-          <h4 class="my-4 h4">Additional information about the {{ product.brand }} {{ product.product_name }}:</h4>
-          <p>GPU Manufacturer: {{ product.category }}</p>
-          <p>Brand: {{ product.brand }}</p>
-          <p>Boost Clock Speed: {{ product.boost_clock }}</p>
-          <p>Memory Clock Speed: {{ product.memory_clock }}</p>
-          <p>Memory Size: {{ product.memory_size }}</p>
-          <p>Memory Type: {{ product.memory_type }}</p>
-          <p>Interface Type: {{ product.interface_type }}</p>
+          <div class="table-responsive">
+            <h4 class="my-4 h4">Additional information about the {{ product.brand }} {{ product.product_name }}:</h4>
+            <table class="table table-sm">
+              <tbody>
+                <tr>
+                  <th>GPU Manufacturer:</th>
+                  <td>{{ product.category }}</td>
+                </tr>
+                <tr>
+                  <th>Brand:</th>
+                  <td>{{ product.brand }}</td>
+                </tr>
+                <tr>
+                  <th>Boost Clock Speed:</th>
+                  <td>{{ product.boost_clock }}</td>
+                </tr>
+                <tr>
+                  <th>Memory Clock Speed:</th>
+                  <td>{{ product.memory_clock }}</td>
+                </tr>
+                <tr>
+                  <th>Memory Size:</th>
+                  <td>{{ product.memory_size }}</td>
+                </tr>
+                <tr>
+                  <th>Memory Type:</th>
+                  <td>{{ product.memory_type }}</td>
+                </tr>
+                <tr>
+                  <th>Interface Type:</th>
+                  <td>{{ product.interface_type }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
         <!--Grid column-->
       </div>
       <!--Grid row-->
-
-      <!--Product review section-->
-
-      <hr>
-      <h4 class="my-4 h4">Product Reviews:</h4>
-      {% if reviews.count > 0 %}
-      <!--Grid row-->
-      <div class="row d-flex wow fadeIn">
-        <!--Grid column-->
-        {% for review in reviews %}
-        <div class="col-md-6 mb-4">
-          <div>
-            <p class="mb-1">{{ review.title }}</p>
-            <p class="small mb-1">Review by: {{ review.added_by.user }} on {{ review.added_on|date:"SHORT_DATE_FORMAT" }}</p>
-            <p class="mb-1">Rating: {{ review.rating }} / 5</p>
-            <p class="mb-1">{{ review.body_content }}</p>
+      <div class="row wow fadeIn">
+        <div class="col-md-8">
+          <!--Product review section-->
+          <hr>
+          <h4 class="my-4 h4">Product Reviews:</h4>
+          {% if reviews.count > 0 %}
+          <!--Grid row-->
+          <div class="row wow fadeIn">
+            <!--Grid column-->
+            {% for review in reviews %}
+            <div class="col mb-4">
+              <div>
+                <p class="mb-1"><strong>{{ review.title }}</strong></p>
+                <p class="small mb-1">{% if review.added_by == request.user %}You reviewed this product on {{ review.added_on|date:"SHORT_DATE_FORMAT" }}.{% else %} Review by: {{ review.added_by|capfirst }} on {{ review.added_on|date:"SHORT_DATE_FORMAT" }}.{% endif %}</p>
+                <p class="mb-1">Rating: {{ review.rating }} / 5</p>
+                <p class="mb-1">{{ review.body_content }}</p>
+                {% if review.added_by == request.user %}
+                  <a href="{% url 'product:product_review' slug=product.slug %}" class="button btn btn-sm">Edit Your Review</a>
+                {% endif %}
+              </div>
+            </div>
+            <hr />
+            {% endfor %}
           </div>
+          {% else %}
+          <!--Grid row-->
+          <div class="row d-flex wow fadeIn">
+            <!-- Test placeholder for collapse control for review Div-->
+              <!--Grid column-->
+              <div class="col mb-2">
+                <div>
+                  <p>There are no reviews for this product yet.  Leave a review now!</p>
+                </div>
+                <div>
+                  <a href="{% url 'product:product_review' slug=product.slug %}" class="button btn btn-primary btn-sm">Leave a Review</a>
+                </div>
+              </div>
+          </div>
+          {% endif %}
         </div>
-        {% endfor %}
       </div>
-      {% else %}
-      <!--Grid row-->
-      <div class="row d-flex wow fadeIn">
-        <!-- Test placeholder for collapse control for review Div-->
-          <!--Grid column-->
-          <div class="col-md-6 mb-2">
-            <div>
-              <p>There are no reviews for this product yet.  Leave a review now!</p>
-            </div>
-            <div>
-              <button class="button btn btn-primary btn-sm">Leave a Review</button>
-            </div>
-          </div>
-      </div>
-      {% endif %}
-
-      <!--Similar product recommendations section-->
-      <!--Grid row-->
+    <!--Similar product recommendations section-->
+    <!--Grid row-->
     {% if product.get_similar_products %}
       <hr>
       <div class="row d-flex wow fadeIn">

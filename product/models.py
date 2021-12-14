@@ -83,7 +83,7 @@ class Product(models.Model):
     # Over-ride default save function to set slug field
     def save(self, *args, **kwargs):
         self.sku = random.randrange(10**1, 10**20)
-        slug_name = str(self.seller) + str(self.product_name.product_name)
+        slug_name = str(self.seller) + str(self.product_name.product_name) + str(self.sku)
         self.slug = slugify(slug_name)
         super(Product, self).save(*args, **kwargs)
 
@@ -150,16 +150,16 @@ class Product(models.Model):
 
 class Review(models.Model):
     class Ratings(models.IntegerChoices):
-        ONE = 1,
-        TWO = 2,
-        THREE = 3,
-        FOUR = 4,
         FIVE = 5
+        FOUR = 4,
+        THREE = 3,
+        TWO = 2,
+        ONE = 1,
 
     title = models.CharField(max_length=100)
     body_content = models.TextField(max_length=600)
     added_by = models.ForeignKey(User, related_name='reviews', on_delete=models.CASCADE)
-    rating = models.IntegerField(choices=Ratings.choices)
+    rating = models.IntegerField(choices=Ratings.choices, default=5)
     product_reviewed = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE)
     added_on = models.DateTimeField(auto_now_add=True)
 
