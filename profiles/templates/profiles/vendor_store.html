@@ -48,7 +48,7 @@
         </div>
       </div>
 
-      {% if products.count > 1 %}
+      {% if store.user == request.user %}
       <!-- Request Payment Modal Button trigger -->
       <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#requestPayment">
         Request Payment
@@ -97,7 +97,7 @@
 </div>
 {% endif %}
 
-{% if products.count > 1 %}
+{% if products.count > 0 %}
 
 <!--Navbar-->
 <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 my-3">

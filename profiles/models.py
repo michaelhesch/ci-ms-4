@@ -54,7 +54,7 @@ class VendorProfile(UserProfile):
     def save(self, *args, **kwargs):
         if not self.store_name:
             random_value = random.randrange(10**1, 10**10)
-            store_name = str(self.user.username) + str(" 's Store") + str(random_value)
+            store_name = str(self.user.username) + str("'s Store") + str(random_value)
             self.store_name = store_name
         slug_name = str(self.store_name)
         self.store_slug = slugify(slug_name)
@@ -65,12 +65,13 @@ class VendorProfile(UserProfile):
 
 
 @receiver(post_save, sender=User)
-def create_update_profile(sender,instance, created, **kwargs):
+def create_update_profile(sender, instance, created, **kwargs):
     """
     Create or update the user's profile
     """
     # If user profile is new, create new profile
     if created:
         VendorProfile.objects.create(user=instance)
+
     # If user profile exists already, save profile
     instance.userprofile.save()

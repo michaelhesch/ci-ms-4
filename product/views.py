@@ -207,7 +207,7 @@ def delete_review(request, sku):
         if request.method == 'POST':
             review.delete()
             messages.success(request, "Your review has been deleted.")
-            return redirect(reverse("product:product_detial", kwargs={'slug': product_slug}))
+            return redirect(reverse("product:product_detail", kwargs={'slug': product_slug}))
     except Exception as e:
         messages.error(request, f"An unexpected error occured: {e}")
         return redirect(reverse("product:product_detail", kwargs={'slug': product_slug}))
