@@ -5,15 +5,14 @@ from .models import UserProfile, VendorProfile
 
 class VendorProfileAdmin(admin.ModelAdmin):
     model = VendorProfile
-    """
+
     list_display = (
         'store_name',
     )
-    """
+
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-
 
     list_display = (
         'user',

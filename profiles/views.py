@@ -1,8 +1,11 @@
 from django.contrib import messages
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.http.response import HttpResponse
+from django.shortcuts import render, redirect, reverse
 from django.core.paginator import Paginator
 from django.forms.models import model_to_dict
 from django.views.generic import View, ListView
+from django.views.decorators.http import require_POST
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import UserProfile, VendorProfile
@@ -27,9 +30,6 @@ class ProfileView(LoginRequiredMixin, View):
         for order in paid_orders:
             paid_balance += order.vendor_amount
 
-        #if orders.count() > 6:
-        paginator = Paginator(orders, 6)
-
         context = {
             'username': profile.user,
             'verified': profile.verified,
@@ -39,7 +39,6 @@ class ProfileView(LoginRequiredMixin, View):
             'vendor': vendor_profile,
             'unpaid_balance': unpaid_balance,
             'paid_balance': paid_balance,
-            'page_obj': paginator,
         }
 
         return render(self.request, "profile.html", context)
@@ -135,3 +134,25 @@ class OrderHistoryView(LoginRequiredMixin, ListView):
         orders = Order.objects.get(user=self.request.user, ordered=True)
         self.queryset = orders.all()
         return super().get_queryset()
+
+
+@login_required
+def request_vendor_payment(request, user):
+    try:
+        vendor = VendorProfile.objects.get(user=request.user)
+        store_slug = vendor.store_slug
+        unpaid_orders = OrderItem.objects.filter(vendor=vendor, ordered=True, vendor_paid=False)
+
+        if unpaid_orders:
+            for order in unpaid_orders:
+                order.vendor_paid = True
+                order.save()
+
+            messages.success(request, "Your payment has been requested!")
+            return redirect(reverse("profiles:vendorprofile", kwargs={'store_slug': store_slug}))
+        else:
+            messages.success(request, "You don't have any unpaid orders!")
+            return redirect(reverse("profiles:vendorprofile", kwargs={'store_slug': store_slug}))
+    except Exception as e:
+        messages.error(request, f"An unexpected error occured: {e}.")
+        return redirect(reverse("profiles:vendorprofile", kwargs={'store_slug': store_slug}))

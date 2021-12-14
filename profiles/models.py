@@ -1,3 +1,4 @@
+import random
 from django.db import models
 from django.dispatch import receiver
 from django.utils.text import slugify
@@ -31,7 +32,6 @@ class UserProfile(Profile):
     avatar_url = models.URLField(null=True, blank=True)
     verified = models.BooleanField(default=False)
     created_on = models.DateTimeField(auto_now_add=True)
-    vendor = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-created_on']
@@ -41,23 +41,9 @@ class UserProfile(Profile):
         return self.user.username
 
 
-@receiver(post_save, sender=User)
-def create_update_profile(sender,instance, created, **kwargs):
-    """
-    Create or update the user's profile
-    """
-    # If user profile is new, create new profile
-    if created:
-        UserProfile.objects.create(user=instance)
-    # If user profile exists already, save profile
-    instance.userprofile.save()
-
-
 class VendorProfile(UserProfile):
     store_name = models.CharField(max_length=100, null=True, blank=True, unique=True)
     store_slug = models.SlugField(max_length=200)
-    vendor_balance_unpaid = models.DecimalField(max_digits=20, decimal_places=2, default=0)
-    vendor_balance_paid = models.DecimalField(max_digits=20, decimal_places=2, default=0)
 
     class Meta:
         verbose_name_plural = 'Vendor Profiles'
@@ -66,9 +52,25 @@ class VendorProfile(UserProfile):
         return self.store_name
 
     def save(self, *args, **kwargs):
+        if not self.store_name:
+            random_value = random.randrange(10**1, 10**10)
+            store_name = str(self.user.username) + str(" 's Store") + str(random_value)
+            self.store_name = store_name
         slug_name = str(self.store_name)
         self.store_slug = slugify(slug_name)
         super(VendorProfile, self).save(*args, **kwargs)
 
     def get_vendor_slug(self):
         return self.store_slug
+
+
+@receiver(post_save, sender=User)
+def create_update_profile(sender,instance, created, **kwargs):
+    """
+    Create or update the user's profile
+    """
+    # If user profile is new, create new profile
+    if created:
+        VendorProfile.objects.create(user=instance)
+    # If user profile exists already, save profile
+    instance.userprofile.save()

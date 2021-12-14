@@ -10,9 +10,13 @@
   <div class="col">
     <div>
       <h4>Welcome to your store!</h4>
+      {% if products.count < 1  %}
+      <p>You do not have any products listed for sale.</p>
+      {% else %}
       <p>Below are all products you have listed for sale.</p>
       <p>Your current un-claimed sales balance is: ${{ unpaid_balance|intcomma }}</p>
       <p>Your claimed sales balance is: ${{ paid_balance|intcomma }}</p>
+      {% endif %} 
       <h5>Manage your store:</h5>
       <!-- Change Store Modal Button trigger -->
       <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#changeStoreName">
@@ -44,7 +48,33 @@
         </div>
       </div>
 
-      <a href="" class="button btn btn-primary btn-sm">Request Payment</a>
+      {% if products.count > 1 %}
+      <!-- Request Payment Modal Button trigger -->
+      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#requestPayment">
+        Request Payment
+      </button>
+      <!-- Modal -->
+      <div class="modal fade" id="requestPayment" tabindex="-1" role="dialog" aria-labelledby="requestPaymentLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="requestPaymentLabel">Request Payment?</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Payment for your sales balance in the amount of ${{ unpaid_balance|intcomma }} will be posted to you.</p>
+              <form method="GET" action="{% url 'profiles:request_payment' store.user %}">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-success">Request Payment</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
     </div>
   </div>
 </div>
@@ -61,11 +91,14 @@
   <div class="col">
     <div>
       <h4>Welcome to {{ store.store_name }}'s store.</h4>
-      <p>Below are all products listed by this vendor only.</p>
+      <p>Below are all products listed by this vendor.</p>
     </div>
   </div>
 </div>
 {% endif %}
+
+{% if products.count > 1 %}
+
 <!--Navbar-->
 <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 my-3">
   <!-- Navbar brand -->
@@ -174,14 +207,15 @@
                         </a>
                         </strong>
                     </h5>
-                    <h4 class="font-weight-bold blue-text">
+                    <h5 class="font-weight-bold blue-text">
                         <strong>${{ product.price|intcomma }}</strong>
-                    </h4>
+                    </h5>
                     {% if store.user == request.user %}
+                    <p class="text-danger text-small m-0">Selling fee: ${{ product.get_selling_fee }} ea.</p>
                     <div class="d-flex">
-                      <a href="" class="btn btn-sm">Modify</a>
+                      <a href="{% url 'product:edit_product' slug=product.slug %}" class="btn btn-sm">Modify</a>
 
-                      <!-- Change Store Modal Button trigger -->
+                      <!-- Remove Item Modal Button trigger -->
                       <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removeItem">
                         Remove
                       </button>
@@ -265,5 +299,6 @@
 </nav>
 {% endif %}
 <!--Pagination-->
+{% endif %}
 
 {% endblock %}
