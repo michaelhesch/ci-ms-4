@@ -72,6 +72,7 @@ class CheckoutView(LoginRequiredMixin,View):
             currency=settings.STRIPE_CURRENCY,
         )
 
+
         form = CheckoutForm()
         template = 'checkout/checkout.html'
         context = {
@@ -126,6 +127,7 @@ class CheckoutView(LoginRequiredMixin,View):
                 # Create shipping details object and save to order, or get if exists already
                 try:
                     shipping_details = ShippingDetails.objects.get(order_num=order)
+                    order.shipping_details = shipping_details
                 except ShippingDetails.DoesNotExist:
                     shipping_details = ShippingDetails.objects.get_or_create(
                         user=self.request.user,
@@ -180,6 +182,7 @@ class CheckoutView(LoginRequiredMixin,View):
                                 vendor_amount= vendor_amount,
                             )
                             order_item.save()
+
                         except Product.DoesNotExist:
                             messages.error(self.request, (
                                 "One of the products in your bag does not exist!")
