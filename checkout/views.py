@@ -89,19 +89,6 @@ class CheckoutView(LoginRequiredMixin,View):
             messages.warning(self.request, "There is nothing in your cart.")
             return redirect("home:store")
 
-        form_data = {
-            'full_name': self.request.POST['full_name'],
-            'email': self.request.POST['email'],
-            'phone': self.request.POST['phone'],
-            'address1': self.request.POST['address1'],
-            'address2': self.request.POST['address2'],
-            'city': self.request.POST['city'],
-            'state': self.request.POST['state'],
-            'zipcode': self.request.POST['zipcode'],
-            'country': self.request.POST['country'],
-            'email': self.request.POST['email'],
-        }
-
         form = CheckoutForm(self.request.POST or None)
 
         try:
