@@ -33,7 +33,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEVELOPMENT')
 
 ALLOWED_HOSTS = [
-    'ms4-test.herokuapp.com',
+    'ci-ms-4-mh.herokuapp.com/',
     'localhost',
     '127.0.0.1'
 ]
