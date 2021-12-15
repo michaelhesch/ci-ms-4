@@ -199,6 +199,12 @@ STATICFILES_DIRS = [
 ]
 
 if 'USE_AWS' in env:
+    # Configure cache control
+    AWS_S3_OBJECT_PARAMETERS = {
+        'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
+        'CacheControl': 'max-age=94608000',
+    }
+
     # AWS Bucket config
     AWS_STORAGE_BUCKET_NAME = 'ci-ms-4-mh'
     AWS_S3_REGION_NAME = 'eu-west-1'
@@ -215,6 +221,7 @@ if 'USE_AWS' in env:
     # Override and set static & media URLs in production
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}'
+
 
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
