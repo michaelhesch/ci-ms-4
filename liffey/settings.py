@@ -22,14 +22,13 @@ environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# Get secret key from environment
 SECRET_KEY = env('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# Get development setting flag in environment
 DEBUG = env('DEVELOPMENT')
 
 ALLOWED_HOSTS = [
@@ -41,7 +40,6 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    #'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -65,7 +63,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    #'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -119,9 +116,6 @@ AUTHENTICATION_BACKENDS = [
 
 # Site ID required by Allauth for social meida account login
 SITE_ID = 1
-
-# Temporarily log confirmation emails to the console
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Account registration settings
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
@@ -198,6 +192,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+# Production environment static files and AWS settings
 if 'USE_AWS' in env:
     # Configure cache control
     AWS_S3_OBJECT_PARAMETERS = {
@@ -222,9 +217,6 @@ if 'USE_AWS' in env:
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}'
 
-
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -244,3 +236,17 @@ STRIPE_CURRENCY = 'USD'
 STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
 STRIPE_WH_SECRET = env('STRIPE_WH_SECRET')
+
+if 'DEVELOPMENT' in env:
+    # Development environment email settings
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    DEFAULT_FROM_EMAIL = 'liffeyshop@example.com'
+else:
+    # Production environment email settings
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_USE_TLS = True
+    EMAIL_PORT = 587
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+    DEFAULT_FROM_EMAIL = env('EMAIL_HOST_USER')
