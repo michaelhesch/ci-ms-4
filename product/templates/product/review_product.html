@@ -18,18 +18,18 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td scope="row" class="p-3 w-25 align-middle">
-                            <a href="{{ product.get_absolute_url }}" alt="{{ product.product_name }}">
+                        <td class="p-3 w-25 align-middle">
+                            <a href="{{ product.get_absolute_url }}">
                                 <img class="img-fluid rounded pl-2" style="max-width: 75%;" src="{{ product.image_url }}">
                             </a>
                         </td>
-                        <td scope="row" class="align-middle">
-                            <a href="{{ product.get_absolute_url }}" alt="{{ product.product_name }}">
+                        <td class="align-middle">
+                            <a href="{{ product.get_absolute_url }}">
                                 {{ product.product_name }}
                             </a>
                         </td>
-                        <td scope="row" class="align-middle">${{ product.price|intcomma }}</td>
-                        <td scope="row" class="align-middle">
+                        <td class="align-middle">${{ product.price|intcomma }}</td>
+                        <td class="align-middle">
                             <a href="{% url 'profiles:vendorprofile' store_slug=product.seller.vendorprofile.get_vendor_slug %}">
                                 {{ product.seller.vendorprofile.store_name }}
                             </a>
@@ -54,7 +54,7 @@
                     </fieldset>
                     <div class="row">
                         <button type="submit" class="button btn btn-primary">Submit Review</button>
-                        <a href="{% url 'product:product_detail' slug=product.slug %}"class="button btn btn-secondary">Back to Product</a>
+                        <a href="{% url 'product:product_detail' slug=product.slug %}" class="button btn btn-secondary">Back to Product</a>
                     </div>
                 </form>
             </div>

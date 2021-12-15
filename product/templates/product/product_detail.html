@@ -3,244 +3,245 @@
 {% block title %}{{ product.product_name }} {% endblock %}
 
 {% block content %}
-    <div class="container dark-grey-text mt-5">
-      <!--Grid row-->
-      <div class="row wow fadeIn">
-        <!--Grid column-->
-        <div class="col-md-6 mb-4">
-          {% if product.image_url %}
-          <img src="{{ product.image_url }}" class="img-fluid" alt="Image of {{ product.product_name }}">
-          {% else %}
-          <!--TODO:Update the Default image-->
-          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/14.jpg" class="img-fluid" alt="">
+<div class="container dark-grey-text mt-5">
+  <!--Grid row-->
+  <div class="row wow fadeIn">
+    <!--Grid column-->
+    <div class="col-md-6 mb-4">
+      {% if product.image_url %}
+      <img src="{{ product.image_url }}" class="img-fluid" alt="Image of {{ product.product_name }}">
+      {% else %}
+      <!--TODO:Update the Default image-->
+      <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/14.jpg" class="img-fluid" alt="">
+      {% endif %}
+    </div>
+    <!--Grid column-->
+
+    <!--Grid column-->
+    <div class="col-md-6 mb-4">
+      <!--Content-->
+      <div class="p-4">
+        <div class="mb-3">
+            <span class="badge purple mr-1">{{ product.get_category_display }}</span>
+          {% if product.determine_if_new %}
+            <span class="badge blue mr-1">New</span>
+          {% endif %}
+          {% if product.price > 99 %}
+            <span class="badge red mr-1">Free Shipping</span>
           {% endif %}
         </div>
-        <!--Grid column-->
 
-        <!--Grid column-->
-        <div class="col-md-6 mb-4">
-          <!--Content-->
-          <div class="p-4">
-            <div class="mb-3">
-                <span class="badge purple mr-1">{{ product.get_category_display }}</span>
-              {% if product.determine_if_new %}
-                <span class="badge blue mr-1">New</span>
-              {% endif %}
-              {% if product.price > 99 %}
-                <span class="badge red mr-1">Free Shipping</span>
-              {% endif %}
-            </div>
-
-            <p class="lead font-weight-bold">{{ product.brand }} {{ product.product_name }}</p>
-            <p class="lead">Sold by: 
-              <a href="{% url 'profiles:vendorprofile' store_slug=product.seller.vendorprofile.store_slug %}">
-                {{ product.seller.vendorprofile.store_name }} {% if product.seller.verified is True %}<i class="fas fa-check-circle fa-xs text-primary"></i>{% endif %}
-              </a>
-            </p>
-            <p class="lead">
-              <span><strong>${{ product.price|intcomma }}</strong></span>
-            </p>
-            <form class="d-flex justify-content-left" method="POST" action="{% url 'cart:add_to_cart' product.sku %}">
-              {% csrf_token %}
-              <div class="form-group">
-                <div class="input-group align-items-center">
-                  <div class="input-group-prepend">
-                    <button class="decrement-qty btn btn-sm"
-                            data-sku="{{ product.sku }}"
-                            id="decrement-qty_{{ product.sku }}">
-                      <span class="icon">
-                        <i class="fas fa-minus"></i>
-                      </span>
-                    </button>
-                  </div>
-                  <input type="number" value="1" min="1" max="20" 
-                    aria-label="item quantity" 
-                    class="form-control qty_input text-center" 
-                    style="width: 60px" 
-                    name="quantity"
-                    data-sku="{{ product.sku }}"
-                    id="id_qty_{{ product.sku }}"
-                  />
-                  <div class="input-group-append">
-                    <button class="increment-qty btn btn-sm"
-                            data-sku="{{ product.sku }}"
-                            id="increment-qty_{{ product.sku }}">
-                      <span class="icon">
-                          <i class="fas fa-plus"></i>
-                      </span>
-                    </button>
-                  </div>
-                </div>
+        <p class="lead font-weight-bold">{{ product.brand }} {{ product.product_name }}</p>
+        <p class="lead">Sold by: 
+          <a href="{% url 'profiles:vendorprofile' store_slug=product.seller.vendorprofile.store_slug %}">
+            {{ product.seller.vendorprofile.store_name }} {% if product.seller.verified is True %}<i class="fas fa-check-circle fa-xs text-primary"></i>{% endif %}
+          </a>
+        </p>
+        <p class="lead">
+          <span><strong>${{ product.price|intcomma }}</strong></span>
+        </p>
+        <form class="d-flex justify-content-left" method="POST" action="{% url 'cart:add_to_cart' product.sku %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <div class="input-group align-items-center">
+              <div class="input-group-prepend">
+                <button class="decrement-qty btn btn-sm"
+                        data-sku="{{ product.sku }}"
+                        id="decrement-qty_{{ product.sku }}">
+                  <span class="icon">
+                    <i class="fas fa-minus"></i>
+                  </span>
+                </button>
               </div>
-              <div class="form-group">
-                <div class="input-group">
-                  <button class="btn btn-primary btn-md my-0 p" type="submit">Add to cart
-                    <i class="fas fa-shopping-cart ml-1"></i>
-                  </button>
-                </div>
+              <input type="number" value="1" min="1" max="20" 
+                aria-label="item quantity" 
+                class="form-control qty_input text-center" 
+                style="width: 60px" 
+                name="quantity"
+                data-sku="{{ product.sku }}"
+                id="id_qty_{{ product.sku }}"
+              />
+              <div class="input-group-append">
+                <button class="increment-qty btn btn-sm"
+                        data-sku="{{ product.sku }}"
+                        id="increment-qty_{{ product.sku }}">
+                  <span class="icon">
+                      <i class="fas fa-plus"></i>
+                  </span>
+                </button>
               </div>
-              <input type="hidden" name="redirect_url" value="{{ request.path }}" />
-            </form>
-            <div class="pt-2">
-              {% if request.user == product.seller.user %}
-              <h5><strong>Product Owner Details:</strong></h5>
-              <p class="text-danger mb-1">The selling fee for your item is ${{ product.get_selling_fee }} per item sold.</p>
-              <p class="mb-1">You listed this product for sale on {{ product.date_added|date:"SHORT_DATE_FORMAT" }}.</p>
-              {% endif %}
             </div>
           </div>
-          <!--Content-->
+          <div class="form-group">
+            <div class="input-group">
+              <button class="btn btn-primary btn-md my-0 p" type="submit">Add to cart
+                <i class="fas fa-shopping-cart ml-1"></i>
+              </button>
+            </div>
+          </div>
+          <input type="hidden" name="redirect_url" value="{{ request.path }}" />
+        </form>
+        <div class="pt-2">
+          {% if request.user == product.seller.user %}
+          <h5><strong>Product Owner Details:</strong></h5>
+          <p class="text-danger mb-1">The selling fee for your item is ${{ product.get_selling_fee }} per item sold.</p>
+          <p class="mb-1">You listed this product for sale on {{ product.date_added|date:"SHORT_DATE_FORMAT" }}.</p>
+          {% endif %}
         </div>
-        <!--Grid column-->
       </div>
-      <!--Grid row-->
+      <!--Content-->
+    </div>
+    <!--Grid column-->
+  </div>
+  <!--Grid row-->
+  <hr>
+  <!--Product details section-->
+  <!--Grid row-->
+  <div class="row d-flex wow fadeIn">
+    <!--Grid column-->
+    <div class="col-md-8 ">
+      <h4 class="my-4 h4">Description:</h4>
+      <p>{{ product.description|capfirst }}</p>
+      <div class="table-responsive">
+        <h4 class="my-4 h4">Additional information about the {{ product.brand }} {{ product.product_name }}:</h4>
+        <table class="table table-sm">
+          <tbody>
+            <tr>
+              <th>GPU Manufacturer:</th>
+              <td>{{ product.category }}</td>
+            </tr>
+            <tr>
+              <th>Brand:</th>
+              <td>{{ product.brand }}</td>
+            </tr>
+            <tr>
+              <th>Boost Clock Speed:</th>
+              <td>{{ product.boost_clock }}</td>
+            </tr>
+            <tr>
+              <th>Memory Clock Speed:</th>
+              <td>{{ product.memory_clock }}</td>
+            </tr>
+            <tr>
+              <th>Memory Size:</th>
+              <td>{{ product.memory_size }}</td>
+            </tr>
+            <tr>
+              <th>Memory Type:</th>
+              <td>{{ product.memory_type }}</td>
+            </tr>
+            <tr>
+              <th>Interface Type:</th>
+              <td>{{ product.interface_type }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!--Grid column-->
+  </div>
+  <!--Grid row-->
+  <div class="row wow fadeIn">
+    <div class="col-md-8">
+      <!--Product review section-->
       <hr>
-      <!--Product details section-->
-      <!--Grid row-->
-      <div class="row d-flex wow fadeIn">
-        <!--Grid column-->
-        <div class="col-md-8 ">
-          <h4 class="my-4 h4">Description:</h4>
-          <p>{{ product.description|capfirst }}</p>
-          <div class="table-responsive">
-            <h4 class="my-4 h4">Additional information about the {{ product.brand }} {{ product.product_name }}:</h4>
-            <table class="table table-sm">
-              <tbody>
-                <tr>
-                  <th>GPU Manufacturer:</th>
-                  <td>{{ product.category }}</td>
-                </tr>
-                <tr>
-                  <th>Brand:</th>
-                  <td>{{ product.brand }}</td>
-                </tr>
-                <tr>
-                  <th>Boost Clock Speed:</th>
-                  <td>{{ product.boost_clock }}</td>
-                </tr>
-                <tr>
-                  <th>Memory Clock Speed:</th>
-                  <td>{{ product.memory_clock }}</td>
-                </tr>
-                <tr>
-                  <th>Memory Size:</th>
-                  <td>{{ product.memory_size }}</td>
-                </tr>
-                <tr>
-                  <th>Memory Type:</th>
-                  <td>{{ product.memory_type }}</td>
-                </tr>
-                <tr>
-                  <th>Interface Type:</th>
-                  <td>{{ product.interface_type }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <!--Grid column-->
-      </div>
+      <h4 class="my-4 h4">Product Reviews:</h4>
+      {% if reviews.count > 0 %}
       <!--Grid row-->
       <div class="row wow fadeIn">
-        <div class="col-md-8">
-          <!--Product review section-->
-          <hr>
-          <h4 class="my-4 h4">Product Reviews:</h4>
-          {% if reviews.count > 0 %}
-          <!--Grid row-->
-          <div class="row wow fadeIn">
-            <!--Grid column-->
-            {% for review in reviews %}
-            <div class="col mb-4">
-              <div>
-                <p class="mb-1"><strong>{{ review.title|capfirst }}</strong></p>
-                <p class="small mb-1">{% if review.added_by == request.user %}You reviewed this product on {{ review.added_on|date:"SHORT_DATE_FORMAT" }}.{% else %} Review by: {{ review.added_by|capfirst }} on {{ review.added_on|date:"SHORT_DATE_FORMAT" }}.{% endif %}</p>
-                <p class="mb-1">Rating: {{ review.rating }} / 5</p>
-                <p class="mb-1">Comments: {{ review.body_content|capfirst }}</p>
-                {% if review.added_by == request.user %}
-                  <hr class="my-1">
-                  <a href="{% url 'product:product_review' slug=product.slug %}" class="mx-1"><i class="far fa-edit"></i> Edit</a>
+        <!--Grid column-->
+        {% for review in reviews %}
+        <div class="col mb-4">
+          <div>
+            <p class="mb-1"><strong>{{ review.title|capfirst }}</strong></p>
+            <p class="small mb-1">{% if review.added_by == request.user %}You reviewed this product on {{ review.added_on|date:"SHORT_DATE_FORMAT" }}.{% else %} Review by: {{ review.added_by|capfirst }} on {{ review.added_on|date:"SHORT_DATE_FORMAT" }}.{% endif %}</p>
+            <p class="mb-1">Rating: {{ review.rating }} / 5</p>
+            <p class="mb-1">Comments: {{ review.body_content|capfirst }}</p>
+            {% if review.added_by == request.user %}
+              <hr class="my-1">
+              <a href="{% url 'product:product_review' slug=product.slug %}" class="mx-1"><i class="far fa-edit"></i> Edit</a>
 
-                  <!-- Remove Review Modal Button trigger -->
-                  <button type="button" class="btn btn-link m-1 p-0" data-toggle="modal" data-target="#removeReview">
-                    <i class="far fa-trash-alt"></i> Delete
-                  </button>
-                  <!-- Modal -->
-                  <div class="modal fade" id="removeReview" tabindex="-1" role="dialog" aria-labelledby="removeReviewLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="removeReviewLabel">Remove Your Review?</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <p>Are you sure you want to remove this review?</p>
-                          <form method="POST" action="{% url 'product:delete_review' sku=product.sku %}">
-                            {% csrf_token %}
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-danger">Delete Review</button>
-                          </form>
-                        </div>
-                      </div>
+              <!-- Remove Review Modal Button trigger -->
+              <button type="button" class="btn btn-link m-1 p-0" data-toggle="modal" data-target="#removeReview">
+                <i class="far fa-trash-alt"></i> Delete
+              </button>
+              <!-- Modal -->
+              <div class="modal fade" id="removeReview" tabindex="-1" role="dialog" aria-labelledby="removeReviewLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="removeReviewLabel">Remove Your Review?</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Are you sure you want to remove this review?</p>
+                      <form method="POST" action="{% url 'product:delete_review' sku=product.sku %}">
+                        {% csrf_token %}
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete Review</button>
+                      </form>
                     </div>
                   </div>
-                {% endif %}
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        <hr />
+        {% endfor %}
+      </div>
+      {% else %}
+      <!--Grid row-->
+      <div class="row d-flex wow fadeIn">
+        <!-- Test placeholder for collapse control for review Div-->
+          <!--Grid column-->
+          <div class="col mb-2">
+            <div>
+              <p>There are no reviews for this product yet.  Leave a review now!</p>
+            </div>
+            <div>
+              <a href="{% url 'product:product_review' slug=product.slug %}" class="button btn btn-primary btn-sm">Leave a Review</a>
+            </div>
+          </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <!--Similar product recommendations section-->
+  <!--Grid row-->
+  {% if product.get_similar_products %}
+    <hr>
+    <div class="row d-flex wow fadeIn">
+      <div class="col">
+        <h4 class="my-2 h4">Similar Products:</h4>
+        <p>Here are some additional products we think you will love!</p>
+      </div>
+    </div>
+      <div class="row wow fadeIn p-1 d-inline-flex justify-content-sm-center">
+        {% for product in product.get_similar_products %}
+        <div class="col-md-3">
+          <div class="card m-1 p-1">
+          <a href="{% url 'product:product_detail' slug=product.slug %}">
+            <img src="{{ product.image_url }}" class="img-fluid" alt="{{ product.product_name }}">
+            <div class="row text-center">
+              <div class="col">
+                {{ product.product_name }}
+              </div>
+              <div class="col">
+                ${{ product.price|intcomma }}
               </div>
             </div>
-            <hr />
-            {% endfor %}
-          </div>
-          {% else %}
-          <!--Grid row-->
-          <div class="row d-flex wow fadeIn">
-            <!-- Test placeholder for collapse control for review Div-->
-              <!--Grid column-->
-              <div class="col mb-2">
-                <div>
-                  <p>There are no reviews for this product yet.  Leave a review now!</p>
-                </div>
-                <div>
-                  <a href="{% url 'product:product_review' slug=product.slug %}" class="button btn btn-primary btn-sm">Leave a Review</a>
-                </div>
-              </div>
-          </div>
-          {% endif %}
+          </a>
         </div>
+        </div>
+        {% endfor %}
       </div>
-    <!--Similar product recommendations section-->
     <!--Grid row-->
-    {% if product.get_similar_products %}
-      <hr>
-      <div class="row d-flex wow fadeIn">
-        <div class="col">
-          <h4 class="my-2 h4">Similar Products:</h4>
-          <p>Here are some additional products we think you will love!</p>
-        </div>
-      </div>
-        <div class="row wow fadeIn p-1 d-inline-flex justify-content-sm-center">
-          {% for product in product.get_similar_products %}
-          <div class="col-md-3">
-            <div class="card m-1 p-1">
-            <a href="{% url 'product:product_detail' slug=product.slug %}">
-              <img src="{{ product.image_url }}" class="img-fluid" alt="{{ product.product_name }}">
-              <div class="row text-center">
-                <div class="col">
-                  {{ product.product_name }}
-                </div>
-                <div class="col">
-                  ${{ product.price|intcomma }}
-                </div>
-              </div>
-            </a>
-          </div>
-          </div>
-          {% endfor %}
-        </div>
-      <!--Grid row-->
-    {% endif %}
+  {% endif %}
+</div>
 {% endblock %}
 
 {% block postloadjs %}

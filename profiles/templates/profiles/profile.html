@@ -21,7 +21,7 @@
                         <br>
                         <p class="mb-2">Sell your own products on our platform, for flat 5% fee!</p>
                         <p class="mb-2">Please visit your store profile to manage your store and products.</p>
-                        <a href="{% url 'profiles:vendorprofile' store_slug=vendor.store_slug %}"class="button btn btn-primary btn-sm">View Your Store</a>
+                        <a href="{% url 'profiles:vendorprofile' store_slug=vendor.store_slug %}" class="button btn btn-primary btn-sm">View Your Store</a>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -60,6 +60,7 @@
             </div>
         </div>
     </div>
+</div>
 <div class="row wow fadeIn my-3" id="order-history-table-container" data-url="{% url 'profiles:orderhistory' %}">
     {% include 'order-history.html' %}
 </div>
