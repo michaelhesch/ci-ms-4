@@ -65,10 +65,10 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
 ]
 
 ROOT_URLCONF = 'liffey.urls'
@@ -133,8 +133,6 @@ WSGI_APPLICATION = 'liffey.wsgi.application'
 
 
 # HTTPS security settings
-# Prevents CSRF cookie being transmitted via HTTP accidentally
-CSRF_COOKIE_SECURE = True
 # Prevents session cookie being transmitted via HTTP accidentally
 SESSION_COOKIE_SECURE = True
 
