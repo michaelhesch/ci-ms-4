@@ -132,6 +132,12 @@ LOGIN_REDIRECT_URL = '/'
 WSGI_APPLICATION = 'liffey.wsgi.application'
 
 
+# HTTPS security settings
+# Prevents CSRF cookie being transmitted via HTTP accidentally
+CSRF_COOKIE_SECURE = True
+# Prevents session cookie being transmitted via HTTP accidentally
+SESSION_COOKIE_SECURE = True
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -237,7 +243,7 @@ STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
 STRIPE_WH_SECRET = env('STRIPE_WH_SECRET')
 
-if 'DEVELOPMENT' in env:
+if env('DEVELOPMENT'):
     # Development environment email settings
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     DEFAULT_FROM_EMAIL = 'liffeyshop@example.com'
