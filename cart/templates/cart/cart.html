@@ -27,7 +27,7 @@
             </td>
             <td><a href="{{ order_item.product.get_absolute_url }}">{{ order_item.product.product_name }}</a></td>
             <td>${{ order_item.product.price|intcomma }}</td>
-            <td>{{ order_item.product.seller.store_name }}</td>
+            <td>{{ order_item.product.seller.vendorprofile.store_name }}</td>
             <td>
                 <a href="{% url 'cart:remove_one_from_cart' order_item.sku %}" id="decrement-qty-{{ product.sku }}"><i class="fas fa-minus mr-2"></i></a>        
                 {{ order_item.quantity }}

@@ -26,6 +26,31 @@ select option[value=""] {
   header {
     height: 65px;
   }
+
+  #checkout-form,
+  #checkout-form fieldset {
+    padding-left: 0px!important;
+    padding-right: 0px!important;
+  }
+
+  #add-product-form {
+    padding-left: 0px!important;
+    padding-right: 0px!important;
+  }
+
+  #product-div {
+    padding-left: 0px!important;
+    padding-right: 0px!important;
+  }
+
+  #modify-product {
+    padding-left: 0px!important;
+    padding-right: 0px!important;
+  }
+
+  .form-group input {
+    width: auto!important;
+  }
 }
 
 @media (min-width: 800px) and (max-width: 850px) {
