@@ -99,57 +99,7 @@
 
 {% if products.count > 0 %}
 
-<!--Navbar-->
-<nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 my-3">
-  <!-- Navbar brand -->
-  <span class="navbar-brand">Categories:</span>
-
-  <!-- Collapse button -->
-  <button
-    class="navbar-toggler"
-    type="button"
-    data-toggle="collapse"
-    data-target="#store-nav"
-    aria-controls="store-nav"
-    aria-expanded="false"
-    aria-label="Toggle navigation"
-  >
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <!-- Collapsible content -->
-  <div class="collapse navbar-collapse" id="store-nav">
-    <!-- Links -->
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item {% if current_category == None %}active{% endif %}">
-        <a class="nav-link" href="{% url 'profiles:vendorprofile' store_slug=store.store_slug %}">All</a>
-      </li>
-      <li class="nav-item {% if current_category == 'AMD' %}active{% endif %}">
-        <a class="nav-link" href="{% url 'profiles:vendorprofile' store_slug=store.store_slug %}?category=AMD">AMD</a>
-      </li>
-      <li class="nav-item {% if current_category == 'Nvidia' %}active{% endif %}">
-        <a class="nav-link" href="{% url 'profiles:vendorprofile' store_slug=store.store_slug %}?category=Nvidia">Nvidia</a>
-      </li>
-    </ul>
-    <!-- Links -->
-
-    <form class="form-inline" method="GET" action="{% url 'profiles:vendorprofile' store_slug=store.store_slug %}">
-      <div class="md-form my-0">
-        <input
-          class="form-control mr-sm-2"
-          type="text"
-          name="q"
-          placeholder="Search {{ store.store_name }}"
-          aria-label="Search the store"
-        />
-      </div>
-    </form>
-  </div>
-  <!-- Collapsible content -->
-</nav>
-<!--/.Navbar-->
-
-<!--Section: Products v.3-->
+<!--Product List-->
 <section class="text-center my-3 pt-2">
   <div class="row">
     <div class="col">

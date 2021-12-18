@@ -1,0 +1,1846 @@
+[
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2021-12-18T15:03:55.741Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "1",
+    "object_repr": "test@example.com",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2021-12-18T15:04:16.504Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "1",
+    "object_repr": "Nvidia",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2021-12-18T15:04:23.063Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "2",
+    "object_repr": "AMD",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2021-12-18T15:05:16.784Z",
+    "user": 1,
+    "content_type": 17,
+    "object_id": "1",
+    "object_repr": "mike",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Verified\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2021-12-18T15:13:45.872Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "1",
+    "object_repr": "AMD",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2021-12-18T15:13:54.151Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "2",
+    "object_repr": "Nvidia",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2021-12-18T15:14:11.130Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "3",
+    "object_repr": "MSI",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2021-12-18T15:14:23.382Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "4",
+    "object_repr": "ASUS",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2021-12-18T15:14:32.537Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "5",
+    "object_repr": "GIGABYTE",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2021-12-18T15:14:40.945Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "6",
+    "object_repr": "EVGA",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2021-12-18T15:14:48.097Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "7",
+    "object_repr": "SAPPHIRE",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2021-12-18T15:14:52.987Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "8",
+    "object_repr": "XFX",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2021-12-18T15:15:17.212Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "1",
+    "object_repr": "example.com",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Display name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 14,
+  "fields": {
+    "action_time": "2021-12-18T15:17:42.465Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "8",
+    "object_repr": "XFX",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 15,
+  "fields": {
+    "action_time": "2021-12-18T15:17:42.480Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "7",
+    "object_repr": "SAPPHIRE",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 16,
+  "fields": {
+    "action_time": "2021-12-18T15:17:42.493Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "6",
+    "object_repr": "EVGA",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 17,
+  "fields": {
+    "action_time": "2021-12-18T15:17:42.507Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "1",
+    "object_repr": "AMD",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 18,
+  "fields": {
+    "action_time": "2021-12-18T15:17:42.522Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "2",
+    "object_repr": "Nvidia",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 19,
+  "fields": {
+    "action_time": "2021-12-18T15:17:42.537Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "3",
+    "object_repr": "MSI",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 20,
+  "fields": {
+    "action_time": "2021-12-18T15:17:42.550Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "5",
+    "object_repr": "GIGABYTE",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 21,
+  "fields": {
+    "action_time": "2021-12-18T15:17:42.564Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "4",
+    "object_repr": "ASUS",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 22,
+  "fields": {
+    "action_time": "2021-12-18T15:17:52.230Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "9",
+    "object_repr": "RTX 3080",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 23,
+  "fields": {
+    "action_time": "2021-12-18T15:18:00.033Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "10",
+    "object_repr": "RTX 3090",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 24,
+  "fields": {
+    "action_time": "2021-12-18T15:18:10.934Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "11",
+    "object_repr": "RTX 3080 Ti",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 25,
+  "fields": {
+    "action_time": "2021-12-18T15:18:17.979Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "12",
+    "object_repr": "RTX 3070",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 26,
+  "fields": {
+    "action_time": "2021-12-18T15:18:25.086Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "13",
+    "object_repr": "RTX 3070 Ti",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 27,
+  "fields": {
+    "action_time": "2021-12-18T15:18:31.725Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "14",
+    "object_repr": "RTX 3060",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 28,
+  "fields": {
+    "action_time": "2021-12-18T15:18:37.953Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "15",
+    "object_repr": "RTX 3060 Ti",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 29,
+  "fields": {
+    "action_time": "2021-12-18T15:36:37.377Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "16",
+    "object_repr": "RX 6600",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 30,
+  "fields": {
+    "action_time": "2021-12-18T15:36:47.732Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "17",
+    "object_repr": "RX 6600 XT",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 31,
+  "fields": {
+    "action_time": "2021-12-18T15:36:57.053Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "18",
+    "object_repr": "RX 6700 XT",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 32,
+  "fields": {
+    "action_time": "2021-12-18T15:37:08.229Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "19",
+    "object_repr": "RX 6800",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 33,
+  "fields": {
+    "action_time": "2021-12-18T15:37:18.228Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "20",
+    "object_repr": "RX 6800 XT",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 34,
+  "fields": {
+    "action_time": "2021-12-18T15:37:27.807Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "21",
+    "object_repr": "RX 6900 XT",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 1,
+  "fields": {
+    "name": "Can add log entry",
+    "content_type": 1,
+    "codename": "add_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 2,
+  "fields": {
+    "name": "Can change log entry",
+    "content_type": 1,
+    "codename": "change_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 3,
+  "fields": {
+    "name": "Can delete log entry",
+    "content_type": 1,
+    "codename": "delete_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 4,
+  "fields": {
+    "name": "Can view log entry",
+    "content_type": 1,
+    "codename": "view_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 5,
+  "fields": {
+    "name": "Can add permission",
+    "content_type": 2,
+    "codename": "add_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 6,
+  "fields": {
+    "name": "Can change permission",
+    "content_type": 2,
+    "codename": "change_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 7,
+  "fields": {
+    "name": "Can delete permission",
+    "content_type": 2,
+    "codename": "delete_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 8,
+  "fields": {
+    "name": "Can view permission",
+    "content_type": 2,
+    "codename": "view_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 9,
+  "fields": {
+    "name": "Can add group",
+    "content_type": 3,
+    "codename": "add_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 10,
+  "fields": {
+    "name": "Can change group",
+    "content_type": 3,
+    "codename": "change_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 11,
+  "fields": {
+    "name": "Can delete group",
+    "content_type": 3,
+    "codename": "delete_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 12,
+  "fields": {
+    "name": "Can view group",
+    "content_type": 3,
+    "codename": "view_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 13,
+  "fields": {
+    "name": "Can add user",
+    "content_type": 4,
+    "codename": "add_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 14,
+  "fields": {
+    "name": "Can change user",
+    "content_type": 4,
+    "codename": "change_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 15,
+  "fields": {
+    "name": "Can delete user",
+    "content_type": 4,
+    "codename": "delete_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 16,
+  "fields": {
+    "name": "Can view user",
+    "content_type": 4,
+    "codename": "view_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 17,
+  "fields": {
+    "name": "Can add content type",
+    "content_type": 5,
+    "codename": "add_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 18,
+  "fields": {
+    "name": "Can change content type",
+    "content_type": 5,
+    "codename": "change_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 19,
+  "fields": {
+    "name": "Can delete content type",
+    "content_type": 5,
+    "codename": "delete_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 20,
+  "fields": {
+    "name": "Can view content type",
+    "content_type": 5,
+    "codename": "view_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 21,
+  "fields": {
+    "name": "Can add session",
+    "content_type": 6,
+    "codename": "add_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 22,
+  "fields": {
+    "name": "Can change session",
+    "content_type": 6,
+    "codename": "change_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 23,
+  "fields": {
+    "name": "Can delete session",
+    "content_type": 6,
+    "codename": "delete_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 24,
+  "fields": {
+    "name": "Can view session",
+    "content_type": 6,
+    "codename": "view_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 25,
+  "fields": {
+    "name": "Can add site",
+    "content_type": 7,
+    "codename": "add_site"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 26,
+  "fields": {
+    "name": "Can change site",
+    "content_type": 7,
+    "codename": "change_site"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 27,
+  "fields": {
+    "name": "Can delete site",
+    "content_type": 7,
+    "codename": "delete_site"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 28,
+  "fields": {
+    "name": "Can view site",
+    "content_type": 7,
+    "codename": "view_site"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 29,
+  "fields": {
+    "name": "Can add email address",
+    "content_type": 8,
+    "codename": "add_emailaddress"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 30,
+  "fields": {
+    "name": "Can change email address",
+    "content_type": 8,
+    "codename": "change_emailaddress"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 31,
+  "fields": {
+    "name": "Can delete email address",
+    "content_type": 8,
+    "codename": "delete_emailaddress"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 32,
+  "fields": {
+    "name": "Can view email address",
+    "content_type": 8,
+    "codename": "view_emailaddress"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 33,
+  "fields": {
+    "name": "Can add email confirmation",
+    "content_type": 9,
+    "codename": "add_emailconfirmation"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 34,
+  "fields": {
+    "name": "Can change email confirmation",
+    "content_type": 9,
+    "codename": "change_emailconfirmation"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 35,
+  "fields": {
+    "name": "Can delete email confirmation",
+    "content_type": 9,
+    "codename": "delete_emailconfirmation"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 36,
+  "fields": {
+    "name": "Can view email confirmation",
+    "content_type": 9,
+    "codename": "view_emailconfirmation"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 37,
+  "fields": {
+    "name": "Can add social account",
+    "content_type": 10,
+    "codename": "add_socialaccount"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 38,
+  "fields": {
+    "name": "Can change social account",
+    "content_type": 10,
+    "codename": "change_socialaccount"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 39,
+  "fields": {
+    "name": "Can delete social account",
+    "content_type": 10,
+    "codename": "delete_socialaccount"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 40,
+  "fields": {
+    "name": "Can view social account",
+    "content_type": 10,
+    "codename": "view_socialaccount"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 41,
+  "fields": {
+    "name": "Can add social application",
+    "content_type": 11,
+    "codename": "add_socialapp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 42,
+  "fields": {
+    "name": "Can change social application",
+    "content_type": 11,
+    "codename": "change_socialapp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 43,
+  "fields": {
+    "name": "Can delete social application",
+    "content_type": 11,
+    "codename": "delete_socialapp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 44,
+  "fields": {
+    "name": "Can view social application",
+    "content_type": 11,
+    "codename": "view_socialapp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 45,
+  "fields": {
+    "name": "Can add social application token",
+    "content_type": 12,
+    "codename": "add_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 46,
+  "fields": {
+    "name": "Can change social application token",
+    "content_type": 12,
+    "codename": "change_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 47,
+  "fields": {
+    "name": "Can delete social application token",
+    "content_type": 12,
+    "codename": "delete_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 48,
+  "fields": {
+    "name": "Can view social application token",
+    "content_type": 12,
+    "codename": "view_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 49,
+  "fields": {
+    "name": "Can add category",
+    "content_type": 13,
+    "codename": "add_category"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 50,
+  "fields": {
+    "name": "Can change category",
+    "content_type": 13,
+    "codename": "change_category"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 51,
+  "fields": {
+    "name": "Can delete category",
+    "content_type": 13,
+    "codename": "delete_category"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 52,
+  "fields": {
+    "name": "Can view category",
+    "content_type": 13,
+    "codename": "view_category"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 53,
+  "fields": {
+    "name": "Can add product",
+    "content_type": 14,
+    "codename": "add_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 54,
+  "fields": {
+    "name": "Can change product",
+    "content_type": 14,
+    "codename": "change_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 55,
+  "fields": {
+    "name": "Can delete product",
+    "content_type": 14,
+    "codename": "delete_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 56,
+  "fields": {
+    "name": "Can view product",
+    "content_type": 14,
+    "codename": "view_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 57,
+  "fields": {
+    "name": "Can add review",
+    "content_type": 15,
+    "codename": "add_review"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 58,
+  "fields": {
+    "name": "Can change review",
+    "content_type": 15,
+    "codename": "change_review"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 59,
+  "fields": {
+    "name": "Can delete review",
+    "content_type": 15,
+    "codename": "delete_review"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 60,
+  "fields": {
+    "name": "Can view review",
+    "content_type": 15,
+    "codename": "view_review"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 61,
+  "fields": {
+    "name": "Can add product name",
+    "content_type": 16,
+    "codename": "add_productname"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 62,
+  "fields": {
+    "name": "Can change product name",
+    "content_type": 16,
+    "codename": "change_productname"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 63,
+  "fields": {
+    "name": "Can delete product name",
+    "content_type": 16,
+    "codename": "delete_productname"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 64,
+  "fields": {
+    "name": "Can view product name",
+    "content_type": 16,
+    "codename": "view_productname"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 65,
+  "fields": {
+    "name": "Can add user profile",
+    "content_type": 17,
+    "codename": "add_userprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 66,
+  "fields": {
+    "name": "Can change user profile",
+    "content_type": 17,
+    "codename": "change_userprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 67,
+  "fields": {
+    "name": "Can delete user profile",
+    "content_type": 17,
+    "codename": "delete_userprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 68,
+  "fields": {
+    "name": "Can view user profile",
+    "content_type": 17,
+    "codename": "view_userprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 69,
+  "fields": {
+    "name": "Can add vendor profile",
+    "content_type": 18,
+    "codename": "add_vendorprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 70,
+  "fields": {
+    "name": "Can change vendor profile",
+    "content_type": 18,
+    "codename": "change_vendorprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 71,
+  "fields": {
+    "name": "Can delete vendor profile",
+    "content_type": 18,
+    "codename": "delete_vendorprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 72,
+  "fields": {
+    "name": "Can view vendor profile",
+    "content_type": 18,
+    "codename": "view_vendorprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 73,
+  "fields": {
+    "name": "Can add order",
+    "content_type": 19,
+    "codename": "add_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 74,
+  "fields": {
+    "name": "Can change order",
+    "content_type": 19,
+    "codename": "change_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 75,
+  "fields": {
+    "name": "Can delete order",
+    "content_type": 19,
+    "codename": "delete_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 76,
+  "fields": {
+    "name": "Can view order",
+    "content_type": 19,
+    "codename": "view_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 77,
+  "fields": {
+    "name": "Can add shipping details",
+    "content_type": 20,
+    "codename": "add_shippingdetails"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 78,
+  "fields": {
+    "name": "Can change shipping details",
+    "content_type": 20,
+    "codename": "change_shippingdetails"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 79,
+  "fields": {
+    "name": "Can delete shipping details",
+    "content_type": 20,
+    "codename": "delete_shippingdetails"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 80,
+  "fields": {
+    "name": "Can view shipping details",
+    "content_type": 20,
+    "codename": "view_shippingdetails"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 81,
+  "fields": {
+    "name": "Can add order item",
+    "content_type": 21,
+    "codename": "add_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 82,
+  "fields": {
+    "name": "Can change order item",
+    "content_type": 21,
+    "codename": "change_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 83,
+  "fields": {
+    "name": "Can delete order item",
+    "content_type": 21,
+    "codename": "delete_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 84,
+  "fields": {
+    "name": "Can view order item",
+    "content_type": 21,
+    "codename": "view_orderitem"
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$260000$YLpB5lHf8FqdCSKN7X3x6j$vrkQgM1UuW9o8ocRcWtk99COUkpDWENOjXGmb9HlRCc=",
+    "last_login": "2021-12-18T15:03:34.545Z",
+    "is_superuser": true,
+    "username": "mike",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2021-12-18T15:02:57.681Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 1,
+  "fields": {
+    "app_label": "admin",
+    "model": "logentry"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 2,
+  "fields": {
+    "app_label": "auth",
+    "model": "permission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 3,
+  "fields": {
+    "app_label": "auth",
+    "model": "group"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 4,
+  "fields": {
+    "app_label": "auth",
+    "model": "user"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 5,
+  "fields": {
+    "app_label": "contenttypes",
+    "model": "contenttype"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 6,
+  "fields": {
+    "app_label": "sessions",
+    "model": "session"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 7,
+  "fields": {
+    "app_label": "sites",
+    "model": "site"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 8,
+  "fields": {
+    "app_label": "account",
+    "model": "emailaddress"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 9,
+  "fields": {
+    "app_label": "account",
+    "model": "emailconfirmation"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 10,
+  "fields": {
+    "app_label": "socialaccount",
+    "model": "socialaccount"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 11,
+  "fields": {
+    "app_label": "socialaccount",
+    "model": "socialapp"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 12,
+  "fields": {
+    "app_label": "socialaccount",
+    "model": "socialtoken"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 13,
+  "fields": {
+    "app_label": "product",
+    "model": "category"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 14,
+  "fields": {
+    "app_label": "product",
+    "model": "product"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 15,
+  "fields": {
+    "app_label": "product",
+    "model": "review"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 16,
+  "fields": {
+    "app_label": "product",
+    "model": "productname"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 17,
+  "fields": {
+    "app_label": "profiles",
+    "model": "userprofile"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 18,
+  "fields": {
+    "app_label": "profiles",
+    "model": "vendorprofile"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 19,
+  "fields": {
+    "app_label": "checkout",
+    "model": "order"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 20,
+  "fields": {
+    "app_label": "checkout",
+    "model": "shippingdetails"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 21,
+  "fields": {
+    "app_label": "checkout",
+    "model": "orderitem"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "2q2rb1zy4w4lbbfjnmtkq37n663m3wtr",
+  "fields": {
+    "session_data": ".eJxVjE0OwiAQhe_C2hAohUqX7j0DGWYmFjVgSptojHeXJt10936-974iVK41lRz4_UrzR4zqJAKsyxTWynNIJEahxSGLgA_OW0F3yLciseRlTlFuiNzbKq-F-HnZ2cPBBHVqa6N7rTsG6w14NDQwKGSH3HS00RnCwZPtSLE_N9cZbqSy6HtnHSnx-wMXaT86:1mybFG:rYGhsRNRYnuteuRjh3X3iHMihSgFf-mYhgqL_RS0b00",
+    "expire_date": "2022-01-01T15:03:34.562Z"
+  }
+},
+{
+  "model": "sites.site",
+  "pk": 1,
+  "fields": {
+    "domain": "example.com",
+    "name": "liffey.ie"
+  }
+},
+{
+  "model": "account.emailaddress",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "email": "test@example.com",
+    "verified": true,
+    "primary": true
+  }
+},
+{
+  "model": "product.category",
+  "pk": 1,
+  "fields": {
+    "category_name": "Nvidia",
+    "slug": "nvidia",
+    "category_order": 1
+  }
+},
+{
+  "model": "product.category",
+  "pk": 2,
+  "fields": {
+    "category_name": "AMD",
+    "slug": "amd",
+    "category_order": 2
+  }
+},
+{
+  "model": "product.productname",
+  "pk": 9,
+  "fields": {
+    "product_name": "RTX 3080",
+    "category": 1
+  }
+},
+{
+  "model": "product.productname",
+  "pk": 10,
+  "fields": {
+    "product_name": "RTX 3090",
+    "category": 1
+  }
+},
+{
+  "model": "product.productname",
+  "pk": 11,
+  "fields": {
+    "product_name": "RTX 3080 Ti",
+    "category": 1
+  }
+},
+{
+  "model": "product.productname",
+  "pk": 12,
+  "fields": {
+    "product_name": "RTX 3070",
+    "category": 1
+  }
+},
+{
+  "model": "product.productname",
+  "pk": 13,
+  "fields": {
+    "product_name": "RTX 3070 Ti",
+    "category": 1
+  }
+},
+{
+  "model": "product.productname",
+  "pk": 14,
+  "fields": {
+    "product_name": "RTX 3060",
+    "category": 1
+  }
+},
+{
+  "model": "product.productname",
+  "pk": 15,
+  "fields": {
+    "product_name": "RTX 3060 Ti",
+    "category": 1
+  }
+},
+{
+  "model": "product.productname",
+  "pk": 16,
+  "fields": {
+    "product_name": "RX 6600",
+    "category": 2
+  }
+},
+{
+  "model": "product.productname",
+  "pk": 17,
+  "fields": {
+    "product_name": "RX 6600 XT",
+    "category": 2
+  }
+},
+{
+  "model": "product.productname",
+  "pk": 18,
+  "fields": {
+    "product_name": "RX 6700 XT",
+    "category": 2
+  }
+},
+{
+  "model": "product.productname",
+  "pk": 19,
+  "fields": {
+    "product_name": "RX 6800",
+    "category": 2
+  }
+},
+{
+  "model": "product.productname",
+  "pk": 20,
+  "fields": {
+    "product_name": "RX 6800 XT",
+    "category": 2
+  }
+},
+{
+  "model": "product.productname",
+  "pk": 21,
+  "fields": {
+    "product_name": "RX 6900 XT",
+    "category": 2
+  }
+},
+{
+  "model": "product.product",
+  "pk": 1,
+  "fields": {
+    "category": 1,
+    "sku": "34120652267828587690",
+    "seller": 1,
+    "product_name": 9,
+    "slug": "mikertx-308034120652267828587690",
+    "description": "The EVGA GeForce RTX 3080 XC3 Black Gaming LHR is equipped with a powerful graphics processor and particularly fast GDDR6X graphics memory . The gaming graphics card is suitable for demanding gamers who value high graphics quality. Compared to the RTX-2080 series, the computing speed of the rasterization optics and the ray tracing performance have been significantly increased. In addition, the graphics accelerators of the Ampere generation support PCIe Express 4.0.",
+    "brand": "EVGA",
+    "boost_clock": "1710 Mhz",
+    "memory_clock": "19,000 Mhz",
+    "memory_size": "10GB",
+    "memory_type": "GDDR6X",
+    "interface_type": "PCIe 4.0",
+    "price": "1190.00",
+    "image": "products/mike_55884868115086116736.jpg",
+    "thumbnail": "",
+    "date_added": "2021-12-18T15:20:22.171Z"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 2,
+  "fields": {
+    "category": 1,
+    "sku": "98943002252932699542",
+    "seller": 1,
+    "product_name": 10,
+    "slug": "mikertx-309098943002252932699542",
+    "description": "Gigabyte offers you its new ultra high-end gaming graphics card, the GeForce RTX 3090 EAGLE OC 24G armed with its new \"Ampere\" chip! Intended to flourish with the performance podiums, your Gigabyte GeForce RTX 3090 EAGLE OC 24G opens with a bang a new era in video games!",
+    "brand": "GIGABYTE",
+    "boost_clock": "1700 Mhz",
+    "memory_clock": "19,000 Mhz",
+    "memory_size": "24GB",
+    "memory_type": "GDDR6X",
+    "interface_type": "PCIe 4.0",
+    "price": "2100.00",
+    "image": "products/mike_44375106485390168731.jpg",
+    "thumbnail": "",
+    "date_added": "2021-12-18T15:22:38.499Z"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 3,
+  "fields": {
+    "category": 1,
+    "sku": "6636911643497437409",
+    "seller": 1,
+    "product_name": 11,
+    "slug": "mikertx-3080-ti6636911643497437409",
+    "description": "MSI offers you its new ultra high-end gaming graphics card, the RTX 3080 Ti VENTUS 3X 12G (LHR) armed with its new \"Ampere\" chip! Destined to flourish with the performance podiums, your MSI GeForce RTX 3080 Ti VENTUS 3X 12G (LHR) opens with a bang a new era in video games1",
+    "brand": "MSI",
+    "boost_clock": "1,665 Mhz",
+    "memory_clock": "19,000 Mhz",
+    "memory_size": "12GB",
+    "memory_type": "GDDR6X",
+    "interface_type": "PCIe 4.0",
+    "price": "1499.99",
+    "image": "products/mike_82735778630533263750.jpg",
+    "thumbnail": "",
+    "date_added": "2021-12-18T15:23:53.866Z"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 4,
+  "fields": {
+    "category": 1,
+    "sku": "6915083281687831353",
+    "seller": 1,
+    "product_name": 13,
+    "slug": "mikertx-3070-ti6915083281687831353",
+    "description": "Asus offers you its new ultra high-end gaming graphics card, the RTX 3070 Ti TUF Gaming OC armed with its new \"Ampere\" chip! Intended to flourish with the performance podiums, your Asus TUF RTX 3070 Ti O8G Gaming opens with a bang a new era in video games!",
+    "brand": "ASUS",
+    "boost_clock": "1,580 Mhz",
+    "memory_clock": "19,000 Mhz",
+    "memory_size": "8GB",
+    "memory_type": "GDDR6X",
+    "interface_type": "PCIe 4.0",
+    "price": "1049.99",
+    "image": "products/mike_28068051599917866560.jpg",
+    "thumbnail": "",
+    "date_added": "2021-10-18T15:29:25.285Z"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 5,
+  "fields": {
+    "category": 1,
+    "sku": "72143628699530738012",
+    "seller": 1,
+    "product_name": 12,
+    "slug": "mikertx-307072143628699530738012",
+    "description": "Gigabyte offers you its new ultra high-end gaming graphics card, the GeForce RTX 3070 Eagle 8 Go armed with its new \"Ampere\" chip! Intended to flourish with the performance podiums, your Gigabyte GeForce RTX 3070 Eagle 8 Go opens with a bang a new era in video games!",
+    "brand": "GIGABYTE",
+    "boost_clock": "1,725 MHz",
+    "memory_clock": "14,000 Mhz",
+    "memory_size": "8GB",
+    "memory_type": "GDDR6",
+    "interface_type": "PCIe 4.0",
+    "price": "749.99",
+    "image": "products/mike_20335702055964832343.jpg",
+    "thumbnail": "",
+    "date_added": "2021-10-18T15:31:27.826Z"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 6,
+  "fields": {
+    "category": 1,
+    "sku": "95590031921545283666",
+    "seller": 1,
+    "product_name": 15,
+    "slug": "mikertx-3060-ti95590031921545283666",
+    "description": "MSI offers you its new ultra high-end gaming graphics card, the GeForce RTX 3060 Ti Ventus 3X 8G OC LHR armed with its new \"Ampere\" chip! Destined to flourish with the performance podiums, your MSI GeForce RTX 3060 Ti Ventus 3X 8G OC LHR opens with a bang a new era in video games!",
+    "brand": "MSI",
+    "boost_clock": "1,695 Mhz",
+    "memory_clock": "14,000 Mhz",
+    "memory_size": "8GB",
+    "memory_type": "GDDR6",
+    "interface_type": "PCIe 4.0",
+    "price": "699.99",
+    "image": "products/mike_21029335347305262836.jpg",
+    "thumbnail": "",
+    "date_added": "2021-10-18T15:33:06.664Z"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 7,
+  "fields": {
+    "category": 1,
+    "sku": "36893140709209552047",
+    "seller": 1,
+    "product_name": 14,
+    "slug": "mikertx-306036893140709209552047",
+    "description": "The EVGA GeForce RTX 3060 XC Gaming is equipped with a powerful graphics processor and fast GDDR6 graphics memory . This model offers increased clock frequencies ex works for increased performance. The GeForce RTX 3060 is NVIDIA's spiritual successor to the GTX 1060 and offers an entry into the world of ray tracing. In addition, the graphics accelerators of the Ampere generation support PCI Express 4.0.",
+    "brand": "EVGA",
+    "boost_clock": "1,882 Mhz",
+    "memory_clock": "15,000 Mhz",
+    "memory_size": "12GB",
+    "memory_type": "GDDR6",
+    "interface_type": "PCIe 4.0",
+    "price": "675.99",
+    "image": "products/mike_21980802060403976694.jpg",
+    "thumbnail": "",
+    "date_added": "2021-10-18T15:35:23.292Z"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 8,
+  "fields": {
+    "category": 2,
+    "sku": "81219083124581817226",
+    "seller": 1,
+    "product_name": 16,
+    "slug": "mikerx-660081219083124581817226",
+    "description": "The Sapphire Pulse Radeon RX 6600 Gaming 8G is a gaming graphics card from the Radeon 6000 series. The AMD Radeon RX 6600 is based on the Navi-23 graphics chip, which is based on the RDNA-2 GPU architecture. As one of the first AMD GPUs, it offers ray tracing for realistic light propagation in games. It also supports DirectX 12 Ultimate and, with AMD FidelityFX, various options for image enhancement. As a result, the Sapphire Pulse Radeon RX 6600 Gaming 8G is able to smoothly display PC games in Full HD.",
+    "brand": "SAPPHIRE",
+    "boost_clock": "2,491 Mhz",
+    "memory_clock": "16,000 Mhz",
+    "memory_size": "8GB",
+    "memory_type": "GDDR6",
+    "interface_type": "PCIe 4.0",
+    "price": "574.99",
+    "image": "products/mike_90895990776094401327.webp",
+    "thumbnail": "",
+    "date_added": "2021-12-18T15:44:21.628Z"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 9,
+  "fields": {
+    "category": 2,
+    "sku": "75068032444043094309",
+    "seller": 1,
+    "product_name": 17,
+    "slug": "mikerx-6600-xt75068032444043094309",
+    "description": "Gigabyte Radeon RX 6600 XT GAMING OC 8G graphics cards also incorporate new AMD Smart Access Memory technology , enabling new levels of communication between Ryzen 5000 processors and Radeon RX 6600 XT graphics cards. Get extra in-game performance by pairing your Gigabyte Radeon RX 6600 XT GAMING OC 8G graphics card and a Ryzen 5000 processor.",
+    "brand": "GIGABYTE",
+    "boost_clock": "2,400 Mhz",
+    "memory_clock": "16,000 Mhz",
+    "memory_size": "8GB",
+    "memory_type": "GDDR6",
+    "interface_type": "PCIe 4.0",
+    "price": "549.99",
+    "image": "products/mike_76409046575204808273.jpg",
+    "thumbnail": "",
+    "date_added": "2021-12-18T15:47:55.193Z"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 10,
+  "fields": {
+    "category": 2,
+    "sku": "47032452157847514267",
+    "seller": 1,
+    "product_name": 18,
+    "slug": "mikerx-6700-xt47032452157847514267",
+    "description": "The Sapphire Pulse Radeon RX 6700 XT Gaming 12G is a high-performance mid-range gaming graphics card from the Radeon 6000 series. The AMD Radeon RX 6700 XT is based on the Navi-22 graphics chip, which is based on the RDNA-2 GPU architecture. It is the first AMD graphics card to support ray tracing for realistic light propagation in games. It also supports DirectX 12 Ultimate and, with AMD FidelityFX, various options for image enhancement.",
+    "brand": "Nvidia",
+    "boost_clock": "2,581 Mhz",
+    "memory_clock": "16,000 Mhz",
+    "memory_size": "12GB",
+    "memory_type": "GDDR6",
+    "interface_type": "PCIe 4.0",
+    "price": "909.99",
+    "image": "products/mike_33899811611447687026.jpg",
+    "thumbnail": "",
+    "date_added": "2021-12-18T16:06:13.793Z"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 11,
+  "fields": {
+    "category": 2,
+    "sku": "84320670948356912802",
+    "seller": 1,
+    "product_name": 19,
+    "slug": "mikerx-680084320670948356912802",
+    "description": "Axial-tech fan design has been enhanced with more fan blades and a new rotation scheme.\r\nDual ball fan bearings can last up to twice as long as sleeve bearing designs.\r\nAn all-aluminum shroud, reinforced frame, and metal backplate enhance durability.\r\nMaxContact heat spreader features a super flat surface for improved thermal transfer.",
+    "brand": "ASUS",
+    "boost_clock": "2,190 Mhz",
+    "memory_clock": "16,000 Mhz",
+    "memory_size": "16GB",
+    "memory_type": "GDDR6",
+    "interface_type": "PCIe 4.0",
+    "price": "1149.99",
+    "image": "products/mike_10934300210422831906.jpg",
+    "thumbnail": "",
+    "date_added": "2021-12-18T16:09:24.748Z"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 12,
+  "fields": {
+    "category": 2,
+    "sku": "35472756809219633032",
+    "seller": 1,
+    "product_name": 20,
+    "slug": "mikerx-6800-xt35472756809219633032",
+    "description": "The Gigabyte Radeon RX 6800 XT 16G is a powerful high-end gaming graphics card from the Radeon 6000 series. The AMD Radeon RX 6800 XT is based on the Navi-21 graphics chip, which is based on the RDNA-2 GPU architecture. It is the first AMD graphics card to support ray tracing for realistic light propagation in games. It also supports DirectX 12 Ultimate and, with AMD FidelityFX, various options for image enhancement.",
+    "brand": "GIGABYTE",
+    "boost_clock": "2,250 Mhz",
+    "memory_clock": "16,000 Mhz",
+    "memory_size": "16GB",
+    "memory_type": "GDDR6",
+    "interface_type": "PCIe 4.0",
+    "price": "1309.99",
+    "image": "products/mike_41307351638222667556.jpg",
+    "thumbnail": "",
+    "date_added": "2021-12-18T16:11:34.773Z"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 13,
+  "fields": {
+    "category": 2,
+    "sku": "24666468066504872619",
+    "seller": 1,
+    "product_name": 21,
+    "slug": "mikerx-6900-xt24666468066504872619",
+    "description": "Performance to Rule Your Game with Radeon RX 6900 XT Graphics The AMD Radeon RX 6900 XT graphics card, powered by AMD RDNA 2 architecture, featuring 80 powerful enhanced Compute Units, 128 MB of all new AMD Infinity Cache and 16GB of dedicated GDDR6 memory, is engineered to deliver ultra-high frame rates and serious 4K resolution gaming.",
+    "brand": "XFX",
+    "boost_clock": "2,365 Mhz",
+    "memory_clock": "16,000 Mhz",
+    "memory_size": "16GB",
+    "memory_type": "GDDR6",
+    "interface_type": "PCIe 4.0",
+    "price": "1799.99",
+    "image": "products/mike_6956618324073879918.jpg",
+    "thumbnail": "",
+    "date_added": "2021-12-18T16:14:18.401Z"
+  }
+},
+{
+  "model": "profiles.userprofile",
+  "pk": 1,
+  "fields": {
+    "default_email": null,
+    "default_phone": null,
+    "default_address1": null,
+    "default_address2": null,
+    "default_city": null,
+    "default_state": null,
+    "default_zipcode": null,
+    "default_country": null,
+    "avatar": "",
+    "avatar_url": null,
+    "verified": true,
+    "created_on": "2021-12-18T15:02:57.915Z"
+  }
+},
+{
+  "model": "profiles.vendorprofile",
+  "pk": 1,
+  "fields": {
+    "store_name": "Mike's GPU Store",
+    "store_slug": "mikes-gpu-store"
+  }
+}
+]

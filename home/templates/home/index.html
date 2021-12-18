@@ -14,6 +14,11 @@
           <p>Buy directly from manufacturers as well as private parties, on one easy to use platform.</p>
           <br />
           <p>List and sell your hardware for a small fee on our platform!</p>
+          {% if request.user.is_authenticated %}
+          {% else %}
+          <br />
+          <p><a class="button btn btn-primary" href="{% url 'account_signup' %}">Sign Up Now!</a> or <a class="button btn btn-outline-primary" href="{% url 'account_login' %}">Log In</a></p>
+          {% endif %}
         </div>
     </div>
     <!--Grid row-->
