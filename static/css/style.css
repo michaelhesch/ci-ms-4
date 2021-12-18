@@ -63,6 +63,32 @@ select option[value=""] {
     padding-right: 0px!important;
   }
 
+  #product-detail-row {
+    padding-left: 0px!important;
+    padding-right: 0px!important;
+  }
+
+  #shipping-info h4 {
+    font-size: 1.15rem;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  #shipping-info h5 {
+    font-size: 1rem;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  #similar-product-card {
+    height: 100%;
+  }
+
+  .profile-card-content {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
   .form-group input {
     width: auto!important;
   }
