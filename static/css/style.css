@@ -35,6 +35,19 @@ select option[value=""] {
 }
 
 
+.similar-product-card {
+  height: 100%!important;
+}
+
+.similar-product-card img {
+  min-height: 245px;
+}
+
+.store-card {
+  height: 100%;
+}
+
+
 @media (max-width: 740px) {
   html,
   body,
@@ -78,10 +91,6 @@ select option[value=""] {
     font-size: 1rem;
     padding-left: 2px;
     padding-right: 2px;
-  }
-
-  #similar-product-card {
-    height: 100%;
   }
 
   .profile-card-content {
