@@ -19,11 +19,8 @@ class ProductForm(forms.ModelForm):
             'interface_type',
             'price',
             'image',
-            'image_url',
         ]
-
     
-
     image = forms.ImageField(label='Image', required=False)
 
     

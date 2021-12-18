@@ -22,12 +22,16 @@
         <tr>
             <td class="p-3 w-25">{{ forloop.counter }}. 
                 <a href="{{ order_item.product.get_absolute_url }}">
-                    <img class="img-fluid rounded pl-2" style="max-width: 50%;" alt="Image of {{ order_item.product.product_name }}" src="{{ order_item.product.image_url }}">
+                    <img class="img-fluid rounded pl-2" style="max-width: 50%;" alt="Image of {{ order_item.product.product_name }}" src="{{ order_item.product.image.url }}">
                 </a>
             </td>
             <td><a href="{{ order_item.product.get_absolute_url }}">{{ order_item.product.product_name }}</a></td>
             <td>${{ order_item.product.price|intcomma }}</td>
-            <td>{{ order_item.product.seller.vendorprofile.store_name }}</td>
+            <td>
+                <a href="{% url 'profiles:vendorprofile' store_slug=order_item.product.seller.vendorprofile.store_slug %}">
+                    {{ order_item.product.seller.vendorprofile.store_name }}
+                </a>
+            </td>
             <td>
                 <a href="{% url 'cart:remove_one_from_cart' order_item.sku %}" id="decrement-qty-{{ product.sku }}"><i class="fas fa-minus mr-2"></i></a>        
                 {{ order_item.quantity }}

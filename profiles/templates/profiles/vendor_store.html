@@ -175,20 +175,11 @@
                   <span class="badge blue">NEW</span>
                 </div>
                 {% endif %}
-                {% if product.image_url %}
                     <img
-                        src="{{ product.image_url }}"
+                        src="{{ product.image.url }}"
                         class="card-img-top p-2"
                         alt="{{ product.product_name }}"
                     />
-                {% else %}
-                <!-- Use a default image temporarily if no image url in DB -->
-                    <img
-                        src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12.jpg"
-                        class="card-img-top p-1"
-                        alt="Default product image"
-                    />
-                {% endif %}
                     <a href="{% url 'product:product_detail' slug=product.slug %}">
                         <div class="mask rgba-white-slight"></div>
                     </a>
@@ -212,7 +203,7 @@
                     </h5>
                     {% if store.user == request.user %}
                     <p class="text-danger text-small m-0">Selling fee: ${{ product.get_selling_fee }} ea.</p>
-                    <div class="d-flex">
+                    <div class="d-flex justify-content-center">
                       <a href="{% url 'product:edit_product' slug=product.slug %}" class="btn btn-sm">Modify</a>
 
                       <!-- Remove Item Modal Button trigger -->

@@ -10,6 +10,15 @@ header {
   height: 65px;
 }
 
+/* Remove number field spinners */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
 /* Footer color for sake of consistency with Navbar */
 .page-footer {
   background-color: #929FBA; 
@@ -19,6 +28,12 @@ select:invalid,
 select option[value=""] {
   color:#aab7c4;
 }
+
+#add-product-form {
+  padding-left: 0px!important;
+  padding-right: 0px!important;
+}
+
 
 @media (max-width: 740px) {
   html,
