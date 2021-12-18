@@ -84,9 +84,9 @@
                   <span class="badge blue">NEW</span>
                 </div>
                 {% endif %}
-                {% if product.image_url %}
+                {% if product.image %}
                     <img
-                        src="{{ product.image_url }}"
+                        src="{{ product.image.url }}"
                         class="card-img-top p-2"
                         alt="{{ product.product_name }}"
                     />

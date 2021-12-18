@@ -103,6 +103,7 @@ class EditProduct(LoginRequiredMixin, View):
                     memory_type = form.cleaned_data.get('memory_type')
                     interface_type = form.cleaned_data.get('interface_type')
                     price = form.cleaned_data.get('price')
+                    image = self.request.FILES['image']
 
                     existing_data.category = category
                     existing_data.product_name = product_name
@@ -113,7 +114,7 @@ class EditProduct(LoginRequiredMixin, View):
                     existing_data.memory_type = memory_type
                     existing_data.interface_type = interface_type
                     existing_data.price = price
-                    existing_data.image_url = existing_data.image_url
+                    existing_data.image = image
 
                     existing_data.save()
 

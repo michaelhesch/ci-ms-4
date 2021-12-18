@@ -8,7 +8,7 @@
 <div class="row wow fadeIn my-3 py-2 d-flex justify-content-center">
     <div class="col-md-8">
         <div class="card px-4">
-            <form class="card-body mb-form px-3" method="POST" id="modify-product">
+            <form class="card-body mb-form px-3" method="POST" enctype="multipart/form-data" id="modify-product">
                 {% csrf_token %}
                 <fieldset class="rounded">
                     <legend class="fieldset-label w-auto">Edit Product Details:</legend>
@@ -17,6 +17,7 @@
                     {{ form.product_name|as_crispy_field }}
                     {{ form.description|as_crispy_field }}
                     {{ form.price|as_crispy_field }}
+                    {{ form.image|as_crispy_field }}
                 </fieldset>
                 <fieldset>
                     <legend class="fieldset-label w-auto">Edit Technical Specifications:</legend>

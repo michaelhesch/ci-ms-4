@@ -8,7 +8,7 @@
     <div class="col-md-8">
         <h2>Sell Your Product</h2>
         <div class="card px-3">
-            <form class="card-body mb-form px-3" method="POST" id="add-product-form">
+            <form class="card-body mb-form px-3" method="POST" enctype="multipart/form-data" id="add-product-form">
                 {% csrf_token %}
                 <fieldset class="rounded">
                     <legend class="fieldset-label w-auto">Product Details</legend>
@@ -18,7 +18,6 @@
                     {{ form.description|as_crispy_field }}
                     {{ form.price|as_crispy_field }}
                     {{ form.image|as_crispy_field }}
-                    {{ form.image_url|as_crispy_field }}
                 </fieldset>
                 <fieldset>
                     <legend class="fieldset-label w-auto">Technical Specifications</legend>

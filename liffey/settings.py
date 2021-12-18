@@ -231,7 +231,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Media file directory settings
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # Stripe configuration
 SELLING_FEE_PERCENTAGE = 5

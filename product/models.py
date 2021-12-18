@@ -1,7 +1,11 @@
 import random
+import uuid
+from io import BytesIO
 from datetime import datetime
 from decimal import Decimal
+from PIL import Image
 from django.conf import settings
+from django.core.files import File
 from django.db import models
 from django.shortcuts import reverse
 from django.utils.text import slugify
@@ -33,6 +37,14 @@ class ProductName(models.Model):
     
     def __str__(self):
         return self.product_name
+
+
+# Modify image file name to prevent duplicates
+def image_file_rename(instance, filename):
+        ext = filename.split('.')[-1]
+        rand = random.randrange(10**1, 10**20)
+        filename = "%s_%s.%s" % (instance.seller.user.username, rand, ext)
+        return f"products/{filename}"
 
 
 class Product(models.Model):
@@ -70,10 +82,8 @@ class Product(models.Model):
     memory_type = models.CharField(max_length=10)
     interface_type = models.CharField(max_length=40)
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    image = models.ImageField(upload_to="product/", null=True, blank=True)
-    image_url = models.URLField(null=True, blank=True)
-    thumbnail = models.ImageField(upload_to="product/thumbnails/", null=True, blank=True)
-    thumbnail_url = models.URLField(null=True, blank=True)
+    image = models.ImageField(upload_to=image_file_rename, default="products/default.jpg", null=True, blank=True)
+    thumbnail = models.ImageField(upload_to="products/thumbnails/", null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -97,13 +107,30 @@ class Product(models.Model):
             similar_products = random.sample(similar_products, 4)
 
         return similar_products
-        
 
     # Placeholder for function to get thumbnail, or make thumbnail from uploaded image
+    def get_product_thumbnail(self):
+        if self.thumbnail:
+            return self.thumbnail.url
+        else:
+            if self.image:
+                self.thumbnail = self.make_product_thumbnail(self.image)
+                self.save()
+                return self.thumbnail.url
 
 
     # Placeholder for make thumbnail helper function
+    def make_product_thumbnail(self, image, size=(255, 223)):
+        img = Image.open(image)
+        img.convert('RGB')
+        img.thumbnail(size)
 
+        thumb_io = BytesIO()
+        img.save(thumb_io, 'JPEG', quality=85)
+
+        thumbnail = File(thumb_io, name=image.name)
+
+        return thumbnail
 
     # Helper function to determine if a 'New' tag should be added to items in the store
     def determine_if_new(self):
@@ -111,7 +138,7 @@ class Product(models.Model):
         added_date = self.date_added.date()
         delta = now - added_date
         
-        if delta.days > 7:
+        if delta.days > 30:
             return False
         else:
             return True
