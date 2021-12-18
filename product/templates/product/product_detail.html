@@ -217,7 +217,7 @@
       <div class="row wow fadeIn p-1 d-inline-flex justify-content-sm-center">
         {% for product in product.get_similar_products %}
         <div class="col-md-3 mb-2">
-          <div class="card p-1" id="similar-product-card">
+          <div class="card p-1 similar-product-card">
           <a href="{% url 'product:product_detail' slug=product.slug %}"  class="blue-grey-text">
             <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.product_name }}">
             <div class="row text-center">
