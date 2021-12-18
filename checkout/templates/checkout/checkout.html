@@ -34,8 +34,8 @@
                         <legend class="fieldset-label px-2 w-auto">Shipping Details</legend>
                         {{ form.address1|as_crispy_field }}
                         {{ form.address2|as_crispy_field }}
-                        {{ form.state|as_crispy_field }}
                         {{ form.city|as_crispy_field }}
+                        {{ form.state|as_crispy_field }}
                         {{ form.zipcode|as_crispy_field }}
                         {{ form.country|as_crispy_field }}
                         <div class="form-check form-check-inline float-left mr-0">
@@ -57,7 +57,7 @@
                         {% endif %}
                     </fieldset>
                     <button class="btn btn-primary" type="submit" id="submit-button">Checkout</button>
-                    <a href="{% url 'cart:cart' %}" class="btn btn-secondary">Back to Cart</a>
+                    <a href="{% url 'cart:cart' %}" class="btn btn-info">Back to Cart</a>
                     <p class="small text-danger my-1 pl-1">
                         <span class="icon"><i class="fas fa-exclamation-circle"></i></span>
                         <span>You will be charged ${{ total|intcomma }}</span>
