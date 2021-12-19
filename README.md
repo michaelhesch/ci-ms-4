@@ -2,8 +2,6 @@
 
 # Milestone Project Four - "Liffey"<!-- omit in toc -->
 
-![Am I Responsive Image - Placeholder](#)
-
 ## Project Overview<!-- omit in toc -->
 
 - The purpose of Liffey is to provide users with an e-commerce marketplace to buy and sell computer graphics hardware from brand stores as well as other users on the platform.  The site provides users with the ability to create accounts so that they can shop for computer graphics cards (GPUs), or utilize their own store page to list a GPU for sale to other users.  The platform collects a 5% fee from each sale for providing the marketplace for buyers and sellers to interact.  In addition, user's can leave reviews on products on the platform to provide feedback for the store owner and other users shopping for that item.
@@ -88,11 +86,11 @@
 
 ### Wireframes
 
-- Mobile Wireframes - [View](#)
+- Mobile Wireframes - [View](documentation/wireframes/mobile-wireframes.pdf)
 
-- Tablet Wireframes - [View](#)
+- Tablet Wireframes - [View](documentation/wireframes/tablet-wireframes.pdf)
 
-- Desktop Wireframes - [View](#)
+- Desktop Wireframes - [View](documentation/wireframes/desktop-wireframes.pdf)
 
 #### Deviations from wireframe designs<!-- omit in toc -->
 
