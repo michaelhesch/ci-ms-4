@@ -294,6 +294,7 @@
 ### Deployment Requirements
 
 - The following accounts and software packages are required to deploy a clone of this project.  All can be obtained free of charge from the respective providers.
+- This deployment assumes the user is working in a Windows environment - please consult the doucmentation specific to your operating system if needed.
 
 1. Git / GitHub Account
 2. Python 3
@@ -303,7 +304,7 @@
 
 ### Making a Local Clone
 
-1. Log in to GitHub and locate the [GitHub Repository](https://github.com/michaelhesch/ci-ms-3/)
+1. Log in to GitHub and locate the [GitHub Repository](https://github.com/michaelhesch/ci-ms-4/)
 2. Under the repository name, click "Code", then select the clipboard icon under "Clone with HTTPS" to copy the link.
 3. Open Git Bash
 4. Change the current working directory to the location where you want the cloned directory.
@@ -337,19 +338,29 @@
    2. Create a new Python virtual environment to ensure no conflicts occur with locally installed Python packages.  This is done with the command "python3 -m venv venv" (if needed install the Python virtual environment package with "pip install virtualenv")
    3. Launch your virtual environment with ".\venv\Scripts\activate" (on Windows, syntax will differ for other operating systems)
    4. Install all necessary dependencies for this project as specified in the requirements.txt file with the command "pip install -r requirements.txt"
+   5. Create your SQL database by running intial migrations with the command "python manage.py migrate"
+   6. Create a superuser account by running "python manage.py createsuperuser".  This will allow you to access the admin panel to fully manage the project.
 
-2. Ensure you have a MongoDB database set up (see MongoDB Database Setup section above).
-   1. Create the following collections: comment, user, and photo.
-
-3. Configure local environment variables
+2. Configure local environment variables
    1. Set up your .env file and ensure that it is included in .gitignore - this is critically important to avoid exposing sensitive configuration data!
    2. Configure your .env file as follows:
+      1. Note: A secret key will be included in your Django settings file by default, it is recommended to generate a new key with a tool such as [Django Secret Key Generator.](https://miniwebtool.com/django-secret-key-generator/)
+      2. Development must only be set to True in a local build, when deployed ensure this variable is set to False!
+      3. Stripe keys are provided in your Stripe developer account once registered.
+      4. Email configuration is required if you plan to utilize emails sent by Django.
 
         ```python
             SECRET_KEY=[your_secret_key]
-            X
+            DEVELOPMENT=True
+            STRIPE_PUBLIC_KEY=[your_public_key]
+            STRIPE_SECRET_KEY=[your_secret_key]
+            STRIPE_WH_SECRET=[your_webhook_key]
+            EMAIL_USER=[your_account]
+            EMAIL_PASS=[your_password]
         ```
 
+    3. Start the application locally by running "python manage.py runserver".
+  
 ### Heroku Deployment
 
 Heroku deployment is fast and efficient once the project is properly configured.  Heroku needs the requirements.txt and Procfile files included in the repository for this project to deploy the application to a live environment.
@@ -359,12 +370,19 @@ If the Procfile was not cloned, this can easily be created from the terminal on 
 The project was deployed to Heroku using the following steps, which can be followed for a local clone:
 
 1. Log in to your Heroku account, then create a new app with a unique name.
-2. For the deployment method, select GitHub, then select "Connect to GitHub".
-3. After you have connected to the repository for the cloned app, you need to configure the Heroku environment variables.
-4. Open the "Settings" menu and click the "Reveal Config Vars" button to view the environment variables.
-5. Add all necessary variable and value pairs exactly as used in the local environment variables file.
-6. Return to the "Deploy" tab and click "Deploy Branch" (unless you opted to enable automatic deployments)
-7. After the deployment process has completed, you can view your live application by clicking "View App", or navigating to the name of your app with .herokuapp.com added.
+2. Once your app is created, go to the "Resources" tab, and under "Add-ons" search for "Heroku Postgres", select Postgres and press "Submit Order" to provision a new database.
+3. For the deployment method, navigate to the "Deploy" tab, select GitHub, then select "Connect to GitHub".
+4. After you have connected to the repository for the cloned app, you need to configure the Heroku environment variables.
+5. Open the "Settings" menu and click the "Reveal Config Vars" button to view the environment variables.
+6. Add all necessary variable name and value pairs exactly as used in the local environment variables file.
+7. Return to the "Deploy" tab and click "Deploy Branch" (unless you opted to enable automatic deployments)
+8. On your local machine, add the "DATABASE_URL" variable from your Heroku config vars to the .env file.  This will allow you to migrate the new database on your Heroku app.
+   1. If you wish, you can dump your local database data and load it to your Heroku app.  This must be done before adding the DATABASE_URL to your .env file.
+   2. This can be done with the command "python manage.py dumpdata > db.json"
+9. Once the DATABASE_URL is included in your environment, run "python manage.py makemigrations" and then "python manage.py migrate" to migrate your Heroku database.
+   1.  If you want to load your local database dump, you can now run "python manage.py loaddata db.json".
+10. Once migrated, comment out or remove the DATABASE_URL from your local .env file to return to using the SQLite local database.
+11. After the deployment and migrations are completed, you can view your live application by clicking "View App", or navigating to the name of your app with .herokuapp.com added.
 
 ## Credits
 
