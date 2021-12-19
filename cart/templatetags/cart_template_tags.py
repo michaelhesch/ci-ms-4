@@ -1,6 +1,4 @@
 from django import template
-from checkout.models import Order
-
 
 register = template.Library()
 

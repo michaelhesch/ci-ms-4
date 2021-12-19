@@ -12,6 +12,8 @@ app_name = 'cart'
 urlpatterns = [
     path('add/<sku>/', add_to_cart, name='add_to_cart'),
     path('remove/<sku>/', remove_from_cart, name='remove_from_cart'),
-    path('remove-one/<sku>/', remove_one_from_cart, name='remove_one_from_cart'),
+    path('remove-one/<sku>/',
+         remove_one_from_cart,
+         name='remove_one_from_cart'),
     path('', ViewCart.as_view(), name='cart'),
 ]

@@ -11,9 +11,7 @@ class VendorProfileAdmin(admin.ModelAdmin):
     )
 
 
-
 class UserProfileAdmin(admin.ModelAdmin):
-
     list_display = (
         'user',
         'verified',

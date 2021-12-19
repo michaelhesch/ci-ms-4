@@ -37,7 +37,6 @@ class ShippingDetailsAdmin(admin.TabularInline):
 
 
 class OrderAdmin(admin.ModelAdmin):
-
     readonly_fields = (
         'order_num',
         'create_date',
@@ -45,9 +44,9 @@ class OrderAdmin(admin.ModelAdmin):
         'grand_total',
         'stripe_pid',
     )
-    
+
     inlines = (OrderItemAdmin, ShippingDetailsAdmin)
-    
+
     list_display = (
         'order_num',
         'create_date',
@@ -56,5 +55,6 @@ class OrderAdmin(admin.ModelAdmin):
     )
 
     ordering = ('-order_date',)
+
 
 admin.site.register(Order, OrderAdmin)

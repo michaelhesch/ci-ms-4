@@ -8,22 +8,23 @@ class CheckoutForm(forms.Form):
     email = forms.EmailField(max_length=250)
     phone = forms.CharField(max_length=20)
     address1 = forms.CharField(max_length=80,
-                               label="Address",)
+                               label="Address", )
     address2 = forms.CharField(max_length=80,
                                label="Address 2 (optional)",
                                required=False)
     state = forms.CharField(max_length=50,
-                            label="State",)
+                            label="State", )
     city = forms.CharField(max_length=50,
-                           label="City",)
+                           label="City", )
     zipcode = forms.CharField(max_length=25,
                               label="Zipcode")
     country = CountryField(blank_label='Select Country').formfield(
         widget=CountrySelectWidget(attrs={
             'class': 'custom-select d-block w-100'
         }))
-    save_defaults = forms.BooleanField(widget=forms.CheckboxInput(), required=False)
-
+    save_defaults = forms.BooleanField(
+        widget=forms.CheckboxInput(),
+        required=False)
 
     class Meta:
         fields = ('full_name', 'email', 'phone',
@@ -53,11 +54,12 @@ class CheckoutForm(forms.Form):
                 placeholder = f'{placeholders[field]} *'
             else:
                 placeholder = placeholders[field]
-            
+
             self.fields[field].widget.attrs['placeholder'] = placeholder
             self.fields[field].widget.attrs['class'] = 'stripe-style-input'
             self.fields[field].label = False
             if self.fields['save_defaults']:
-                self.fields['save_defaults'].label = "Save default shipping info?"
+                self.fields['save_defaults'].label \
+                    = "Save default shipping info?"
             else:
                 pass

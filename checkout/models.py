@@ -5,7 +5,6 @@ from django.db.models import Sum
 from django.conf import settings
 from django_countries.fields import CountryField
 
-
 from product.models import Product
 from profiles.models import UserProfile, VendorProfile
 
@@ -17,17 +16,17 @@ class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     user_profile = models.ForeignKey(UserProfile,
-                             on_delete=models.SET_NULL,
-                             null=True,
-                             blank=True,
-                             related_name='orders')
+                                     on_delete=models.SET_NULL,
+                                     null=True,
+                                     blank=True,
+                                     related_name='orders')
     create_date = models.DateTimeField(auto_now_add=True)
     order_date = models.DateTimeField(null=True)
     ordered = models.BooleanField(default=False)
     shipping_details = models.ForeignKey('ShippingDetails',
-                                        on_delete=models.SET_NULL,
-                                        blank=True,
-                                        null=True)
+                                         on_delete=models.SET_NULL,
+                                         blank=True,
+                                         null=True)
     shipping = models.DecimalField(max_digits=4,
                                    decimal_places=2,
                                    null=False,
@@ -36,8 +35,11 @@ class Order(models.Model):
                                       decimal_places=2,
                                       null=False,
                                       default=0)
-    stripe_pid = models.CharField(max_length=254, null=False, blank=False, default='')
-    
+    stripe_pid = models.CharField(max_length=254,
+                                  null=False,
+                                  blank=False,
+                                  default='')
+
     class Meta:
         ordering = ['-order_date']
 
@@ -48,7 +50,8 @@ class Order(models.Model):
     # Calculate grand total for all order items
     def update_grand_total(self):
         free_shipping = settings.FREE_DELIVERY_THRESHOLD
-        self.grand_total = self.orderitems.aggregate(Sum('item_total'))['item_total__sum'] or 0
+        self.grand_total = self.orderitems.aggregate(
+            Sum('item_total'))['item_total__sum'] or 0
         if self.grand_total <= free_shipping:
             self.shipping = int(10)
         else:
@@ -62,7 +65,6 @@ class Order(models.Model):
         for order_item in self.items.all():
             item_count += order_item.quantity
         return item_count
-
 
     # Override standard save method to set order number
     def save(self, *args, **kwargs):
@@ -108,7 +110,8 @@ class OrderItem(models.Model):
         ordering = ('-item_total',)
 
     def __str__(self):
-        return f"{self.quantity} of {self.item.product_name} on {self.related_order}"
+        return f"{self.quantity} of " \
+               f"{self.item.product_name} on {self.related_order}"
 
     # Calculate the total based on quantity of items in cart
     def get_item_total(self):
@@ -121,8 +124,8 @@ class OrderItem(models.Model):
 
     # Function to split vendor and store balances on order item
     def update_vendor_balance(self):
-        self.liffey_amount= round(Decimal(self.item_total) * Decimal(0.05), 2)
-        self.vendor_amount= round(Decimal(self.item_total) * Decimal(0.95), 2)
+        self.liffey_amount = round(Decimal(self.item_total) * Decimal(0.05), 2)
+        self.vendor_amount = round(Decimal(self.item_total) * Decimal(0.95), 2)
 
     # Function to update the line item total on save
     def save(self, *args, **kwargs):

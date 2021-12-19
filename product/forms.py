@@ -4,7 +4,6 @@ from .models import Category, Product, ProductName, Review
 
 
 class ProductForm(forms.ModelForm):
-    
     class Meta:
         model = Product
         fields = [
@@ -20,10 +19,9 @@ class ProductForm(forms.ModelForm):
             'price',
             'image',
         ]
-    
+
     image = forms.ImageField(label='Image', required=False)
 
-    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         categories = Category.objects.all()
@@ -31,7 +29,6 @@ class ProductForm(forms.ModelForm):
 
 
 class ProductReview(forms.ModelForm):
-
     class Meta:
         model = Review
         fields = [

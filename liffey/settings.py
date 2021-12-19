@@ -128,9 +128,7 @@ ACCOUNT_USERNAME_MIN_LENGTH = 4
 LOGIN_URL = '/account/login/'
 LOGIN_REDIRECT_URL = '/'
 
-
 WSGI_APPLICATION = 'liffey.wsgi.application'
-
 
 # HTTPS security settings
 # Prevents session cookie being transmitted via HTTP accidentally
@@ -151,7 +149,6 @@ else:
         }
     }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -170,7 +167,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -183,7 +179,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -241,7 +236,7 @@ STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
 STRIPE_WH_SECRET = env('STRIPE_WH_SECRET')
 
-if env('DEVELOPMENT') == True:
+if env('DEVELOPMENT') is True:
     # Development environment email settings
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     DEFAULT_FROM_EMAIL = 'liffeyshop@example.com'
