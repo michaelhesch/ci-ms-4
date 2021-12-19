@@ -4,7 +4,6 @@ from .views import (
     StoreView,
 )
 
-
 app_name = 'home'
 
 urlpatterns = [

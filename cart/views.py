@@ -40,7 +40,7 @@ def add_to_cart(request, sku):
             messages.success(request, "Cart updated successfully!")
             return redirect('cart:cart')
     except Exception as e:
-        messages.error(request, f"An unexpected error occured: {e}")
+        messages.error(request, f"An unexpected error occurred: {e}")
         return HttpResponse(status=500)
 
 
@@ -61,7 +61,7 @@ def remove_from_cart(request, sku):
         messages.success(request, "Item has been removed from your cart!")
         return redirect(reverse("cart:cart"))
     except Exception as e:
-        messages.error(request, f"An unexpected error occured: {e}")
+        messages.error(request, f"An unexpected error occurred: {e}")
         return HttpResponse(status=500)
 
 
@@ -82,5 +82,5 @@ def remove_one_from_cart(request, sku):
                 Press the trash icon to remove it entirely.")
             return redirect(reverse("cart:cart"))
     except Exception as e:
-        messages.error(request, f"An unxpected error occured: {e}")
+        messages.error(request, f"An unexpected error occurred: {e}")
         return HttpResponse(status=500)

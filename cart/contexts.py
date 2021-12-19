@@ -5,7 +5,6 @@ from product.models import Product
 
 
 def cart_contents(request):
-
     cart_items = []
     total = 0
     item_count = 0

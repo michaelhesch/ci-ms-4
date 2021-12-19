@@ -1,5 +1,4 @@
 import random
-import uuid
 from io import BytesIO
 from datetime import datetime
 from decimal import Decimal
@@ -22,7 +21,7 @@ class Category(models.Model):
     class Meta:
         ordering = ['category_order']
         verbose_name_plural = 'Categories'
-    
+
     def __str__(self):
         return self.category_name
 
@@ -34,17 +33,17 @@ class ProductName(models.Model):
     class Meta:
         ordering = ['-category', '-product_name']
         verbose_name_plural = 'Product Names'
-    
+
     def __str__(self):
         return self.product_name
 
 
 # Modify image file name to prevent duplicates
 def image_file_rename(instance, filename):
-        ext = filename.split('.')[-1]
-        rand = random.randrange(10**1, 10**20)
-        filename = "%s_%s.%s" % (instance.seller.user.username, rand, ext)
-        return f"products/{filename}"
+    ext = filename.split('.')[-1]
+    rand = random.randrange(10 ** 1, 10 ** 20)
+    filename = "%s_%s.%s" % (instance.seller.user.username, rand, ext)
+    return f"products/{filename}"
 
 
 class Product(models.Model):
@@ -69,10 +68,14 @@ class Product(models.Model):
         (XFX, "XFX"),
     )
 
-    category = models.ForeignKey(Category, related_name='productcategory', on_delete=models.CASCADE)
+    category = models.ForeignKey(Category,
+                                 related_name='productcategory',
+                                 on_delete=models.CASCADE)
     sku = models.CharField(max_length=20, null=False, editable=False)
     seller = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    product_name = models.ForeignKey(ProductName, on_delete=models.CASCADE, related_name='productname')
+    product_name = models.ForeignKey(ProductName,
+                                     on_delete=models.CASCADE,
+                                     related_name='productname')
     slug = models.SlugField(max_length=200)
     description = models.TextField()
     brand = models.CharField(max_length=120, choices=BRAND_OPTIONS)
@@ -82,18 +85,22 @@ class Product(models.Model):
     memory_type = models.CharField(max_length=10)
     interface_type = models.CharField(max_length=40)
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    image = models.ImageField(upload_to=image_file_rename, default="products/default.jpg", null=True, blank=True)
-    thumbnail = models.ImageField(upload_to="products/thumbnails/", null=True, blank=True)
+    image = models.ImageField(upload_to=image_file_rename,
+                              default="products/default.jpg",
+                              null=True, blank=True)
+    thumbnail = models.ImageField(upload_to="products/thumbnails/",
+                                  null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-date_added']
         verbose_name_plural = 'Products'
-    
+
     # Over-ride default save function to set slug field
     def save(self, *args, **kwargs):
-        self.sku = random.randrange(10**1, 10**20)
-        slug_name = str(self.seller) + str(self.product_name.product_name) + str(self.sku)
+        self.sku = random.randrange(10 ** 1, 10 ** 20)
+        slug_name = str(self.seller) + str(
+            self.product_name.product_name) + str(self.sku)
         self.slug = slugify(slug_name)
         super(Product, self).save(*args, **kwargs)
 
@@ -102,13 +109,15 @@ class Product(models.Model):
 
     # Helper function to create list of suggested similar products
     def get_similar_products(self):
-        similar_products = list(self.category.productcategory.exclude(sku=self.sku))
+        similar_products = list(
+            self.category.productcategory.exclude(sku=self.sku))
         if len(similar_products) >= 4:
             similar_products = random.sample(similar_products, 4)
 
         return similar_products
 
-    # Placeholder for function to get thumbnail, or make thumbnail from uploaded image
+    # Placeholder for function to get thumbnail,
+    # or make thumbnail from uploaded image
     def get_product_thumbnail(self):
         if self.thumbnail:
             return self.thumbnail.url
@@ -117,7 +126,6 @@ class Product(models.Model):
                 self.thumbnail = self.make_product_thumbnail(self.image)
                 self.save()
                 return self.thumbnail.url
-
 
     # Placeholder for make thumbnail helper function
     def make_product_thumbnail(self, image, size=(255, 223)):
@@ -132,12 +140,13 @@ class Product(models.Model):
 
         return thumbnail
 
-    # Helper function to determine if a 'New' tag should be added to items in the store
+    # Helper function to determine if a 'New'
+    # tag should be added to items in the store
     def determine_if_new(self):
         now = datetime.now().date()
         added_date = self.date_added.date()
         delta = now - added_date
-        
+
         if delta.days > 30:
             return False
         else:
@@ -155,23 +164,25 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse("product:product_detail", kwargs={
             'slug': self.slug,
-            })
+        })
 
     # Add product to cart url helper function
     def get_add_to_cart_url(self):
         return reverse("cart:add_to_cart", kwargs={
             'slug': self.slug,
-            })
+        })
 
     # Remove product from cart url helper function
     def get_remove_from_cart_url(self):
         return reverse("cart:remove_from_cart", kwargs={
             'slug': self.slug,
-            })
+        })
 
     # Helper function to calculate the item's selling fee
     def get_selling_fee(self):
-        selling_fee = round(self.price * round(Decimal(settings.SELLING_FEE_PERCENTAGE / 100), 2), 2)
+        selling_fee = round(
+            self.price * round(Decimal(
+                settings.SELLING_FEE_PERCENTAGE / 100), 2), 2)
         return selling_fee
 
 
@@ -185,14 +196,18 @@ class Review(models.Model):
 
     title = models.CharField(max_length=100)
     body_content = models.TextField(max_length=600)
-    added_by = models.ForeignKey(User, related_name='reviews', on_delete=models.CASCADE)
+    added_by = models.ForeignKey(User,
+                                 related_name='reviews',
+                                 on_delete=models.CASCADE)
     rating = models.IntegerField(choices=Ratings.choices, default=5)
-    product_reviewed = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE)
+    product_reviewed = models.ForeignKey(Product,
+                                         related_name='reviews',
+                                         on_delete=models.CASCADE)
     added_on = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-added_on']
         verbose_name_plural = 'Reviews'
-    
+
     def __str__(self):
         return self.title

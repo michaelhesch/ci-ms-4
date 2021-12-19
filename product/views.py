@@ -6,7 +6,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
 
-
 from product.forms import ProductForm
 
 from .models import Product, Review
@@ -41,24 +40,28 @@ class ListProduct(LoginRequiredMixin, View):
         }
 
         return render(self.request, 'add_product.html', context)
-    
+
     def post(self, *args, **kwargs):
         if self.request.method == 'POST':
             form = ProductForm(self.request.POST, self.request.FILES)
 
             if form.is_valid():
                 product = form.save(commit=False)
-                seller_userprofile = UserProfile.objects.get(user=self.request.user)
+                seller_userprofile = UserProfile.objects.get(
+                    user=self.request.user)
                 product.seller = seller_userprofile
                 form.save()
 
                 context = {
                     'slug': product.slug,
                 }
-                messages.success(self.request, "Your product has been added successfully.")
-                return redirect(reverse('product:product_detail', args=[product.slug]))
+                messages.success(self.request,
+                                 "Your product has been added successfully.")
+                return redirect(reverse(
+                    'product:product_detail', args=[product.slug]))
             else:
-                messages.error(self.request, "Failed to add product, please try again.")
+                messages.error(self.request,
+                               "Failed to add product, please try again.")
         else:
             form = ProductForm()
 
@@ -83,12 +86,13 @@ class EditProduct(LoginRequiredMixin, View):
         }
 
         return render(self.request, 'edit_product.html', context)
-    
+
     def post(self, *args, **kwargs):
         slug = self.kwargs['slug']
         seller_userprofile = VendorProfile.objects.get(user=self.request.user)
         store_slug = seller_userprofile.vendorprofile.store_slug
-        existing_data = Product.objects.get(slug=slug, seller=seller_userprofile)
+        existing_data = Product.objects.get(
+            slug=slug, seller=seller_userprofile)
 
         if self.request.method == 'POST':
             try:
@@ -119,24 +123,34 @@ class EditProduct(LoginRequiredMixin, View):
                     existing_data.save()
 
                     messages.success(self.request, "Your product is updated!")
-                    return redirect(reverse("profiles:vendorprofile", kwargs={'store_slug': store_slug}))
+                    return redirect(reverse(
+                        "profiles:vendorprofile",
+                        kwargs={'store_slug': store_slug}))
                 else:
                     messages.warning(self.request, "Your product was not updated,\
                         please try again")
-                    return redirect(reverse("profiles:vendorprofile", kwargs={'store_slug': store_slug}))
+                    return redirect(reverse(
+                        "profiles:vendorprofile",
+                        kwargs={'store_slug': store_slug}))
             except Exception as e:
-                messages.error(self.request, f"An unexpected error occured: {e}")
-                return redirect(reverse("profiles:vendorprofile", kwargs={'store_slug': store_slug}))
+                messages.error(self.request,
+                               f"An unexpected error occured: {e}")
+                return redirect(reverse(
+                    "profiles:vendorprofile",
+                    kwargs={'store_slug': store_slug}))
 
 
 class ReviewProduct(LoginRequiredMixin, View):
     model = Review
+
     def get(self, *args, **kwargs):
         product = Product.objects.get(slug=self.kwargs['slug'])
 
-        existing_review = Review.objects.filter(product_reviewed=product, added_by=self.request.user).exists()
+        existing_review = Review.objects.filter(
+            product_reviewed=product, added_by=self.request.user).exists()
         if existing_review:
-            review = Review.objects.get(product_reviewed=product, added_by=self.request.user)
+            review = Review.objects.get(
+                product_reviewed=product, added_by=self.request.user)
             form_init = model_to_dict(review)
             form = ProductReview(initial=form_init)
         else:
@@ -147,7 +161,7 @@ class ReviewProduct(LoginRequiredMixin, View):
             'product': product,
         }
         return render(self.request, 'review_product.html', context)
-    
+
     def post(self, *args, **kwargs):
         form = ProductReview(self.request.POST or None)
         product_slug = self.kwargs['slug']
@@ -161,7 +175,8 @@ class ReviewProduct(LoginRequiredMixin, View):
                 rating = self.request.POST['rating']
                 product_reviewed = product
 
-                review = Review.objects.get_or_create(product_reviewed=product, added_by=added_by)[0]
+                review = Review.objects.get_or_create(
+                    product_reviewed=product, added_by=added_by)[0]
                 review.title = title
                 review.body_content = body_content
                 review.added_by = added_by
@@ -169,11 +184,13 @@ class ReviewProduct(LoginRequiredMixin, View):
                 review.product_reviewed = product_reviewed
                 review.save()
 
-                return redirect(reverse("product:product_detail", kwargs={'slug': product_slug}))
-        
+                return redirect(reverse(
+                    "product:product_detail",
+                    kwargs={'slug': product_slug}))
+
         except Exception as e:
-             messages.error(self.request, f"An unexpected error occured: {e}.")
-             return redirect("product:product_detail", slug=product_slug)
+            messages.error(self.request, f"An unexpected error occured: {e}.")
+            return redirect("product:product_detail", slug=product_slug)
 
 
 # Delete product from the store
@@ -188,9 +205,12 @@ def remove_item_from_store(request, sku):
             if request.user == product.seller.user:
                 product.delete()
                 messages.success(request, "Your product has been removed.")
-                return redirect('profiles:vendorprofile', store_slug=store_slug)
+                return redirect(
+                    'profiles:vendorprofile',
+                    store_slug=store_slug)
             else:
-                messages.error(request, "You can only manage your own products.")
+                messages.error(request,
+                               "You can only manage your own products.")
                 pass
 
         except Exception as e:
@@ -202,13 +222,18 @@ def remove_item_from_store(request, sku):
 def delete_review(request, sku):
     product = Product.objects.get(sku=sku)
     product_slug = product.slug
-    review = Review.objects.get(product_reviewed=product, added_by=request.user)
+    review = Review.objects.get(
+        product_reviewed=product, added_by=request.user)
 
     try:
         if request.method == 'POST':
             review.delete()
             messages.success(request, "Your review has been deleted.")
-            return redirect(reverse("product:product_detail", kwargs={'slug': product_slug}))
+            return redirect(reverse(
+                "product:product_detail",
+                kwargs={'slug': product_slug}))
     except Exception as e:
         messages.error(request, f"An unexpected error occured: {e}")
-        return redirect(reverse("product:product_detail", kwargs={'slug': product_slug}))
+        return redirect(reverse(
+            "product:product_detail",
+            kwargs={'slug': product_slug}))

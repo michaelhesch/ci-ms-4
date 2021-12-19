@@ -7,10 +7,11 @@ from product.models import Product
 from checkout.models import Order, OrderItem, ShippingDetails
 
 
-class StripeWH_Handler:
+class StripeWHHandler:
     """
     Functions to handle Stripe webhooks
     """
+
     def __init__(self, request):
         self.request = request
 
@@ -34,16 +35,19 @@ class StripeWH_Handler:
         save_defaults = intent.metadata.save_defaults
         shipping_details = intent.charges.data[0].shipping
         grand_total = round(intent.charges.data[0].amount / 100, 2)
-        intent_user = intent.metadata.user        
+        intent_user = intent.metadata.user
         order_user = User.objects.get(username=intent_user)
 
-        # Clean up shipping details data coming from Stripe to remove blank strings
+        # Clean up shipping details data from Stripe
+        # to remove blank strings
         for field, value in shipping_details.address.items():
             if value == "":
                 shipping_details.address[field] = None
 
-        # Assume order does not exist yet, check for existing order with delay counter
-        # Will check for the order 5 times, delaying for one second each time
+        # Assume order does not exist yet,
+        # check for existing order with delay counter
+        # Will check for the order 5 times,
+        # delaying for one second each time
         order_exists = False
         attempt = 1
         while attempt <= 5:
@@ -57,8 +61,9 @@ class StripeWH_Handler:
         # If order exists already, return 200 response to Stripe
         if order_exists:
             return HttpResponse(
-                    content=f'Webhook received: {event["type"]} | SUCCESS: Order exists in database.',
-                    status=200)
+                content=f'Webhook received: {event["type"]} \
+                | SUCCESS: Order exists in database.',
+                status=200)
         # If order does not exist, proceed with creating new order
         else:
             order = None
@@ -66,8 +71,8 @@ class StripeWH_Handler:
             try:
                 # Create new order in DB using form details passed from Stripe
                 order = Order.objects.create(
-                        user=order_user,
-                    )
+                    user=order_user,
+                )
                 # Create shipping details model and save to order
                 order_shipping_details = ShippingDetails.objects.get_or_create(
                     order_num=order.order_num,
@@ -94,14 +99,17 @@ class StripeWH_Handler:
                         ordered=True,
                     )
                     order_item.save()
-            # If an error occurs, delete order if created and return error to Stripe
+            # If an error occurs, delete order if created
+            # and return error message to Stripe
             except Exception as e:
                 if order:
                     order.delete()
-                return HttpResponse(content=f'Webhook received: {event["type"]} | ERROR: {e}',
-                    status=500)
+                return HttpResponse(content=f'Webhook received:\
+                                    {event["type"]} | ERROR: {e}',
+                                    status=500)
         return HttpResponse(
-            content=f'Webhook received: {event["type"]} | SUCCESS: Order created in webhook handler.',
+            content=f'Webhook received: {event["type"]} |\
+             SUCCESS: Order created in webhook handler.',
             status=200)
 
     def handle_payment_intent_failed(self, event):
@@ -109,5 +117,6 @@ class StripeWH_Handler:
         Handler for payment_intent.payment_failed webhook
         """
         return HttpResponse(
-            content=f'Webhook received: {event["type"]} | ERROR: Payment failed.',
+            content=f'Webhook received:\
+            {event["type"]} | ERROR: Payment failed.',
             status=200)

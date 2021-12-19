@@ -1,11 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http.response import HttpResponse
 from django.shortcuts import render, redirect, reverse
-from django.core.paginator import Paginator
 from django.forms.models import model_to_dict
 from django.views.generic import View, ListView
-from django.views.decorators.http import require_POST
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import UserProfile, VendorProfile
@@ -19,8 +16,12 @@ class ProfileView(LoginRequiredMixin, View):
         profile = UserProfile.objects.get(user=self.request.user)
         vendor_profile = VendorProfile.objects.get(user=self.request.user)
         orders = Order.objects.filter(user=self.request.user, ordered=True)
-        unpaid_orders = OrderItem.objects.filter(vendor=vendor_profile, ordered=True, vendor_paid=False)
-        paid_orders = OrderItem.objects.filter(vendor=vendor_profile, ordered=True, vendor_paid=True)
+        unpaid_orders = OrderItem.objects.filter(vendor=vendor_profile,
+                                                 ordered=True,
+                                                 vendor_paid=False)
+        paid_orders = OrderItem.objects.filter(vendor=vendor_profile,
+                                               ordered=True,
+                                               vendor_paid=True)
 
         unpaid_balance = 0
         for order in unpaid_orders:
@@ -46,14 +47,18 @@ class ProfileView(LoginRequiredMixin, View):
 
 class VendorStoreView(LoginRequiredMixin, View):
     model = VendorProfile
-    template_name='vendor_store.html'
+    template_name = 'vendor_store.html'
 
     def get(self, *args, **kwargs):
         store_slug = self.kwargs['store_slug']
         users_store = VendorProfile.objects.get(store_slug=store_slug)
         products = Product.objects.filter(seller=users_store.user_id)
-        unpaid_orders = OrderItem.objects.filter(vendor=users_store, ordered=True, vendor_paid=False)
-        paid_orders = OrderItem.objects.filter(vendor=users_store, ordered=True, vendor_paid=True)
+        unpaid_orders = OrderItem.objects.filter(vendor=users_store,
+                                                 ordered=True,
+                                                 vendor_paid=False)
+        paid_orders = OrderItem.objects.filter(vendor=users_store,
+                                               ordered=True,
+                                               vendor_paid=True)
 
         unpaid_balance = 0
         for order in unpaid_orders:
@@ -82,8 +87,12 @@ class VendorStoreView(LoginRequiredMixin, View):
         store_slug = self.kwargs['store_slug']
         users_store = VendorProfile.objects.get(user=self.request.user)
         products = Product.objects.filter(seller=users_store.user_id)
-        unpaid_orders = OrderItem.objects.filter(vendor=users_store, ordered=True, vendor_paid=False)
-        paid_orders = OrderItem.objects.filter(vendor=users_store, ordered=True, vendor_paid=True)
+        unpaid_orders = OrderItem.objects.filter(vendor=users_store,
+                                                 ordered=True,
+                                                 vendor_paid=False)
+        paid_orders = OrderItem.objects.filter(vendor=users_store,
+                                               ordered=True,
+                                               vendor_paid=True)
 
         unpaid_balance = 0
         for order in unpaid_orders:
@@ -97,7 +106,8 @@ class VendorStoreView(LoginRequiredMixin, View):
             if self.request.user == users_store.user:
                 # If order form is valid, update store name
                 if form.is_valid():
-                    if users_store.store_name == self.request.POST['store_name']:
+                    if users_store.store_name == \
+                            self.request.POST['store_name']:
                         pass
                     else:
                         store_name = self.request.POST['store_name']
@@ -107,7 +117,7 @@ class VendorStoreView(LoginRequiredMixin, View):
             messages.error(self.request, f"An unexpected error occured: {e}.")
 
         # Update user_store object with latest profile
-        users_store = VendorProfile.objects.get(user=self.request.user)        
+        users_store = VendorProfile.objects.get(user=self.request.user)
         # Re-initialize form with updated value
         form_init = model_to_dict(users_store)
         form = VendorRegistrationForm(initial=form_init)
@@ -125,6 +135,7 @@ class VendorStoreView(LoginRequiredMixin, View):
 
         return render(self.request, "vendor_store.html", context)
 
+
 class OrderHistoryView(LoginRequiredMixin, ListView):
     template_name = 'order-history.html'
     ordering = '-order_date'
@@ -141,7 +152,9 @@ def request_vendor_payment(request, user):
     try:
         vendor = VendorProfile.objects.get(user=request.user)
         store_slug = vendor.store_slug
-        unpaid_orders = OrderItem.objects.filter(vendor=vendor, ordered=True, vendor_paid=False)
+        unpaid_orders = OrderItem.objects.filter(vendor=vendor,
+                                                 ordered=True,
+                                                 vendor_paid=False)
 
         if unpaid_orders:
             for order in unpaid_orders:
@@ -149,10 +162,16 @@ def request_vendor_payment(request, user):
                 order.save()
 
             messages.success(request, "Your payment has been requested!")
-            return redirect(reverse("profiles:vendorprofile", kwargs={'store_slug': store_slug}))
+            return redirect(reverse(
+                "profiles:vendorprofile",
+                kwargs={'store_slug': store_slug}))
         else:
             messages.success(request, "You don't have any unpaid orders!")
-            return redirect(reverse("profiles:vendorprofile", kwargs={'store_slug': store_slug}))
+            return redirect(reverse(
+                "profiles:vendorprofile",
+                kwargs={'store_slug': store_slug}))
     except Exception as e:
         messages.error(request, f"An unexpected error occured: {e}.")
-        return redirect(reverse("profiles:vendorprofile", kwargs={'store_slug': store_slug}))
+        return redirect(reverse(
+            "profiles:vendorprofile",
+            kwargs={'store_slug': store_slug}))

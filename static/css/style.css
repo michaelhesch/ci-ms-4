@@ -34,7 +34,6 @@ select option[value=""] {
   padding-right: 0px!important;
 }
 
-
 .similar-product-card {
   height: 100%!important;
 }
@@ -45,6 +44,10 @@ select option[value=""] {
 
 .store-card {
   height: 100%;
+}
+
+.store-card img {
+  min-height: 283px;
 }
 
 @media (max-width: 740px) {

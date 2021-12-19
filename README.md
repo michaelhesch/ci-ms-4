@@ -10,7 +10,7 @@
 
 - This is a full-stack web application built with Material Design Bootstrap, Python, Django, Stripe, and AWS S3.  The project is deployed with and hosted on Heroku.
 
-[View the live project here.](#)
+[View the live project here.](https://ci-ms-4-mh.herokuapp.com/)
 
 ----
 
@@ -21,7 +21,6 @@
 - [Data Models](#data-models)
   - [Database Models](#database-models)
   - [Database Schema Diagram](#database-schema-diagram)
-  - [Postresql Database Setup](#postresql-database-setup)
 - [Features](#features)
 - [Technologies Used](#technologies-used)
   - [Programming Languages Used](#programming-languages-used)
@@ -70,7 +69,10 @@
   - I want to provide an easy to use registration and log in system.
   - I want to provide a streamlined store experience for users to find products.
   - I want to provide an easy checkout system for users to purchase products.
-  - I want to allow users
+  - I want to allow users to view their saved details and past orders.
+  - I want to provide users with the ability to easily add their products to the store.
+  - I want to provide users with an easy way to manage their store including their products.
+  - I want to provide users with the ability to request payment for the sales they have made on the platform.
 
 ### Design
 
@@ -82,7 +84,7 @@
 
 #### Typography<!-- omit in toc -->
 
-- x
+- [Roboto](https://fonts.google.com/specimen/Roboto) : Roboto from Google Fonts was used as the font of choice throughout the project.  This font provides a clean and easy to read aesthetic across font weights.
 
 ### Wireframes
 
@@ -163,11 +165,7 @@
 
 ### Database Schema Diagram
 
-![database schema diagram](X)
-
-### Postresql Database Setup
-
-- x
+![database schema diagram](/documentation/liffey-db-diagram.png)
 
 ## Features
 
@@ -176,6 +174,7 @@
 - Navigation: Clear, concise and easy to use navigation system visible across all pages, including when logged out.
   - Logged Out navigation choices: Home, Register or Log In
   - Logged In navigation choices: Store, Sell Product, Cart, Profile, Log Out.
+- Logged in users will have the ability to add a product to the store with the "Sell Product" button on the navbar.  This will open a new product form where the user can add the details of their item, as well as upload an image of their product.
 - Footer: Easy to identify social media links as well as a basic business style copyright for Liffey in the footer.
 
 ### Landing Page (Logged Out)<!-- omit in toc -->
@@ -266,14 +265,14 @@
 2. [Google Fonts:](https://fonts.google.com/)
     - Google fonts are included with MBD, and this project uses the Roboto font family throughout the site.
 3. [Favicon.io](https://favicon.io)
-    - Favicon.io was used to generate the Favicons used for the browser tab as well as the navbar logo for the site.
+    - Favicon.io was used to generate the custom "L" Favicon used for the browser tab for the site.
 4. [Font Awesome:](https://fontawesome.com/)
     - Font Awesome icons are included with MDB, and this project uses the provided icons to provide simple, user-friendly ways to interact with different aspects of the site's functionality.
 5. [Balsamiq:](https://balsamiq.com/)
     - Balsamiq was used to create the design wireframes used to outline the webpage before development.
-6. [dbdiagram.io](https://dbdiagram.io/home)
+6. [drawSQL](https://drawsql.app/)
     - This tool was used to create the database schema visualization found in the Database Model & Schema section above.
-7. [Stripe](https)
+7. [Stripe](https://stripe.com/en-ie/)
     - Stripe provides an easy to use card payment integration utilized in the checkout process of this project.
 8. [Amazon AWS S3](https://aws.amazon.com/s3/?nc2=h_ql_prod_st_s3)
     - Amazon simple storage system service provides hosting for the project's static and media files.
@@ -284,7 +283,7 @@
 11. [GitHub:](https://github.com/)
     - GitHub is used to store the project's code after being pushed from the local development machine using Git.
 12. [Heroku](https://www.heroku.com/)
-    - Heroku was used to deploy the site and provides cloud hosting for the live version of the site.
+    - Heroku was used to deploy the site and provides cloud hosting for the live version of the site and the production Postgres database.
 13. [Code Institute Full-Stack Developer Course](https://www.codeinstitute.net/)
     - Code snippets were referenced for styling various elements of the site, and organization of the social media links footer section.
 
