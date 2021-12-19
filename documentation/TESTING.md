@@ -210,11 +210,11 @@ The W3C Markup Validator, W3C CSS Validator, JSHint, PEP8 Online and PyCharm wer
   
   1. [Mobile Score & Summary](lighthouse/store-mobile.pdf)
 
-    ![Mobile Lighthouse Results](screenshots/store-mobile.png)
+    ![Mobile Lighthouse Results](screenshots/store-mobile.PNG)
   
   2. [Desktop Score & Summary](lighthouse/store-desktop.pdf)
 
-    ![Desktop Lighthouse Results](screenshots/store-desktop.png)
+    ![Desktop Lighthouse Results](screenshots/store-desktop.PNG)
 
 - Please note that while efforts to correct some defects indicated in these results are due to issues found in external dependencies, such as security vulnerabilities in the JQuery version utilized by this MDB implementation, or MDBootstrap's CSS for example, or other faults that are beyond the scope of this project to remedy.
 
