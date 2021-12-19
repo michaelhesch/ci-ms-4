@@ -1,63 +1,87 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}
-    {% if order_history %}
-    Order History - Details 
-    {% else %}
-    Success! Order Complete
-    {% endif %}
-{% endblock %}
+{% block title %} 
+  {% if order_history %}
+  Order History - Details 
+  {% else %}
+  Success! Order Complete 
+  {% endif %} 
+{% endblock %} 
 
 {% block content %}
-
 <div class="row">
-    <div class="col">
-        <div class="card my-3">
-            <div class="card-body">
-                <div class="table-responsive text-nowrap">
-                    {% if order_history %}
-                    <h2>Order History</h2>
-                    <p>Please see your order details below. Your order was submitted on {{ order.order_date|date:"SHORT_DATE_FORMAT" }}.</p>
-                    <p>An order confirmation email was sent to {{ order.shipping_details.email }}.</p>
-                    {% else %}
-                    <h2>Order Complete - Thank you!</h2>
-                    <p>Please see your order details below.  A confirmation will be sent to {{ order.shipping_details.email }}.</p>
-                    {% endif %}
-                    <p>Order Number: {{ order.order_num }}</p>
-                    <h3>Order Summary:</h3>
-                    <table class="table table-sm">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Product Name</th>
-                                <th scope="col">Product Price</th>
-                                <th scope="col">Vendor Name</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Total Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for order_item in order.orderitems.all %}
-                            <tr>
-                                <td class="p-3 w-25">{{ forloop.counter }}. <img class="img-fluid rounded pl-2" style="max-width: 50%;" alt="Image of {{ order_item.item.product_name }}" src="{{ order_item.item.image.url }}"></td>
-                                <td><a href="{{ order_item.item.get_absolute_url }}">{{ order_item.item.product_name }}</a></td>
-                                <td>${{ order_item.item.price|intcomma }}</td>
-                                <td><a href="{% url 'profiles:vendorprofile' store_slug=order_item.item.seller.vendorprofile.get_vendor_slug %}">{{ order_item.item.seller.vendorprofile.store_name }}</a></td>
-                                <td>{{ order_item.quantity }}</td>
-                                <td>${{ order_item.item_total|intcomma }}</td>
-                            </tr>
-                            {% endfor %}
-                            <tr>
-                                <td colspan="5"><strong>Order Total:</strong></td>
-                                <td><strong>${{ order.grand_total|intcomma }}</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+  <div class="col">
+    <div class="card my-3">
+      <div class="card-body">
+        <div class="table-responsive text-nowrap">
+          {% if order_history %}
+          <h2>Order History</h2>
+          <p>
+            Please see your order details below. Your order was submitted on {{ order.order_date|date:"SHORT_DATE_FORMAT" }}.
+          </p>
+          <p>
+            An order confirmation email was sent to {{ order.shipping_details.email }}.
+          </p>
+          {% else %}
+          <h2>Order Complete - Thank you!</h2>
+          <p>
+            Please see your order details below. A confirmation will be sent to
+            {{ order.shipping_details.email }}.
+          </p>
+          {% endif %}
+          <p>Order Number: {{ order.order_num }}</p>
+          <h3>Order Summary:</h3>
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Product Price</th>
+                <th scope="col">Vendor Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order_item in order.orderitems.all %}
+              <tr>
+                <td class="p-3 w-25">
+                  {{ forloop.counter }}.
+                  <img
+                    class="img-fluid rounded pl-2"
+                    style="max-width: 50%"
+                    alt="Image of {{ order_item.item.product_name }}"
+                    src="{{ order_item.item.image.url }}"
+                  />
+                </td>
+                <td>
+                  <a href="{{ order_item.item.get_absolute_url }}"
+                    >{{ order_item.item.product_name }}</a>
+                </td>
+                <td>${{ order_item.item.price|intcomma }}</td>
+                <td>
+                  <a
+                    href="{% url 'profiles:vendorprofile' store_slug=order_item.item.seller.vendorprofile.get_vendor_slug %}"
+                    >{{ order_item.item.seller.vendorprofile.store_name }}</a>
+                </td>
+                <td>{{ order_item.quantity }}</td>
+                <td>${{ order_item.item_total|intcomma }}</td>
+              </tr>
+              {% endfor %}
+              <tr>
+                <td colspan="5"><strong>Order Total:</strong></td>
+                <td><strong>${{ order.grand_total|intcomma }}</strong></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <a href="{% url 'home:store' %}" class="button btn btn-primary btn-small mt-1">Continue Shopping</a>
+      </div>
     </div>
+    <a
+      href="{% url 'home:store' %}"
+      class="button btn btn-primary btn-small mt-1"
+      >Continue Shopping</a>
+  </div>
 </div>
 {% endblock %}

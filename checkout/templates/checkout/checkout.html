@@ -1,109 +1,132 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load cart_template_tags %}
+{% load cart_template_tags %} 
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}" />
-{% endblock %}
+{% endblock %} 
 
-{% block extra_js %}
-{% endblock %}
-
-{% block title %}Checkout {% endblock %}
+{% block title %}Checkout {%endblock %}
 
 {% block content %}
- <!-- Heading -->
+<!-- Heading -->
 <h2 class="my-5 h2 text-center">Checkout</h2>
 <!--Grid row-->
 <div class="row">
-    <!--Grid column-->
-    <div class="col-md-8 mb-4">
-        <!--Card-->
-        <div class="card">
-            <div class="card-body">
-                <p>Please complete the check out form below to submit your order.</p>
-                <form class="card-body mb-form" method="POST" action="{% url 'checkout:checkout' %}" id="checkout-form">
-                    {% csrf_token %}
-                    <fieldset class="rounded px-3 mb-3">
-                        <legend class="fieldset-label px-2 w-auto">Contact Details</legend>
-                        {{ form.full_name|as_crispy_field }}
-                        {{ form.email|as_crispy_field }}
-                        {{ form.phone|as_crispy_field }}
-                    </fieldset>
-                    <fieldset class="rounded px-3 mb-3">
-                        <legend class="fieldset-label px-2 w-auto">Shipping Details</legend>
-                        {{ form.address1|as_crispy_field }}
-                        {{ form.address2|as_crispy_field }}
-                        {{ form.city|as_crispy_field }}
-                        {{ form.state|as_crispy_field }}
-                        {{ form.zipcode|as_crispy_field }}
-                        {{ form.country|as_crispy_field }}
-                        <div class="form-check form-check-inline float-left mr-0">
-                            <input class="form-check-input ml-0 mr-2" type="checkbox" id="id-save-defaults" name="save-defaults" checked />
-                            <label class="form-check-label" for="id-save-defaults"> Save this to my profile as my default shipping info</label>
-                        </div>
-                    </fieldset>
-                    <fieldset class="rounded px-3 mb-3">
-                        <legend class="fieldset-label px-2 w-auto">Payment Details</legend>
-                        <!-- Stripe card element container -->
-                        <div class="mb-3" id="card-element"></div>
-                        <!-- Stripe form errors container -->
-                        <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
-                        <!-- Pass client secret needed to get Stripe PID -->
-                        <input type="hidden" value="{{ client_secret }}" name="client_secret">
-                        <!-- Pass order number -->
-                        {% if cart_items %}
-                        <input type="hidden" value="{{ order.order_num }}" name="order_num">
-                        {% endif %}
-                    </fieldset>
-                    <button class="btn btn-primary" type="submit" id="submit-button">Checkout</button>
-                    <a href="{% url 'cart:cart' %}" class="btn btn-info">Back to Cart</a>
-                    <p class="small text-danger my-1 pl-1">
-                        <span class="icon"><i class="fas fa-exclamation-circle"></i></span>
-                        <span>You will be charged ${{ total|intcomma }}</span>
-                    </p>
-                </form>
+  <!--Grid column-->
+  <div class="col-md-8 mb-4">
+    <!--Card-->
+    <div class="card">
+      <div class="card-body">
+        <p>Please complete the check out form below to submit your order.</p>
+        <form
+          class="card-body mb-form"
+          method="POST"
+          action="{% url 'checkout:checkout' %}"
+          id="checkout-form"
+        >
+          {% csrf_token %}
+          <fieldset class="rounded px-3 mb-3">
+            <legend class="fieldset-label px-2 w-auto">Contact Details</legend>
+            {{ form.full_name|as_crispy_field }} 
+            {{ form.email|as_crispy_field }}
+            {{ form.phone|as_crispy_field }}
+          </fieldset>
+          <fieldset class="rounded px-3 mb-3">
+            <legend class="fieldset-label px-2 w-auto">Shipping Details</legend>
+            {{ form.address1|as_crispy_field }} 
+            {{ form.address2|as_crispy_field }}
+            {{ form.city|as_crispy_field }} 
+            {{ form.state|as_crispy_field }}
+            {{ form.zipcode|as_crispy_field }} 
+            {{ form.country|as_crispy_field }}
+            <div class="form-check form-check-inline float-left mr-0">
+                <input
+                    class="form-check-input ml-0 mr-2"
+                    type="checkbox"
+                    id="id-save-defaults"
+                    name="save-defaults"
+                    checked
+                />
+                <label class="form-check-label" for="id-save-defaults">
+                    Save this to my profile as my default shipping info
+                </label>
             </div>
-        </div>
+          </fieldset>
+          <fieldset class="rounded px-3 mb-3">
+            <legend class="fieldset-label px-2 w-auto">Payment Details</legend>
+            <!-- Stripe card element container -->
+            <div class="mb-3" id="card-element"></div>
+            <!-- Stripe form errors container -->
+            <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+            <!-- Pass client secret needed to get Stripe PID -->
+            <input
+              type="hidden"
+              value="{{ client_secret }}"
+              name="client_secret"
+            />
+            <!-- Pass order number -->
+            {% if cart_items %}
+            <input
+              type="hidden"
+              value="{{ order.order_num }}"
+              name="order_num"
+            />
+            {% endif %}
+          </fieldset>
+          <button class="btn btn-primary" type="submit" id="submit-button">
+            Checkout
+          </button>
+          <a href="{% url 'cart:cart' %}" class="btn btn-info">Back to Cart</a>
+          <p class="small text-danger my-1 pl-1">
+            <span class="icon"><i class="fas fa-exclamation-circle"></i></span>
+            <span>You will be charged ${{ total|intcomma }}</span>
+          </p>
+        </form>
+      </div>
     </div>
-    <!--Grid column-->
+  </div>
+  <!--Grid column-->
 
-    <!--Grid column-->
-    <div class="col-md-4 mb-4">
-        <!-- Heading -->
-        <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="text-muted">Order Summary</span>
-            <span class="badge badge-secondary badge-pill">{{ item_count }}</span>
-        </h4>
+  <!--Grid column-->
+  <div class="col-md-4 mb-4">
+    <!-- Heading -->
+    <h4 class="d-flex justify-content-between align-items-center mb-3">
+      <span class="text-muted">Order Summary</span>
+      <span class="badge badge-secondary badge-pill">{{ item_count }}</span>
+    </h4>
 
     <!-- Cart -->
     <ul class="list-group mb-3 z-depth-1">
-    {% for order_item in cart_items %}
-        <li class="list-group-item d-flex justify-content-between lh-condensed">
-            <div>
-                <h6 class="my-0">{{ order_item.product.product_name }}</h6>
-                <small class="text-muted">Quantity: {{ order_item.quantity }}</small>
-            </div>
-            <span class="text-muted">${{ order_item.product.price | cart_subtotal:order_item.quantity|intcomma }}</span>
-        </li>
-    {% endfor %}
+      {% for order_item in cart_items %}
+      <li class="list-group-item d-flex justify-content-between lh-condensed">
+        <div>
+          <h6 class="my-0">{{ order_item.product.product_name }}</h6>
+          <small class="text-muted">Quantity: {{ order_item.quantity }}</small>
+        </div>
+        <span class="text-muted">
+            ${{ order_item.product.price | cart_subtotal:order_item.quantity|intcomma }}
+        </span>
+      </li>
+      {% endfor %}
 
-    <li class="list-group-item d-flex justify-content-between">
+      <li class="list-group-item d-flex justify-content-between">
         <strong>Total (USD)</strong>
         <strong>${{ total|intcomma }}</strong>
-    </li>
+      </li>
     </ul>
     <!-- Cart -->
-    </div>
-    <!--Grid column-->
-
-    </div>
-    <!--Grid row-->
-{% endblock %}
-
-{% block postloadjs %}
-    {{ block.super }}
-    {{ stripe_public_key|json_script:"id_stripe_public_key" }}
-    {{ client_secret|json_script:"id_client_secret" }}
-    <script type="text/javascript" src="{% static 'checkout/js/checkout.js' %}"></script>
+  </div>
+  <!--Grid column-->
+</div>
+<!--Grid row-->
+{% endblock %} 
+{% block postloadjs %} 
+{{ block.super }} 
+{{ stripe_public_key|json_script:"id_stripe_public_key" }}
+{{ client_secret|json_script:"id_client_secret" }}
+<script
+  type="text/javascript"
+  src="{% static 'checkout/js/checkout.js' %}"
+></script>
 {% endblock %}
