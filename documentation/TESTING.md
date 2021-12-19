@@ -101,7 +101,7 @@ The W3C Markup Validator, W3C CSS Validator, PEP8 Online and PyCharm were used t
 
   ![Device Sizes Tested](screenshots/device-list.png)
 
-- In addition, all pages on the site were tested for correct behavior on a 27" desktop monitor, a 15.1" laptop monitor, an iPhone 11 and a 10.5" iPad Pro.  The pages scale and respond as expected for a normal user experience across these viewing sizes & devices.
+- In addition, all pages on the site were tested for correct behavior on a 27" desktop monitor, a 15.1" laptop monitor, an iPhone 11 and a 10.5" iPad Pro.  The pages scale and respond as expected for a normal user experience across these viewing sizes & devices.  Improvements could be made in the future around the item quantity selector and add to cart button on the product detail page to improve styling on very small devices.
 
 ### Lighthouse
 
@@ -119,19 +119,8 @@ The W3C Markup Validator, W3C CSS Validator, PEP8 Online and PyCharm were used t
 
 ### Noteworthy Issues & Bugs Encountered in Development
 
-- [Resolved] "None" response from WTForms process_data()
-- x
+- [Open] Image handling when editing existing product
 
-- [Resolved] Masonry layout rendering
-
-- x
-
-- [Open] Image editing 
-
-- Image 'clear item' checkbox when editing image
-
-- [Open] Ongoing WTForms validation issues
-
-- x
+- If the user clicks the 'clear item' checkbox next to the current image when editing a product, and does not add a new image, an error warning is returned when the form is submitted.  Further investigation into how to restore the item to the default image if no image is selected upon editing is needed.
 
 [Return to the Top](#top)
