@@ -5,63 +5,94 @@
 
 {% block content %}
 <div class="table-responsive text-nowrap my-5">
-    <h2>Order Summary</h2>
-    <table class="table table-sm">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Product Name</th>
-            <th scope="col">Product Price</th>
-            <th scope="col">Seller (Store)</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Total Price</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for order_item in cart_items %}
-        <tr>
-            <td class="p-3 w-25">{{ forloop.counter }}. 
-                <a href="{{ order_item.product.get_absolute_url }}">
-                    <img class="img-fluid rounded pl-2" style="max-width: 50%;" alt="Image of {{ order_item.product.product_name }}" src="{{ order_item.product.image.url }}">
-                </a>
-            </td>
-            <td><a href="{{ order_item.product.get_absolute_url }}">{{ order_item.product.product_name }}</a></td>
-            <td>${{ order_item.product.price|intcomma }}</td>
-            <td>
-                <a href="{% url 'profiles:vendorprofile' store_slug=order_item.product.seller.vendorprofile.store_slug %}">
-                    {{ order_item.product.seller.vendorprofile.store_name }}
-                </a>
-            </td>
-            <td>
-                <a href="{% url 'cart:remove_one_from_cart' order_item.sku %}" id="decrement-qty-{{ product.sku }}"><i class="fas fa-minus mr-2"></i></a>        
-                {{ order_item.quantity }}
-                <a href="{% url 'cart:add_to_cart' order_item.sku %}" id="increment-qty-{{ product.sku }}"><i class="fas fa-plus ml-2"></i></a>
-            </td>
-            <td>
-                ${{ order_item.product.price | cart_subtotal:order_item.quantity|intcomma }}
-                <a class="remove-item float-right" id="remove_{{ order_item.sku }}" href="{% url 'cart:remove_from_cart' order_item.sku %}">
-                    <i class="fas fa-trash"></i>
-                </a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="5">You don't have anything in your cart!</td>
-        </tr>
-        {% endfor %}
-        <tr>
-            <td colspan="5"><strong>Order Total:</strong></td>
-            <td><strong>${{ total|intcomma }}</strong></td>
-        </tr>
-        <tr>
-            <td colspan="6">
-                {% if cart_items %}
-                <a href="{% url 'checkout:checkout' %}" class="btn btn-primary float-right ml-2">Checkout</a>
-                {% endif %}
-                <a href="{% url 'home:store' %}" class="btn btn-info float-right">Continue Shopping</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+  <h2>Order Summary</h2>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Product Price</th>
+        <th scope="col">Seller (Store)</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Total Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order_item in cart_items %}
+      <tr>
+        <td class="p-3 w-25">
+          {{ forloop.counter }}.
+          <a href="{{ order_item.product.get_absolute_url }}">
+            <img
+              class="img-fluid rounded pl-2"
+              style="max-width: 50%"
+              alt="Image of {{ order_item.product.product_name }}"
+              src="{{ order_item.product.image.url }}"
+            />
+          </a>
+        </td>
+        <td>
+          <a href="{{ order_item.product.get_absolute_url }}"
+            >{{ order_item.product.product_name }}</a>
+        </td>
+        <td>${{ order_item.product.price|intcomma }}</td>
+        <td>
+          <a
+            href="{% url 'profiles:vendorprofile' store_slug=order_item.product.seller.vendorprofile.store_slug %}"
+          >
+            {{ order_item.product.seller.vendorprofile.store_name }}
+          </a>
+        </td>
+        <td>
+          <a
+            href="{% url 'cart:remove_one_from_cart' order_item.sku %}"
+            id="decrement-qty-{{ product.sku }}"
+            ><i class="fas fa-minus mr-2"></i>
+          </a>
+          {{ order_item.quantity }}
+          <a
+            href="{% url 'cart:add_to_cart' order_item.sku %}"
+            id="increment-qty-{{ product.sku }}"
+            ><i class="fas fa-plus ml-2"></i>
+          </a>
+        </td>
+        <td>
+          ${{ order_item.product.price |
+          cart_subtotal:order_item.quantity|intcomma }}
+          <a
+            class="remove-item float-right"
+            id="remove_{{ order_item.sku }}"
+            href="{% url 'cart:remove_from_cart' order_item.sku %}"
+          >
+            <i class="fas fa-trash"></i>
+          </a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5">You don't have anything in your cart!</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td colspan="5"><strong>Order Total:</strong></td>
+        <td><strong>${{ total|intcomma }}</strong></td>
+      </tr>
+      <tr>
+        <td colspan="6">
+          {% if cart_items %}
+          <a
+            href="{% url 'checkout:checkout' %}"
+            class="btn btn-primary float-right ml-2"
+          >
+            Checkout
+          </a>
+          {% endif %}
+          <a href="{% url 'home:store' %}" class="btn btn-info float-right">
+            Continue Shopping
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 {% endblock %}

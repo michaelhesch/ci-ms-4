@@ -1,27 +1,36 @@
-{% extends 'base.html' %} 
-
-{% block title %}Home {% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %}Home {% endblock %} {% block content
+%}
 <section class="text-center my-4">
-    <!--Grid row-->
-    <div class="row wow fadeIn">
-        <div class="col">
-          <h2>Welcome to Liffey.ie!</h2>
-          <br />
-          <p>We are Europe's leading computer graphics hardware marketplace!</p>
-          <br />
-          <p>Buy directly from manufacturers as well as private parties, on one easy to use platform.</p>
-          <br />
-          <p>List and sell your hardware for a small fee on our platform!</p>
-          {% if request.user.is_authenticated %}
-          {% else %}
-          <br />
-          <p><a class="button btn btn-primary" href="{% url 'account_signup' %}">Sign Up Now!</a> or <a class="button btn btn-outline-primary" href="{% url 'account_login' %}">Log In</a></p>
-          {% endif %}
-        </div>
+  <!--Grid row-->
+  <div class="row wow fadeIn">
+    <div class="col">
+      <h2>Welcome to Liffey.ie!</h2>
+      <br />
+      <p>We are Europe's leading computer graphics hardware marketplace!</p>
+      <br />
+      <p>
+        Buy directly from manufacturers as well as private parties, on one easy
+        to use platform.
+      </p>
+      <br />
+      <p>List and sell your hardware for a small fee on our platform!</p>
+      {% if request.user.is_authenticated %} {% else %}
+      <br />
+      <p>
+        <a class="button btn btn-primary" href="{% url 'account_signup' %}">
+          Sign Up Now!
+        </a>
+        or
+        <a
+          class="button btn btn-outline-primary"
+          href="{% url 'account_login' %}">
+        Log In
+        </a>
+      </p>
+      {% endif %}
     </div>
-    <!--Grid row-->
+  </div>
+  <!--Grid row-->
 </section>
 
 {% endblock %}
