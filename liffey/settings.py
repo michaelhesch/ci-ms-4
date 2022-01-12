@@ -32,7 +32,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 
 # Get development setting flag in environment
-DEBUG = env('DEVELOPMENT')
+DEBUG = env.bool('DEVELOPMENT', default=False)
 
 ALLOWED_HOSTS = [
     'ci-ms-4-mh.herokuapp.com',
