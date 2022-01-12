@@ -16,7 +16,10 @@ import os
 import dj_database_url
 
 # Init environment variables
-env = environ.Env()
+env = environ.Env(
+    # Set case and default for Debug variable
+    DEBUG=(bool, False)
+)
 environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
