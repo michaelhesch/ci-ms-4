@@ -8,8 +8,6 @@
 
 - This is a full-stack web application built with Material Design Bootstrap, Python, Django, Stripe, and AWS S3.  The project is deployed with and hosted on Heroku.
 
-[View the live project here.](https://ci-ms-4-mh.herokuapp.com/)
-
 ----
 
 - [User Experience (UX)](#user-experience-ux)
